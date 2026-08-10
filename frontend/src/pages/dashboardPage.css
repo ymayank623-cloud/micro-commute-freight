@@ -508,3 +508,40 @@
   border: 1.5px solid #CBD5E1 !important;
   color: #0F172A !important;
 }
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+========================================================= */
+@media (max-width: 900px) {
+  .welcome-banner {
+    flex-direction: column;
+    padding: 24px;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .welcome-right {
+    width: 100%;
+    align-items: center;
+  }
+  
+  .network-status, .banner-date {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dashboard-kpi-row .row > div {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .welcome-content h1 {
+    font-size: 32px;
+  }
+  
+  .dashboard-page {
+    padding: 10px;
+  }
+}

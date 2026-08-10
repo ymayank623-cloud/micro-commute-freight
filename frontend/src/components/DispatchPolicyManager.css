@@ -240,6 +240,35 @@
     box-shadow: inset 2px 2px 4px rgba(166, 180, 200, 0.3) !important;
 }
 
+[data-theme="light"] .rule-hint {
+    color: #94A3B8 !important;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+@media (max-width: 600px) {
+  .policy-tabs-bar {
+    flex-wrap: wrap;
+    height: auto;
+    border-radius: 12px;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .policy-tab-btn {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .dispatch-policy-modal-card {
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
 [data-theme="light"] .policy-tab-btn {
     color: #64748B !important;
 }

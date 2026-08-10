@@ -235,8 +235,8 @@ const css = `
 .gt-footer-right{opacity:.92;font-size:10px;}
 
 @media (max-width:560px){
-  .gt-toggle{transform:scale(.76);}
-  .gt-footer{font-size:10px;height:34px;}
+  .gt-toggle{transform:scale(.76); transform-origin: center right;}
+  .gt-footer{font-size:10px;height:34px; width: 100%;}
   .gt-footer-right{font-size:9px;}
 }
 
