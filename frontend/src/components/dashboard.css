@@ -1,0 +1,106 @@
+/* =====================================
+   Dashboard KPI Cards (MIDNIGHT AURORA GLASS)
+===================================== */
+
+.dashboard-card {
+  width: 100%;
+  min-height: 220px;
+  background: var(--glass-bg, rgba(15, 23, 42, 0.88)) !important;
+  backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: 22px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--glass-shadow, 0 10px 40px rgba(0, 0, 0, 0.5));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 240, 255, 0.3) !important;
+  box-shadow: 0 16px 40px rgba(0, 240, 255, 0.15);
+}
+
+.card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 32px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-secondary, #94A3B8);
+  margin-bottom: 8px;
+}
+
+.card-value {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--text-primary, #FFFFFF);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--text-muted, #64748B);
+  margin: 0;
+}
+
+/* =========================================
+   CLAYMORPHISM LIGHT THEME FOR KPI CARDS
+========================================= */
+[data-theme="light"] .dashboard-card {
+  background: #F8FAFD !important;
+  border: 2px solid #FFFFFF !important;
+  border-radius: 26px !important;
+  box-shadow: 
+    12px 12px 28px rgba(166, 180, 200, 0.45),
+    -12px -12px 28px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(166, 180, 200, 0.15) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .dashboard-card:hover {
+  transform: translateY(-6px) scale(1.02) !important;
+  box-shadow: 
+    16px 16px 36px rgba(166, 180, 200, 0.55),
+    -16px -16px 36px rgba(255, 255, 255, 1),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.95),
+    inset -4px -4px 8px rgba(166, 180, 200, 0.2) !important;
+}
+
+[data-theme="light"] .card-icon {
+  box-shadow: 
+    6px 6px 14px rgba(0, 0, 0, 0.12),
+    -6px -6px 14px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.12) !important;
+  border: 2px solid rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="light"] .card-title {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .card-value {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .card-subtitle {
+  color: #64748B !important;
+}

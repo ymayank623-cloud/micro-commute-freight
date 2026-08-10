@@ -1,0 +1,194 @@
+.delivery-performance-card {
+  width: 100%;
+  min-height: 390px;
+}
+
+
+/* HEADER */
+
+.delivery-performance-card
+.dashboard-card-header {
+  margin-bottom: 18px;
+}
+
+
+/* TOTAL */
+
+.delivery-total {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+
+  margin: 10px 0 20px;
+}
+
+.delivery-total span {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.delivery-total strong {
+  color: #0f172a;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+
+/* CHART */
+
+.delivery-chart {
+  width: 100%;
+  height: 230px;
+  padding: 10px 10px 0;
+
+  box-sizing: border-box;
+}
+
+.delivery-bars {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+
+  gap: 14px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+
+.delivery-bar-column {
+  flex: 1;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 7px;
+
+  min-width: 30px;
+}
+
+
+.delivery-bar-value {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* BAR AREA */
+
+.delivery-bar-area {
+  width: 100%;
+  max-width: 44px;
+
+  height: 160px;
+
+  display: flex;
+  align-items: flex-end;
+
+  background:
+    repeating-linear-gradient(
+      to top,
+      transparent 0,
+      transparent 39px,
+      #eef2f7 40px
+    );
+
+  border-radius: 8px 8px 0 0;
+}
+
+
+/* REAL DATA BAR */
+
+.delivery-bar {
+  width: 100%;
+
+  min-height: 3px;
+
+  background: #2563eb;
+
+  border-radius:
+    8px 8px 0 0;
+
+  transition:
+    height 0.4s ease;
+}
+
+
+.delivery-bar-label {
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  white-space: nowrap;
+}
+
+
+/* NO DATA */
+
+.delivery-no-data {
+  min-height: 230px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  gap: 8px;
+}
+
+.delivery-no-data svg {
+  color: #cbd5e1;
+
+  font-size: 32px;
+
+  margin-bottom: 8px;
+}
+
+.delivery-no-data strong {
+  color: #475569;
+
+  font-size: 14px;
+}
+
+.delivery-no-data span {
+  max-width: 300px;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .delivery-performance-card {
+    min-height: 350px;
+  }
+
+  .delivery-chart {
+    height: 200px;
+  }
+
+  .delivery-bar-area {
+    height: 135px;
+  }
+
+  .delivery-bars {
+    gap: 7px;
+  }
+
+}

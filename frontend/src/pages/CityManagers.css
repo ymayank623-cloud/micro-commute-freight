@@ -1,0 +1,356 @@
+/* ==========================================================================
+   INDIA CITY OPERATIONS & HUB MANAGERS STYLES (THEME-ADAPTIVE)
+   ========================================================================== */
+
+.city-managers-page {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Base Card Layout */
+.city-manager-card {
+    border-radius: 24px !important;
+    padding: 24px !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================
+   LIGHT / CLAY THEME: Ultra-High Contrast 3D Clay Aesthetic
+========================================================= */
+[data-theme="light"] .city-manager-card {
+    background: #F8FAFD !important;
+    background-color: #F8FAFD !important;
+    border: 2.5px solid #FFFFFF !important;
+    color: #0F172A !important;
+    box-shadow: 
+        12px 12px 28px rgba(166, 180, 200, 0.45),
+        -12px -12px 28px rgba(255, 255, 255, 0.95),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+        inset -3px -3px 6px rgba(166, 180, 200, 0.15) !important;
+}
+
+[data-theme="light"] .city-manager-card:hover {
+    transform: translateY(-4px) scale(1.01) !important;
+    box-shadow: 
+        16px 16px 36px rgba(166, 180, 200, 0.55),
+        -16px -16px 36px rgba(255, 255, 255, 1),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.95),
+        inset -4px -4px 8px rgba(166, 180, 200, 0.2) !important;
+}
+
+[data-theme="light"] .city-card-title {
+    color: #0F172A !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
+}
+
+[data-theme="light"] .city-card-subtitle {
+    color: #475569 !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+}
+
+[data-theme="light"] .city-emp-badge {
+    background: #EEF2F7 !important;
+    color: #0284C7 !important;
+    border: 1.5px solid #FFFFFF !important;
+    box-shadow: 2px 2px 5px rgba(166, 180, 200, 0.35), inset 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="light"] .hub-details-box {
+    background: #EEF2F7 !important;
+    border: 1.5px solid #FFFFFF !important;
+    border-radius: 16px !important;
+    padding: 12px 16px !important;
+    box-shadow: 
+        inset 3px 3px 6px rgba(166, 180, 200, 0.3),
+        inset -3px -3px 6px rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="light"] .hub-details-title {
+    color: #0284C7 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .corridor-value {
+    color: #0F172A !important;
+    font-weight: 700 !important;
+}
+
+/* Manager Profile Box in Light Mode */
+[data-theme="light"] .manager-profile-box {
+    background: #FFFFFF !important;
+    border: 2px solid #FFFFFF !important;
+    border-radius: 18px !important;
+    box-shadow: 
+        6px 6px 16px rgba(166, 180, 200, 0.35),
+        -6px -6px 16px rgba(255, 255, 255, 0.95),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="light"] .manager-name {
+    color: #0F172A !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+}
+
+[data-theme="light"] .manager-role {
+    color: #64748B !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+[data-theme="light"] .manager-avatar-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+    color: #FFFFFF !important;
+    border: 2px solid #FFFFFF !important;
+    box-shadow: 
+        4px 4px 12px rgba(2, 132, 199, 0.35),
+        -4px -4px 12px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.8) !important;
+    font-weight: 800;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+[data-theme="light"] .btn-manager-call {
+    background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+    color: #FFFFFF !important;
+    border: 2px solid #FFFFFF !important;
+    font-weight: 700 !important;
+    border-radius: 30px !important;
+    padding: 10px 16px !important;
+    box-shadow: 
+        5px 5px 12px rgba(2, 132, 199, 0.35),
+        -5px -5px 12px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.7),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.15) !important;
+    text-decoration: none !important;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+[data-theme="light"] .btn-manager-call:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 7px 7px 16px rgba(2, 132, 199, 0.45), -7px -7px 16px rgba(255, 255, 255, 1) !important;
+}
+
+[data-theme="light"] .btn-manager-email {
+    background: linear-gradient(135deg, #818CF8, #4F46E5) !important;
+    color: #FFFFFF !important;
+    border: 2px solid #FFFFFF !important;
+    font-weight: 700 !important;
+    border-radius: 30px !important;
+    padding: 10px 16px !important;
+    box-shadow: 
+        5px 5px 12px rgba(79, 70, 229, 0.35),
+        -5px -5px 12px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.7),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.15) !important;
+    text-decoration: none !important;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+[data-theme="light"] .btn-manager-email:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 7px 7px 16px rgba(79, 70, 229, 0.45), -7px -7px 16px rgba(255, 255, 255, 1) !important;
+}
+
+[data-theme="light"] .btn-action-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #EEF2F7 !important;
+    border: 1.5px solid #FFFFFF !important;
+    box-shadow: 
+        3px 3px 8px rgba(166, 180, 200, 0.3),
+        -3px -3px 8px rgba(255, 255, 255, 0.9),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+    color: #475569 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[data-theme="light"] .btn-action-icon:hover {
+    background: #FEE2E2 !important;
+    color: #DC2626 !important;
+    border-color: #FCA5A5 !important;
+}
+
+
+/* =========================================================
+   DARK THEME: Solid Midnight Aurora Glass
+========================================================= */
+[data-theme="dark"] .city-manager-card {
+    background: #0B1120 !important;
+    background-color: #0B1120 !important;
+    border: 1.5px solid rgba(0, 240, 255, 0.25) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.05) !important;
+}
+
+[data-theme="dark"] .city-manager-card:hover {
+    border-color: #00F0FF !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 240, 255, 0.2) !important;
+    transform: translateY(-4px);
+}
+
+[data-theme="dark"] .city-card-title {
+    color: #FFFFFF !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.3px;
+}
+
+[data-theme="dark"] .city-card-subtitle {
+    color: #94A3B8 !important;
+    font-size: 0.85rem !important;
+}
+
+[data-theme="dark"] .city-emp-badge {
+    background: #060B14 !important;
+    color: #00F0FF !important;
+    border: 1px solid rgba(0, 240, 255, 0.4) !important;
+}
+
+[data-theme="dark"] .hub-details-box {
+    background: #060B14 !important;
+    border: 1px solid rgba(0, 240, 255, 0.2) !important;
+    border-radius: 14px !important;
+    padding: 12px 16px !important;
+}
+
+[data-theme="dark"] .hub-details-title {
+    color: #38BDF8 !important;
+}
+
+[data-theme="dark"] .corridor-value {
+    color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .manager-profile-box {
+    background: #060B14 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+}
+
+[data-theme="dark"] .manager-name {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+}
+
+[data-theme="dark"] .manager-role {
+    color: #94A3B8 !important;
+    font-size: 12px !important;
+}
+
+[data-theme="dark"] .manager-avatar-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00F0FF, #3B82F6);
+    color: #050914;
+    font-weight: 800;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+    flex-shrink: 0;
+}
+
+[data-theme="dark"] .btn-manager-call {
+    background: rgba(0, 240, 255, 0.12) !important;
+    color: #00F0FF !important;
+    border: 1px solid rgba(0, 240, 255, 0.4) !important;
+    font-weight: 700 !important;
+    border-radius: 30px !important;
+    padding: 8px 16px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+}
+
+[data-theme="dark"] .btn-manager-call:hover {
+    background: #00F0FF !important;
+    color: #050914 !important;
+    box-shadow: 0 0 15px #00F0FF !important;
+}
+
+[data-theme="dark"] .btn-manager-email {
+    background: rgba(59, 130, 246, 0.12) !important;
+    color: #60A5FA !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+    font-weight: 700 !important;
+    border-radius: 30px !important;
+    padding: 8px 16px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+}
+
+[data-theme="dark"] .btn-manager-email:hover {
+    background: #3B82F6 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 15px #3B82F6 !important;
+}
+
+[data-theme="dark"] .btn-action-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #94A3B8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .btn-action-icon:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #EF4444;
+    color: #EF4444;
+}
+
+/* Modal Styling */
+.city-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 10, 20, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+[data-theme="dark"] .city-modal-container {
+    width: 100%;
+    max-width: 680px;
+    background: #0B1120 !important;
+    border: 1.5px solid #00F0FF !important;
+    border-radius: 24px !important;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 240, 255, 0.25) !important;
+}

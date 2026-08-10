@@ -1,0 +1,833 @@
+/* =====================================================
+   PARCELS PAGE - MIDNIGHT AURORA GLASSMORPHISM
+===================================================== */
+
+.parcels-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 10px 60px;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.parcels-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.page-overline {
+  margin-bottom: 8px;
+  color: var(--accent-cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+.parcels-header h1 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  background: var(--gradient-neon);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.parcels-header p {
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* =====================================================
+   NEW SHIPMENT BUTTON
+===================================================== */
+
+.new-parcel-button {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 14px;
+  background: var(--gradient-neon);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.new-parcel-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.5);
+}
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+.parcel-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.parcel-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.parcel-stat:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
+}
+
+.parcel-stat.active {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.parcel-stat-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 14px;
+  font-size: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.parcel-stat-icon.blue {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.parcel-stat-icon.orange {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.parcel-stat-icon.purple {
+  background: rgba(138, 43, 226, 0.15);
+  color: #8A2BE2;
+  border: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.parcel-stat-icon.green {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.parcel-stat span {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.parcel-stat strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-primary);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.parcel-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.parcel-search {
+  height: 50px;
+  flex: 1;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px 4px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: #111420;
+  box-shadow: 
+    -12px 0 30px -8px rgba(217, 70, 239, 0.18),
+    16px 0 30px -8px rgba(99, 102, 241, 0.22),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.parcel-search:hover,
+.parcel-search:focus-within {
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 
+    -16px 0 35px -6px rgba(217, 70, 239, 0.3),
+    20px 0 35px -6px rgba(99, 102, 241, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  background: #141726;
+}
+
+.parcel-search svg {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+}
+
+.parcel-search:focus-within svg {
+  color: #C084FC;
+}
+
+.parcel-search input {
+  width: 100%;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  font-size: 14px;
+  box-shadow: none !important;
+}
+
+.parcel-search input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.parcel-search kbd {
+  min-width: 24px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* =====================================================
+   TOOLBAR BUTTONS
+===================================================== */
+
+.parcel-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.parcel-filter {
+  height: 46px;
+  padding: 0 16px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  backdrop-filter: var(--glass-blur);
+  transition: all 0.2s ease;
+}
+
+.parcel-filter option {
+  background: #0A0F1C;
+  color: #F8FAFC;
+}
+
+.parcel-filter:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.parcel-refresh,
+.filter-button {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: var(--glass-blur);
+  transition: all 0.2s ease;
+}
+
+.parcel-refresh {
+  width: 46px;
+  padding: 0;
+}
+
+.parcel-refresh:hover,
+.filter-button:hover {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: rgba(0, 240, 255, 0.4);
+  color: var(--accent-cyan);
+}
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.parcel-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #FCA5A5;
+  font-size: 13px;
+}
+
+.parcel-error button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #EF4444;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =====================================================
+   TABLE CARD
+===================================================== */
+
+.parcels-table-card {
+  width: 100%;
+  overflow: visible;
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+}
+
+.parcels-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 26px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.parcels-table-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.parcels-table-header > div > span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* =====================================================
+   LIVE INDICATOR
+===================================================== */
+
+.table-live {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin: 0 !important;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10B981 !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+.table-live span {
+  width: 8px;
+  height: 8px;
+  margin: 0 !important;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.parcels-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.parcels-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+}
+
+.parcels-table thead {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.parcels-table th {
+  padding: 14px 22px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.parcels-table td {
+  padding: 16px 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+  color: var(--text-primary);
+}
+
+.parcels-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.parcels-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* =====================================================
+   SHIPMENT CELL
+===================================================== */
+
+.shipment-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shipment-cell-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  font-size: 14px;
+}
+
+.shipment-cell strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.shipment-cell span {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+/* =====================================================
+   ROUTE
+===================================================== */
+
+.route-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.route-cell span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 140px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.route-cell svg {
+  flex-shrink: 0;
+  color: var(--accent-cyan);
+  font-size: 11px;
+}
+
+.route-cell i {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* =====================================================
+   CUSTOMER
+===================================================== */
+
+.customer-cell {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.parcel-page-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.parcel-page-status > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.parcel-page-status.delivered {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10B981;
+}
+
+.parcel-page-status.delivered > span {
+  background: #10B981;
+}
+
+.parcel-page-status.transit {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--accent-cyan);
+}
+
+.parcel-page-status.transit > span {
+  background: var(--accent-cyan);
+}
+
+.parcel-page-status.pending {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #F59E0B;
+}
+
+.parcel-page-status.pending > span {
+  background: #F59E0B;
+}
+
+.parcel-page-status.assigned {
+  background: rgba(138, 43, 226, 0.15);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  color: #8A2BE2;
+}
+
+.parcel-page-status.assigned > span {
+  background: #8A2BE2;
+}
+
+/* =====================================================
+   DATE
+===================================================== */
+
+.parcel-date-cell {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* =====================================================
+   ACTION MENU
+===================================================== */
+
+.parcel-action-wrapper {
+  position: relative;
+}
+
+.parcel-action-button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parcel-action-button:hover {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: rgba(0, 240, 255, 0.3);
+  color: var(--accent-cyan);
+}
+
+.parcel-action-menu {
+  position: absolute;
+  z-index: 100;
+  top: 40px;
+  right: 0;
+  width: 160px;
+  padding: 6px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: rgba(10, 15, 28, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+}
+
+.parcel-action-menu button {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parcel-action-menu button:hover {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--accent-cyan);
+}
+
+/* =====================================================
+   LOADING / EMPTY
+===================================================== */
+
+.parcel-loading {
+  height: 220px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parcel-loading svg {
+  margin-right: 10px;
+  color: var(--accent-cyan);
+}
+
+.parcel-empty {
+  height: 220px;
+  text-align: center;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  font-size: 22px;
+}
+
+.parcel-empty strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.parcel-empty span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.parcels-table-footer {
+  padding: 16px 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.parcels-table-footer strong {
+  color: var(--text-primary);
+}
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+.refresh-spin {
+  animation: parcelSpin 0.8s linear infinite;
+}
+
+@keyframes parcelSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1000px) {
+  .parcels-page { padding: 20px; }
+  .parcel-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .parcels-page { padding: 14px; }
+  .parcels-header { align-items: flex-start; flex-direction: column; }
+  .new-parcel-button { width: 100%; }
+  .parcel-toolbar { align-items: stretch; flex-direction: column; }
+  .parcel-search { max-width: none; }
+  .parcel-toolbar-actions { width: 100%; }
+  .parcel-filter { flex: 1; }
+}
+
+@media (max-width: 480px) {
+  .parcel-stat-grid { grid-template-columns: 1fr; }
+  .parcels-header h1 { font-size: 28px; }
+  .parcel-toolbar-actions { display: grid; grid-template-columns: 1fr 46px 1fr; }
+  .parcels-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .parcels-table {
+    min-width: 700px;
+  }
+}
+
+/* =====================================================
+   LIGHT THEME OVERRIDES FOR PARCELS
+===================================================== */
+
+[data-theme="light"] .parcel-stat-card {
+  background: var(--bg-card);
+  border-color: var(--glass-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .parcel-toolbar {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+}
+
+[data-theme="light"] .parcel-search {
+  background: #FFFFFF;
+  border-color: var(--input-border);
+}
+
+[data-theme="light"] .parcel-search input {
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .parcel-filter {
+  background: #FFFFFF;
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .parcel-icon-btn {
+  background: #FFFFFF;
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .parcel-icon-btn:hover {
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--accent-blue);
+}
+
+[data-theme="light"] .parcels-table-card {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .parcels-table th {
+  background: rgba(0, 0, 0, 0.02);
+  color: var(--text-secondary);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .parcels-table td {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .parcels-table tr:hover td {
+  background: rgba(37, 99, 235, 0.02);
+}
+
+[data-theme="light"] .parcels-table-footer {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}

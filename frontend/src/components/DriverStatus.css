@@ -1,0 +1,11 @@
+/* DriverStatus styles */
+.driver-status-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.driver-summary-item > div:last-child {
+  display: flex;
+  flex-direction: column;
+}

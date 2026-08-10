@@ -1,0 +1,619 @@
+/* =====================================================
+   FLOWLINK AUTHENTICATION DESIGN SYSTEM
+   Supports both Midnight Obsidian Dark & Modern Clay Light
+===================================================== */
+
+/* =====================================================
+   1. MAIN CONTAINER & LAYOUT
+===================================================== */
+
+.auth-container,
+.auth-split-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #090714;
+  background-image: 
+    radial-gradient(circle at 50% 40%, rgba(124, 58, 237, 0.22), transparent 50%),
+    radial-gradient(circle at 15% 25%, rgba(139, 92, 246, 0.15), transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(192, 38, 211, 0.15), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(0, 240, 255, 0.1), transparent 40%);
+  background-attachment: fixed;
+  color: #FFFFFF;
+  padding: 30px 20px;
+  position: relative;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Light Theme Auth Canvas */
+[data-theme="light"] .auth-container,
+[data-theme="light"] .auth-split-layout {
+  background-color: #E8EEF5 !important;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.18), transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.14), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08), transparent 50%) !important;
+  color: #0F172A !important;
+}
+
+.auth-split-inner {
+  width: 100%;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 48px;
+  z-index: 2;
+}
+
+.auth-network-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-card-pane {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .auth-split-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    max-width: 460px;
+  }
+  .auth-network-pane {
+    display: none;
+  }
+}
+
+/* =====================================================
+   2. TOP BAR THEME SWITCHER
+===================================================== */
+.auth-top-actions {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+}
+
+.auth-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .auth-theme-toggle {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  box-shadow: 2px 2px 8px rgba(166, 180, 200, 0.35) !important;
+}
+
+/* =====================================================
+   3. ARCADIA LUXURY AUTH CARD
+===================================================== */
+
+.arcadia-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(14, 11, 24, 0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 32px;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(124, 58, 237, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  padding: 38px 34px;
+  position: relative;
+  overflow: hidden;
+  animation: arcadiaFadeIn 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #FFFFFF;
+}
+
+.arcadia-card.wide {
+  max-width: 540px;
+}
+
+/* Light Theme Clay Card */
+[data-theme="light"] .arcadia-card {
+  background: #F8FAFD !important;
+  border: 2.5px solid #FFFFFF !important;
+  box-shadow: 
+    16px 16px 36px rgba(166, 180, 200, 0.45),
+    -16px -16px 36px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9),
+    inset -2px -2px 4px rgba(166, 180, 200, 0.15) !important;
+  color: #0F172A !important;
+}
+
+@keyframes arcadiaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Subtle top edge glow */
+.arcadia-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.9), transparent);
+  pointer-events: none;
+}
+
+[data-theme="light"] .arcadia-card::before {
+  background: linear-gradient(90deg, transparent, #0284C7, transparent);
+}
+
+/* =====================================================
+   4. HEADER & TYPOGRAPHY
+===================================================== */
+
+.arcadia-header {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.arcadia-title {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #FFFFFF !important;
+  margin: 0 0 6px;
+  text-shadow: 0 2px 20px rgba(255, 255, 255, 0.3), 0 0 35px rgba(147, 51, 234, 0.5);
+}
+
+[data-theme="light"] .arcadia-title {
+  color: #0F172A !important;
+  text-shadow: none !important;
+}
+
+.arcadia-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9) !important;
+  margin: 0 0 4px;
+  letter-spacing: 0.01em;
+}
+
+[data-theme="light"] .arcadia-subtitle {
+  color: #334155 !important;
+}
+
+.arcadia-caption {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55) !important;
+  margin: 0;
+}
+
+[data-theme="light"] .arcadia-caption {
+  color: #64748B !important;
+}
+
+.arcadia-glyphs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+  color: rgba(168, 85, 247, 0.8);
+  font-size: 11px;
+}
+
+[data-theme="light"] .arcadia-glyphs {
+  color: #7C3AED;
+}
+
+.arcadia-glyphs svg,
+.arcadia-glyphs span {
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.5));
+}
+
+/* =====================================================
+   5. INPUT GROUPS
+===================================================== */
+
+.arcadia-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 16px;
+  padding: 0 16px;
+  margin-bottom: 16px;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.arcadia-input-group:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.arcadia-input-group:focus-within {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: #8B5CF6 !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25), 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Light Theme Input Styling */
+[data-theme="light"] .arcadia-input-group {
+  background: #EEF2F7 !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: inset 2px 2px 5px rgba(166, 180, 200, 0.25) !important;
+}
+
+[data-theme="light"] .arcadia-input-group:focus-within {
+  background: #FFFFFF !important;
+  border-color: #0284C7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2), inset 1px 1px 3px rgba(166, 180, 200, 0.15) !important;
+}
+
+.arcadia-input-icon {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 16px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.arcadia-input-group:focus-within .arcadia-input-icon {
+  color: #C084FC;
+}
+
+[data-theme="light"] .arcadia-input-icon {
+  color: #64748B;
+}
+
+[data-theme="light"] .arcadia-input-group:focus-within .arcadia-input-icon {
+  color: #0284C7;
+}
+
+.arcadia-input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #FFFFFF !important;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .arcadia-input {
+  color: #0F172A !important;
+}
+
+.arcadia-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+[data-theme="light"] .arcadia-input::placeholder {
+  color: #94A3B8 !important;
+}
+
+.arcadia-input-toggle {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.arcadia-input-toggle:hover {
+  color: #FFFFFF;
+}
+
+[data-theme="light"] .arcadia-input-toggle {
+  color: #64748B;
+}
+
+[data-theme="light"] .arcadia-input-toggle:hover {
+  color: #0F172A;
+}
+
+/* =====================================================
+   6. OPTIONS ROW: REMEMBER ME & FORGOT
+===================================================== */
+
+.arcadia-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 2px 22px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="light"] .arcadia-options-row {
+  color: #475569 !important;
+}
+
+.arcadia-remember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+}
+
+.arcadia-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.arcadia-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.arcadia-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: .3s;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.arcadia-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 2px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.arcadia-switch input:checked + .arcadia-slider {
+  background: linear-gradient(135deg, #A855F7, #7C3AED);
+}
+
+[data-theme="light"] .arcadia-switch input:checked + .arcadia-slider {
+  background: linear-gradient(135deg, #38BDF8, #0284C7);
+}
+
+.arcadia-switch input:checked + .arcadia-slider:before {
+  transform: translateX(16px);
+}
+
+.arcadia-forgot-link {
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 13px;
+}
+
+.arcadia-forgot-link:hover {
+  color: #C084FC;
+  text-decoration: underline;
+}
+
+[data-theme="light"] .arcadia-forgot-link {
+  color: #0284C7 !important;
+}
+
+/* =====================================================
+   7. SUBMIT BUTTON
+===================================================== */
+
+.arcadia-btn {
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, #A855F7 0%, #7C3AED 100%);
+  border: none;
+  border-radius: 16px;
+  color: #FFFFFF !important;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.45);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.arcadia-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(124, 58, 237, 0.65);
+  filter: brightness(1.08);
+}
+
+.arcadia-btn:active {
+  transform: translateY(0);
+}
+
+.arcadia-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+[data-theme="light"] .arcadia-btn {
+  background: linear-gradient(135deg, #38BDF8 0%, #0284C7 50%, #2563EB 100%) !important;
+  box-shadow: 4px 4px 14px rgba(2, 132, 199, 0.35) !important;
+}
+
+/* =====================================================
+   8. DIVIDERS & SOCIAL BUTTONS
+===================================================== */
+
+.arcadia-divider {
+  position: relative;
+  text-align: center;
+  margin: 22px 0 16px;
+}
+
+.arcadia-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .arcadia-divider::before {
+  background: rgba(166, 180, 200, 0.35) !important;
+}
+
+.arcadia-divider span {
+  position: relative;
+  background: #0E0B18;
+  padding: 0 14px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+[data-theme="light"] .arcadia-divider span {
+  background: #F8FAFD !important;
+  color: #64748B !important;
+}
+
+.arcadia-social-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.arcadia-social-btn {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  text-decoration: none;
+}
+
+.arcadia-social-btn:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #C084FC;
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .arcadia-social-btn {
+  background: #EEF2F7 !important;
+  border: 1.5px solid #FFFFFF !important;
+  color: #0284C7 !important;
+  box-shadow: 3px 3px 8px rgba(166, 180, 200, 0.3) !important;
+}
+
+[data-theme="light"] .arcadia-social-btn:hover {
+  background: #0284C7 !important;
+  color: #FFFFFF !important;
+}
+
+/* =====================================================
+   9. FOOTER
+===================================================== */
+
+.arcadia-footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 13px;
+  margin: 0;
+}
+
+[data-theme="light"] .arcadia-footer {
+  color: #475569 !important;
+}
+
+.arcadia-footer a {
+  color: #FFFFFF !important;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: color 0.2s ease;
+}
+
+.arcadia-footer a:hover {
+  color: #C084FC !important;
+  text-decoration: underline;
+}
+
+[data-theme="light"] .arcadia-footer a {
+  color: #0284C7 !important;
+}

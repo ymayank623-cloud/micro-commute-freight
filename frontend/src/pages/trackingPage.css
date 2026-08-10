@@ -1,0 +1,192 @@
+.premium-tracking-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 70px);
+  overflow: hidden;
+  background-color: #0b0f19;
+}
+
+.background-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.floating-ui-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none; /* Let clicks pass through to map */
+}
+
+/* Re-enable pointer events for the UI panels */
+.floating-ui-container > .row > div > * {
+  pointer-events: auto; 
+}
+
+.glass-panel.tracking-search-panel,
+.glass-panel.tracking-history-panel {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  color: #fff;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.1);
+}
+
+.tracking-history-panel {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.search-form .input-group {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.search-form .form-control {
+  background: rgba(10, 15, 28, 0.95);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+
+.search-form .form-control::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+.search-form .input-group-text {
+  background: rgba(10, 15, 28, 0.95);
+  border: none;
+  color: #00F0FF;
+}
+
+.search-form .form-control:focus {
+  background: rgba(10, 15, 28, 1);
+  box-shadow: none;
+  color: #fff;
+}
+
+/* OTP Security Card */
+.customer-otp-card {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(59, 130, 246, 0.12));
+  border: 1.5px solid #00F0FF;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+}
+
+.otp-box-digit {
+  width: 44px;
+  height: 48px;
+  background: #0B1120;
+  border: 2px solid #00F0FF;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #00F0FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  font-family: monospace;
+}
+
+/* Live Driver Marker Pulse */
+.live-driver-pulse {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: #0B1120;
+  border: 2.5px solid #00F0FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+  animation: floatDriver 2s ease-in-out infinite alternate;
+}
+
+.driver-radar-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #00F0FF;
+  animation: liveDriverRadar 1.8s infinite;
+}
+
+@keyframes liveDriverRadar {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes floatDriver {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
+}
+
+.timeline-container {
+  border-left: 2px dashed rgba(0, 240, 255, 0.3);
+  margin-left: 15px;
+}
+
+.timeline-item {
+  margin-bottom: 20px;
+}
+
+.timeline-item:last-child {
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+}
+
+.timeline-icon {
+  position: absolute;
+  left: -19px;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: #00F0FF !important;
+  color: #050914 !important;
+  border: 3px solid rgba(15, 23, 42, 1);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+}
+
+.timeline-content {
+  background: rgba(255,255,255,0.04);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.timeline-content:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+/* Custom Scrollbar for timeline */
+.tracking-history-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.tracking-history-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tracking-history-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.3);
+  border-radius: 10px;
+}

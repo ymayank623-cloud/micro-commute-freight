@@ -1,0 +1,578 @@
+/* ==========================================================================
+   FLOWLINK CLAYMORPHISM DESIGN SYSTEM (COMPREHENSIVE LIGHT MODE)
+   Tactile 3D inflated clay aesthetic with crystal-clear contrast & typography
+   ========================================================================== */
+
+[data-theme="light"] {
+  /* Clay Theme Palette Tokens */
+  --bg-primary: #E8EEF5;
+  --bg-secondary: #F8FAFD;
+  --bg-surface: #F0F4F8;
+  --bg-card: #FFFFFF;
+  --bg-gradient-1: rgba(56, 189, 248, 0.1);
+  --bg-gradient-2: rgba(124, 58, 237, 0.08);
+  
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  
+  /* Clay Brand Accents */
+  --accent-cyan: #0284C7;
+  --accent-purple: #7C3AED;
+  --accent-blue: #2563EB;
+  --accent-emerald: #059669;
+  
+  --gradient-neon: linear-gradient(135deg, #0284C7, #2563EB, #7C3AED);
+  
+  /* Glass fallback tokens mapped to Clay */
+  --glass-bg: #F8FAFD;
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 12px 12px 28px rgba(166, 180, 200, 0.45), -12px -12px 28px rgba(255, 255, 255, 0.95);
+  --glass-blur: none;
+
+  /* Inputs & Forms */
+  --input-bg: #EEF2F7;
+  --input-border: #CBD5E1;
+  --input-color: #0F172A;
+  --option-bg: #FFFFFF;
+  --table-border: rgba(166, 180, 200, 0.3);
+  --table-hover: rgba(2, 132, 199, 0.06);
+  --sidebar-bg: #F8FAFD;
+  --topbar-bg: #F8FAFD;
+}
+
+/* =========================================
+   1. GLOBAL CANVAS & HIGH-CONTRAST TYPOGRAPHY
+========================================= */
+[data-theme="light"] html,
+[data-theme="light"] body,
+[data-theme="light"] #root,
+[data-theme="light"] .app-layout,
+[data-theme="light"] .main-area,
+[data-theme="light"] .content,
+[data-theme="light"] .page-content {
+  background-color: #E8EEF5 !important;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.14), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.12), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08), transparent 50%) !important;
+  background-attachment: fixed !important;
+  color: #0F172A !important;
+}
+
+/* Force All Headings to Pure High Contrast Navy Charcoal */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6,
+[data-theme="light"] .h1,
+[data-theme="light"] .h2,
+[data-theme="light"] .h3,
+[data-theme="light"] .h4,
+[data-theme="light"] .h5,
+[data-theme="light"] .h6,
+[data-theme="light"] .card-title,
+[data-theme="light"] .card-value,
+[data-theme="light"] .modal-title,
+[data-theme="light"] .section-title {
+  color: #0F172A !important;
+  font-weight: 800;
+}
+
+/* Overriding Bootstrap text color utilities so they never wash out */
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-light,
+[data-theme="light"] .text-white-50 {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .text-secondary,
+[data-theme="light"] p.text-secondary,
+[data-theme="light"] span.text-secondary {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .text-muted,
+[data-theme="light"] small.text-muted,
+[data-theme="light"] p.text-muted {
+  color: #64748B !important;
+}
+
+[data-theme="light"] p,
+[data-theme="light"] span,
+[data-theme="light"] label,
+[data-theme="light"] strong,
+[data-theme="light"] b {
+  color: #1E293B;
+}
+
+[data-theme="light"] strong,
+[data-theme="light"] b {
+  color: #0F172A !important;
+  font-weight: 700;
+}
+
+/* =========================================
+   2. BOOTSTRAP BG-DARK OVERRIDE FOR LIGHT MODE
+========================================= */
+[data-theme="light"] .bg-dark,
+[data-theme="light"] .bg-black {
+  background-color: #EEF2F7 !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .border-secondary,
+[data-theme="light"] .border-dark {
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .border-opacity-25,
+[data-theme="light"] .border-opacity-50 {
+  border-color: #CBD5E1 !important;
+}
+
+/* =========================================
+   3. CLAYMORPHIC CARDS & PANELS
+========================================= */
+[data-theme="light"] .card,
+[data-theme="light"] .glass-panel,
+[data-theme="light"] .dashboard-card,
+[data-theme="light"] .city-manager-card,
+[data-theme="light"] .quote-card,
+[data-theme="light"] .driver-card,
+[data-theme="light"] .parcel-card,
+[data-theme="light"] .auth-card,
+[data-theme="light"] .settings-card,
+[data-theme="light"] .table-card,
+[data-theme="light"] .stat-card,
+[data-theme="light"] .summary-card,
+[data-theme="light"] .tracking-history-panel,
+[data-theme="light"] .finding-modal-content,
+[data-theme="light"] .fleet-radar-card,
+[data-theme="light"] .bot-panel,
+[data-theme="light"] .chat-card {
+  background: #F8FAFD !important;
+  background-color: #F8FAFD !important;
+  border-radius: 24px !important;
+  border: 2.5px solid #FFFFFF !important;
+  box-shadow: 
+    12px 12px 28px rgba(166, 180, 200, 0.45),
+    -12px -12px 28px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(166, 180, 200, 0.15) !important;
+  color: #0F172A !important;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+[data-theme="light"] .card:hover,
+[data-theme="light"] .glass-panel:hover,
+[data-theme="light"] .dashboard-card:hover,
+[data-theme="light"] .city-manager-card:hover,
+[data-theme="light"] .driver-card:hover,
+[data-theme="light"] .quote-card:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  box-shadow: 
+    16px 16px 36px rgba(166, 180, 200, 0.55),
+    -16px -16px 36px rgba(255, 255, 255, 1),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.95),
+    inset -4px -4px 8px rgba(166, 180, 200, 0.2) !important;
+}
+
+/* =========================================
+   4. CLAYMORPHIC SIDEBAR & TOPBAR
+========================================= */
+[data-theme="light"] .sidebar {
+  background: #F8FAFD !important;
+  border: 2.5px solid #FFFFFF !important;
+  border-radius: 28px !important;
+  box-shadow: 
+    14px 14px 32px rgba(166, 180, 200, 0.45),
+    -14px -14px 32px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(166, 180, 200, 0.15) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .sidebar-brand {
+  border-bottom: 2px solid rgba(166, 180, 200, 0.25) !important;
+}
+
+[data-theme="light"] .sidebar-brand h2 {
+  color: #0F172A !important;
+  background: linear-gradient(135deg, #0284C7, #7C3AED) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: 800;
+}
+
+[data-theme="light"] .sidebar-link {
+  color: #334155 !important;
+  border-radius: 18px !important;
+  margin-bottom: 6px !important;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+[data-theme="light"] .sidebar-link:hover {
+  background: #EEF2F7 !important;
+  color: #0284C7 !important;
+  box-shadow: 
+    inset 3px 3px 6px rgba(166, 180, 200, 0.35),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.9) !important;
+  transform: translateX(4px) !important;
+}
+
+[data-theme="light"] .sidebar-link.active {
+  background: linear-gradient(135deg, #0284C7, #2563EB) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 
+    6px 6px 16px rgba(2, 132, 199, 0.35),
+    -4px -4px 12px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .top-navbar,
+[data-theme="light"] .topbar {
+  background: #F8FAFD !important;
+  border: 2px solid #FFFFFF !important;
+  border-radius: 24px !important;
+  box-shadow: 
+    10px 10px 24px rgba(166, 180, 200, 0.35),
+    -10px -10px 24px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 5px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 5px rgba(166, 180, 200, 0.12) !important;
+}
+
+/* =========================================
+   5. CLAYMORPHIC BUTTONS (3D Inflated)
+========================================= */
+[data-theme="light"] .btn-primary,
+[data-theme="light"] button.btn-primary,
+[data-theme="light"] .btn-clay-primary {
+  background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+  border: 2px solid rgba(255, 255, 255, 0.7) !important;
+  border-radius: 20px !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  padding: 10px 22px !important;
+  box-shadow: 
+    6px 6px 14px rgba(2, 132, 199, 0.35),
+    -6px -6px 14px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.65),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+[data-theme="light"] .btn-primary:hover,
+[data-theme="light"] .btn-clay-primary:hover {
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 
+    9px 9px 20px rgba(2, 132, 199, 0.45),
+    -9px -9px 20px rgba(255, 255, 255, 1),
+    inset 3px 3px 5px rgba(255, 255, 255, 0.8),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .btn-primary:active,
+[data-theme="light"] .btn-clay-primary:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.25),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+[data-theme="light"] .btn-secondary,
+[data-theme="light"] .btn-outline-secondary {
+  background: #F1F5F9 !important;
+  border: 1.5px solid #FFFFFF !important;
+  border-radius: 18px !important;
+  color: #1E293B !important;
+  font-weight: 700 !important;
+  box-shadow: 
+    5px 5px 12px rgba(166, 180, 200, 0.35),
+    -5px -5px 12px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9),
+    inset -2px -2px 4px rgba(166, 180, 200, 0.15) !important;
+}
+
+[data-theme="light"] .btn-secondary:hover,
+[data-theme="light"] .btn-outline-secondary:hover {
+  background: #E2E8F0 !important;
+  color: #0F172A !important;
+  transform: translateY(-2px) !important;
+}
+
+[data-theme="light"] .btn-outline-light {
+  background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  box-shadow: 3px 3px 8px rgba(2, 132, 199, 0.35) !important;
+}
+
+[data-theme="light"] .btn-outline-light:hover {
+  background: #0284C7 !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+[data-theme="light"] .btn-outline-info {
+  background: #F0F9FF !important;
+  border: 1.5px solid #0284C7 !important;
+  color: #0284C7 !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  box-shadow: 3px 3px 8px rgba(2, 132, 199, 0.2) !important;
+}
+
+[data-theme="light"] .btn-outline-info:hover {
+  background: #0284C7 !important;
+  color: #FFFFFF !important;
+}
+
+/* =========================================
+   6. CLAY INSET FORM INPUTS
+========================================= */
+[data-theme="light"] .form-control,
+[data-theme="light"] .form-select,
+[data-theme="light"] select,
+[data-theme="light"] input,
+[data-theme="light"] textarea {
+  background-color: #EEF2F7 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+  border-radius: 16px !important;
+  color: #0F172A !important;
+  padding: 12px 18px !important;
+  font-weight: 500;
+  box-shadow: 
+    inset 4px 4px 8px rgba(166, 180, 200, 0.4),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.95),
+    2px 2px 6px rgba(166, 180, 200, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-theme="light"] .form-control:focus,
+[data-theme="light"] .form-select:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] input:focus,
+[data-theme="light"] textarea:focus {
+  background-color: #FFFFFF !important;
+  border-color: #0284C7 !important;
+  color: #0F172A !important;
+  box-shadow: 
+    0 0 0 4px rgba(2, 132, 199, 0.2),
+    inset 2px 2px 5px rgba(2, 132, 199, 0.08) !important;
+}
+
+[data-theme="light"] .form-control::placeholder,
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #64748B !important;
+  font-weight: 400;
+}
+
+[data-theme="light"] .input-group-text {
+  background-color: #E2E8F0 !important;
+  color: #0284C7 !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 16px !important;
+}
+
+/* =========================================
+   7. CLAY PILLS, BADGES & TABS
+========================================= */
+[data-theme="light"] .badge,
+[data-theme="light"] .badge-pill {
+  border-radius: 20px !important;
+  padding: 6px 14px !important;
+  font-weight: 700 !important;
+  box-shadow: 
+    3px 3px 8px rgba(166, 180, 200, 0.3),
+    -3px -3px 8px rgba(255, 255, 255, 0.9),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.7),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .badge.bg-success,
+[data-theme="light"] .badge.text-success {
+  background: linear-gradient(135deg, #34D399, #059669) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] .badge.bg-info,
+[data-theme="light"] .badge.text-info {
+  background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] .badge.bg-warning {
+  background: linear-gradient(135deg, #FBBF24, #D97706) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] .badge.bg-danger {
+  background: linear-gradient(135deg, #F87171, #DC2626) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] .badge.bg-dark {
+  background: #EEF2F7 !important;
+  color: #0284C7 !important;
+  border: 1.5px solid #FFFFFF !important;
+}
+
+/* =========================================
+   8. CLAY TABLES & DATA GRIDS
+========================================= */
+[data-theme="light"] .table,
+[data-theme="light"] .recent-parcel-table,
+[data-theme="light"] .recent-assignment-table {
+  color: #0F172A !important;
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important;
+}
+
+[data-theme="light"] .table tbody tr,
+[data-theme="light"] .recent-parcel-row,
+[data-theme="light"] .recent-assignment-row {
+  background: #F8FAFD !important;
+  border: 1.5px solid #FFFFFF !important;
+  border-radius: 14px !important;
+  box-shadow: 
+    4px 4px 10px rgba(166, 180, 200, 0.25),
+    -4px -4px 10px rgba(255, 255, 255, 0.9),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .recent-parcel-row:hover,
+[data-theme="light"] .recent-assignment-row:hover {
+  background: #EEF2F7 !important;
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .table tbody tr td,
+[data-theme="light"] .recent-customer,
+[data-theme="light"] .recent-driver-name {
+  color: #0F172A !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .recent-route,
+[data-theme="light"] .recent-route span,
+[data-theme="light"] .recent-date {
+  color: #475569 !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="light"] .table thead th,
+[data-theme="light"] .recent-parcel-head,
+[data-theme="light"] .recent-assignment-head {
+  color: #475569 !important;
+  font-weight: 800 !important;
+  border-bottom: none !important;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+/* =========================================
+   9. CLAY MODALS & DIALOGS
+========================================= */
+[data-theme="light"] .city-modal-container,
+[data-theme="light"] .modal-content,
+[data-theme="light"] .uber-modal-container,
+[data-theme="light"] .dispatch-policy-modal-card {
+  background: #F8FAFD !important;
+  border: 3px solid #FFFFFF !important;
+  border-radius: 28px !important;
+  box-shadow: 
+    20px 20px 50px rgba(166, 180, 200, 0.55),
+    -20px -20px 50px rgba(255, 255, 255, 1),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.95),
+    inset -4px -4px 8px rgba(166, 180, 200, 0.2) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .city-modal-container h5,
+[data-theme="light"] .city-modal-container label,
+[data-theme="light"] .modal-content h5,
+[data-theme="light"] .modal-content label,
+[data-theme="light"] .dispatch-policy-modal-card h2,
+[data-theme="light"] .dispatch-policy-modal-card h3,
+[data-theme="light"] .dispatch-policy-modal-card h4 {
+  color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .dispatch-policy-modal-card p,
+[data-theme="light"] .dispatch-policy-modal-card span {
+  color: #475569 !important;
+}
+
+/* =========================================
+   10. LEAFLET MAPS & TOOLTIPS
+========================================= */
+[data-theme="light"] .leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px rgba(166, 180, 200, 0.5) !important;
+  border: 2px solid #0284C7 !important;
+}
+
+[data-theme="light"] .leaflet-popup-tip {
+  background: #FFFFFF !important;
+}
+
+[data-theme="light"] .leaflet-popup-content strong {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .leaflet-popup-content p,
+[data-theme="light"] .leaflet-popup-content span {
+  color: #475569 !important;
+}
+
+/* =========================================
+   11. QUICK ACTIONS & METRICS
+========================================= */
+[data-theme="light"] .quick-action-card,
+[data-theme="light"] .action-btn-card {
+  background: #F8FAFD !important;
+  border: 2px solid #FFFFFF !important;
+  border-radius: 20px !important;
+  box-shadow: 
+    8px 8px 20px rgba(166, 180, 200, 0.4),
+    -8px -8px 20px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="light"] .quick-action-card:hover,
+[data-theme="light"] .action-btn-card:hover {
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 
+    12px 12px 28px rgba(166, 180, 200, 0.5),
+    -12px -12px 28px rgba(255, 255, 255, 1) !important;
+}
+
+[data-theme="light"] .quick-action-card h3,
+[data-theme="light"] .action-btn-card h4 {
+  color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .quick-action-card p,
+[data-theme="light"] .action-btn-card p {
+  color: #64748B !important;
+}

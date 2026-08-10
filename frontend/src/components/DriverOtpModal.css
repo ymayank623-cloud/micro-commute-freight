@@ -1,0 +1,289 @@
+/* =========================================================
+   FLOWLINK — DUAL OTP VERIFICATION MODAL & PUSH NOTIFICATIONS
+   ========================================================= */
+
+/* Floating Live Incoming Notification Simulator */
+.live-incoming-notifications-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+  width: 90%;
+  pointer-events: auto;
+}
+
+.push-notification-toast {
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  animation: slideInPush 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s ease;
+  color: #FFFFFF;
+}
+
+.push-notification-toast:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: var(--accent-cyan, #00F0FF);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.4);
+}
+
+.gmail-toast {
+  border-left: 4px solid #EA4335;
+}
+
+.sms-toast {
+  border-left: 4px solid #00F0FF;
+}
+
+@keyframes slideInPush {
+  from {
+    transform: translateX(100px) translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.toast-app {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary, #94A3B8);
+}
+
+.toast-app strong {
+  color: #FFFFFF;
+  font-size: 12px;
+}
+
+.toast-dot {
+  color: var(--text-muted, #64748B);
+}
+
+.toast-time {
+  font-size: 11px;
+  color: var(--text-muted, #64748B);
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #64748B);
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  color: #FFFFFF;
+}
+
+.toast-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.toast-body strong {
+  font-size: 13px;
+  color: #FFFFFF;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.toast-body p {
+  font-size: 12px;
+  color: var(--text-secondary, #94A3B8);
+  margin: 0;
+}
+
+.toast-otp-pill {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 2px;
+  background: rgba(0, 240, 255, 0.15);
+  color: #00F0FF;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  flex-shrink: 0;
+}
+
+/* Modal Backdrop */
+.driver-otp-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 15, 28, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Modal Card */
+.driver-otp-modal-card {
+  width: 100%;
+  max-width: 440px;
+  background: #0B1120;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.2);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+.modal-step-badge-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.modal-step-badge-icon.pickup {
+  background: rgba(0, 240, 255, 0.15);
+  color: #00F0FF;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+}
+
+.modal-step-badge-icon.delivery {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.otp-inputs-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.otp-digit-input {
+  width: 52px;
+  height: 60px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.otp-digit-input:focus {
+  border-color: #00F0FF !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.otp-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #00F0FF 0%, #8A2BE2 100%);
+  color: #FFFFFF;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.35);
+  transition: all 0.25s ease;
+}
+
+.otp-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.55);
+}
+
+/* ==========================================================================
+   LIGHT MODE OVERRIDES (CLAYMORPHISM)
+   ========================================================================== */
+
+[data-theme="light"] .push-notification-toast {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 12px 30px rgba(166, 180, 200, 0.4) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .toast-app strong,
+[data-theme="light"] .toast-body strong {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .toast-body p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .driver-otp-modal-card {
+  background: #F8FAFD !important;
+  border: 2.5px solid #FFFFFF !important;
+  box-shadow: 0 20px 60px rgba(166, 180, 200, 0.5) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .driver-otp-modal-card h3,
+[data-theme="light"] .driver-otp-modal-card h4 {
+  color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .driver-otp-modal-card p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .otp-digit-input {
+  background: #EEF2F7 !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  box-shadow: inset 2px 2px 5px rgba(166, 180, 200, 0.25) !important;
+}
+
+[data-theme="light"] .otp-digit-input:focus {
+  background: #FFFFFF !important;
+  border-color: #0284C7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25) !important;
+}
+
+[data-theme="light"] .otp-submit-btn {
+  background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+  box-shadow: 4px 4px 14px rgba(2, 132, 199, 0.35) !important;
+}

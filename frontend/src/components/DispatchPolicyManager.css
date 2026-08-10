@@ -1,0 +1,279 @@
+/* ==========================================================================
+   DISPATCH POLICY & RULES ENGINE STYLES
+   ========================================================================== */
+
+.dispatch-policy-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 15, 28, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.dispatch-policy-modal-card {
+    width: 100%;
+    max-width: 1080px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #0B1120;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 240, 255, 0.15);
+    position: relative;
+    color: #FFFFFF;
+}
+
+.policy-badge-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #00F0FF, #8A2BE2);
+    color: #0A0F1C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+.policy-overline {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #00F0FF;
+    text-transform: uppercase;
+}
+
+.dispatch-modal-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.dispatch-modal-header p {
+    font-size: 13px;
+    color: #94A3B8;
+}
+
+.btn-close-policy {
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-close-policy:hover {
+    color: #EF4444;
+    transform: scale(1.1);
+}
+
+/* Tabs Bar */
+.policy-tabs-bar {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 6px;
+}
+
+.policy-tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.policy-tab-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.policy-tab-btn.active {
+    background: linear-gradient(135deg, #0284C7, #2563EB);
+    color: #FFFFFF;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+}
+
+/* Driver Type Panels */
+.driver-type-panel {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.commuter-card {
+    border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.direct-card {
+    border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.type-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.type-icon-box.eco {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.type-icon-box.priority {
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Range Sliders */
+.rule-slider-group {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
+.rule-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #E2E8F0;
+}
+
+.rule-value {
+    font-size: 13.5px;
+}
+
+.rule-hint {
+    display: block;
+    font-size: 11px;
+    color: #64748B;
+    margin-top: 3px;
+}
+
+.custom-policy-range {
+    cursor: pointer;
+    margin: 8px 0 4px;
+}
+
+.custom-policy-select {
+    background-color: #0F172A !important;
+    color: #FFFFFF !important;
+    border: 1px solid #334155 !important;
+    border-radius: 10px !important;
+    font-size: 12.5px !important;
+    padding: 8px 12px !important;
+}
+
+/* Save Button */
+.btn-save-policy {
+    background: linear-gradient(135deg, #00F0FF, #0284C7);
+    color: #0A0F1C;
+    font-weight: 800;
+    font-size: 13.5px;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0, 240, 255, 0.4);
+    transition: all 0.25s ease;
+}
+
+.btn-save-policy:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 240, 255, 0.6);
+}
+
+/* Disputes */
+.dispute-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s ease;
+}
+
+.dispute-card:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* =========================================================
+   LIGHT / CLAYMORPHISM THEME OVERRIDES
+========================================================= */
+[data-theme="light"] .dispatch-policy-modal-card {
+    background: #F8FAFD !important;
+    border: 2.5px solid #FFFFFF !important;
+    box-shadow: 0 20px 60px rgba(166, 180, 200, 0.5) !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .dispatch-modal-header h2,
+[data-theme="light"] .driver-type-panel h4,
+[data-theme="light"] .rule-label,
+[data-theme="light"] .dispute-card strong {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .policy-tabs-bar {
+    background: #EEF2F7 !important;
+    border: 1.5px solid #FFFFFF !important;
+    box-shadow: inset 2px 2px 4px rgba(166, 180, 200, 0.3) !important;
+}
+
+[data-theme="light"] .policy-tab-btn {
+    color: #64748B !important;
+}
+
+[data-theme="light"] .policy-tab-btn.active {
+    background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+    color: #FFFFFF !important;
+}
+
+[data-theme="light"] .driver-type-panel {
+    background: #FFFFFF !important;
+    border: 2px solid #FFFFFF !important;
+    box-shadow: 4px 4px 14px rgba(166, 180, 200, 0.35) !important;
+}
+
+[data-theme="light"] .rule-slider-group {
+    background: #EEF2F7 !important;
+    border: 1.5px solid #FFFFFF !important;
+    box-shadow: inset 2px 2px 4px rgba(166, 180, 200, 0.2) !important;
+}
+
+[data-theme="light"] .custom-policy-select {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1.5px solid #CBD5E1 !important;
+}
+
+[data-theme="light"] .dispute-card {
+    background: #FFFFFF !important;
+    border: 1.5px solid #E2E8F0 !important;
+    box-shadow: 2px 2px 10px rgba(166, 180, 200, 0.25) !important;
+}
+
+[data-theme="light"] .dispute-desc {
+    background: #F1F5F9 !important;
+    color: #334155 !important;
+}

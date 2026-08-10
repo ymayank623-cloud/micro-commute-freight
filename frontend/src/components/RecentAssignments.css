@@ -1,0 +1,223 @@
+/* =========================================================
+   FLOWLINK — RECENT ASSIGNMENTS (MIDNIGHT AURORA GLASS)
+========================================================= */
+
+.recent-assignments-card {
+  width: 100%;
+}
+
+.recent-assignments-card.dashboard-card,
+.recent-assignments-card .dashboard-card {
+  background: var(--glass-bg, rgba(15, 23, 42, 0.88)) !important;
+  backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  -webkit-backdrop-filter: var(--glass-blur, blur(20px)) !important;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: var(--glass-shadow, 0 10px 40px rgba(0, 0, 0, 0.5));
+}
+
+/* =========================================================
+   TABLE STRUCTURE
+========================================================= */
+
+.recent-assignment-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.recent-assignment-head {
+  display: grid;
+  grid-template-columns: 140px 220px 1fr 140px;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary, #94A3B8);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.recent-assignment-row {
+  display: grid;
+  grid-template-columns: 140px 220px 1fr 140px;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+  color: var(--text-primary, #FFFFFF);
+}
+
+.recent-assignment-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.recent-assignment-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================================================
+   CELLS
+========================================================= */
+
+/* 1. ID Cell */
+.assignment-id-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-truck-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.12);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.assignment-id-cell strong {
+  color: var(--accent-cyan, #00F0FF);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+/* 2. Driver Cell */
+.assignment-driver-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.assignment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(138, 43, 226, 0.2));
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--accent-cyan, #00F0FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.assignment-driver-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.assignment-driver-info strong {
+  font-size: 13px;
+  color: var(--text-primary, #FFFFFF);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assignment-driver-info span {
+  font-size: 11px;
+  color: var(--text-secondary, #94A3B8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3. Route Cell */
+.assignment-route-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  color: var(--text-secondary, #94A3B8);
+  font-size: 13px;
+}
+
+.route-point {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--text-primary, #FFFFFF);
+}
+
+.route-arrow-icon {
+  color: var(--accent-cyan, #00F0FF);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+/* 4. Status Cell */
+.assignment-status-cell {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.assignment-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.assignment-status-pill .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.assignment-status-pill.delivered {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+.assignment-status-pill.delivered .status-dot {
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+}
+
+.assignment-status-pill.transit {
+  background: rgba(0, 240, 255, 0.12);
+  color: #00F0FF;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+.assignment-status-pill.transit .status-dot {
+  background: #00F0FF;
+  box-shadow: 0 0 6px #00F0FF;
+}
+
+.assignment-status-pill.pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+.assignment-status-pill.pending .status-dot {
+  background: #F59E0B;
+  box-shadow: 0 0 6px #F59E0B;
+}
+
+@media (max-width: 992px) {
+  .recent-assignment-head,
+  .recent-assignment-row {
+    grid-template-columns: 100px 180px 1fr 120px;
+    gap: 12px;
+  }
+}

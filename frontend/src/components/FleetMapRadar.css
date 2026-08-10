@@ -1,0 +1,298 @@
+/* ==========================================================================
+   INTRACITY FLEET RADAR MAP STYLES
+   ========================================================================== */
+
+.fleet-radar-card {
+  width: 100%;
+  padding: 24px !important;
+  border-radius: 24px !important;
+  margin-bottom: 24px;
+}
+
+/* Header & Telemetry Bar */
+.fleet-radar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.fleet-radar-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.radar-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #00F0FF, #0284C7);
+  color: #0A0F1C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+.radar-overline {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--accent-cyan, #00F0FF);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.fleet-radar-title h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary, #FFFFFF);
+}
+
+.fleet-radar-title p {
+  margin: 4px 0 0;
+  color: var(--text-secondary, #94A3B8);
+  font-size: 13px;
+}
+
+/* Telemetry Pills */
+.radar-telemetry-pills {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.telemetry-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.telemetry-pill svg {
+  font-size: 16px;
+}
+
+.telemetry-pill div {
+  display: flex;
+  flex-direction: column;
+}
+
+.telemetry-pill span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #64748B);
+  text-transform: uppercase;
+}
+
+.telemetry-pill strong {
+  font-size: 13px;
+  color: var(--text-primary, #FFFFFF);
+}
+
+/* =========================================================
+   MAP WRAPPER & LEAFLET (EXPANDED TO 580PX FOR HIGH VISIBILITY)
+========================================================= */
+
+.radar-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  overscroll-behavior: contain;
+}
+
+.radar-leaflet-map {
+  width: 100%;
+  height: 100%;
+  background: #0A0F1C;
+  z-index: 10;
+}
+
+/* Custom Popup */
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 15, 28, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(0, 240, 255, 0.4) !important;
+  border-radius: 16px !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(10, 15, 28, 0.95) !important;
+}
+
+.popup-content {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
+}
+
+.popup-header strong {
+  font-size: 14px;
+  color: #00F0FF;
+}
+
+.popup-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+
+.popup-badge.avail {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10B981;
+}
+
+.popup-badge.busy {
+  background: rgba(0, 240, 255, 0.2);
+  color: #00F0FF;
+}
+
+.popup-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary, #94A3B8);
+}
+
+.popup-meta strong {
+  color: #FFFFFF;
+}
+
+/* Floating Quick Legend */
+.radar-map-legend {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  border-radius: 30px;
+  background: rgba(10, 15, 28, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary, #94A3B8);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.green {
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.legend-dot.cyan {
+  background: #00F0FF;
+  box-shadow: 0 0 8px #00F0FF;
+}
+
+.legend-dot.red {
+  background: #EF4444;
+  box-shadow: 0 0 8px #EF4444;
+}
+
+/* =========================================================
+   CLAYMORPHISM LIGHT THEME FOR RADAR MAP
+========================================================= */
+[data-theme="light"] .fleet-radar-card {
+  background: #F8FAFD !important;
+  border: 2.5px solid #FFFFFF !important;
+  box-shadow: 
+    14px 14px 32px rgba(166, 180, 200, 0.45),
+    -14px -14px 32px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(166, 180, 200, 0.15) !important;
+}
+
+[data-theme="light"] .radar-icon-badge {
+  background: linear-gradient(135deg, #38BDF8, #0284C7) !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 4px 4px 12px rgba(2, 132, 199, 0.35), inset 2px 2px 4px rgba(255,255,255,0.7) !important;
+}
+
+[data-theme="light"] .fleet-radar-title h2 {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .radar-overline {
+  color: #0284C7 !important;
+}
+
+[data-theme="light"] .telemetry-pill {
+  background: #EEF2F7 !important;
+  border: 1.5px solid #FFFFFF !important;
+  box-shadow: 
+    inset 2px 2px 5px rgba(166, 180, 200, 0.3),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="light"] .telemetry-pill span {
+  color: #64748B !important;
+}
+
+[data-theme="light"] .telemetry-pill strong {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .radar-map-legend {
+  background: #F8FAFD !important;
+  border: 1.5px solid #FFFFFF !important;
+  box-shadow: 4px 4px 14px rgba(166, 180, 200, 0.4), inset 2px 2px 4px rgba(255, 255, 255, 0.9) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .legend-item {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .radar-map-wrapper {
+  border: 2.5px solid #FFFFFF !important;
+  box-shadow: 
+    8px 8px 24px rgba(166, 180, 200, 0.4),
+    -8px -8px 24px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.8) !important;
+}
