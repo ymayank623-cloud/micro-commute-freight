@@ -265,7 +265,7 @@ function DriverRegister() {
                     </div>
                   </div>
 
-                  <button type="submit" className="arcadia-btn mt-3 w-100" disabled={loading}>
+                  <button type="submit" className="arcadia-btn mt-3" disabled={loading}>
                     {loading ? "Creating Profile..." : "Create Driver Profile"}
                   </button>
                 </form>
