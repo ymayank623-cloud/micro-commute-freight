@@ -491,3 +491,63 @@
   background: #0284C7 !important;
   color: #FFFFFF !important;
 }
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+========================================================= */
+@media (max-width: 768px) {
+  .operations-hub-card {
+    padding: 14px 10px !important;
+    border-radius: 16px !important;
+  }
+
+  .operations-hub-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hub-tabs {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+
+  .hub-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hub-tab-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .hub-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .hub-search {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .hub-view-all-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hub-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+}
+

@@ -235,9 +235,46 @@ const css = `
 .gt-footer-right{opacity:.92;font-size:10px;}
 
 @media (max-width:560px){
-  .gt-toggle{transform:scale(.76); transform-origin: center right;}
-  .gt-footer{font-size:10px;height:34px; width: 100%;}
-  .gt-footer-right{font-size:9px;}
+  .gt-root {
+    min-height: 270px;
+    padding: 12px 8px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .gt-stage {
+    padding: 14px 8px 50px;
+    gap: 12px;
+    width: 100%;
+  }
+  .gt-headline {
+    font-size: 20px;
+  }
+  .gt-toggle {
+    transform: scale(0.68);
+    transform-origin: center center;
+    margin: -10px 0;
+  }
+  .gt-footer {
+    width: min(320px, 90%);
+    font-size: 9.5px;
+    height: 32px;
+    bottom: 8px;
+  }
+  .gt-footer-right {
+    font-size: 8.5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .gt-toggle {
+    transform: scale(0.58);
+    transform-origin: center center;
+    margin: -15px 0;
+  }
+  .gt-footer {
+    width: 92%;
+    font-size: 8.5px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce){

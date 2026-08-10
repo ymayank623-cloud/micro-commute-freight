@@ -249,8 +249,8 @@ function CityManagers() {
                     </div>
 
                     {/* Search Input */}
-                    <form onSubmit={handleSearch} className="d-flex gap-2">
-                        <div className="input-group input-group-sm" style={{ width: '280px' }}>
+                    <form onSubmit={handleSearch} className="d-flex gap-2 flex-grow-1" style={{ minWidth: '220px' }}>
+                        <div className="input-group input-group-sm flex-grow-1" style={{ minWidth: '160px' }}>
                             <span className="input-group-text bg-dark border-secondary text-info">
                                 <FaSearch />
                             </span>

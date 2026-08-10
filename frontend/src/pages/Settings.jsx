@@ -77,10 +77,11 @@ function Settings() {
               </span>
             </div>
             
-            <div className="mb-4 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)" }}>
+            <div className="mb-3 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)", overflow: "hidden" }}>
               <div style={{
-                width: "48px",
-                height: "48px",
+                width: "44px",
+                height: "44px",
+                minWidth: "44px",
                 borderRadius: "14px",
                 background: "rgba(0, 240, 255, 0.1)",
                 border: "1px solid rgba(0, 240, 255, 0.2)",
@@ -88,21 +89,22 @@ function Settings() {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "var(--accent-cyan)",
-                fontSize: "20px",
-                marginRight: "16px"
+                fontSize: "18px",
+                marginRight: "14px"
               }}>
                 <FaUser />
               </div>
-              <div>
+              <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", margin: 0 }}>Full Name</p>
-                <p style={{ color: "var(--text-primary)", fontSize: "1.15rem", fontWeight: "600", margin: 0 }}>{user?.full_name}</p>
+                <p style={{ color: "var(--text-primary)", fontSize: "clamp(0.95rem, 3.8vw, 1.15rem)", fontWeight: "600", margin: 0, wordBreak: "break-word" }}>{user?.full_name}</p>
               </div>
             </div>
 
-            <div className="mb-4 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)" }}>
+            <div className="mb-3 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)", overflow: "hidden" }}>
               <div style={{
-                width: "48px",
-                height: "48px",
+                width: "44px",
+                height: "44px",
+                minWidth: "44px",
                 borderRadius: "14px",
                 background: "rgba(138, 43, 226, 0.1)",
                 border: "1px solid rgba(138, 43, 226, 0.2)",
@@ -110,21 +112,22 @@ function Settings() {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "var(--accent-purple)",
-                fontSize: "20px",
-                marginRight: "16px"
+                fontSize: "18px",
+                marginRight: "14px"
               }}>
                 <FaEnvelope />
               </div>
-              <div>
+              <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", margin: 0 }}>Email Address</p>
-                <p style={{ color: "var(--text-primary)", fontSize: "1.15rem", fontWeight: "600", margin: 0 }}>{user?.email}</p>
+                <p style={{ color: "var(--text-primary)", fontSize: "clamp(0.85rem, 3.5vw, 1.1rem)", fontWeight: "600", margin: 0, wordBreak: "break-all", overflowWrap: "anywhere" }}>{user?.email}</p>
               </div>
             </div>
 
-            <div className="mb-4 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)" }}>
+            <div className="mb-3 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)", overflow: "hidden" }}>
               <div style={{
-                width: "48px",
-                height: "48px",
+                width: "44px",
+                height: "44px",
+                minWidth: "44px",
                 borderRadius: "14px",
                 background: "rgba(16, 185, 129, 0.1)",
                 border: "1px solid rgba(16, 185, 129, 0.2)",
@@ -132,21 +135,22 @@ function Settings() {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#10B981",
-                fontSize: "20px",
-                marginRight: "16px"
+                fontSize: "18px",
+                marginRight: "14px"
               }}>
                 <FaPhone />
               </div>
-              <div>
+              <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", margin: 0 }}>Phone Number</p>
-                <p style={{ color: "var(--text-primary)", fontSize: "1.15rem", fontWeight: "600", margin: 0 }}>{user?.phone || "Not specified"}</p>
+                <p style={{ color: "var(--text-primary)", fontSize: "clamp(0.95rem, 3.8vw, 1.15rem)", fontWeight: "600", margin: 0, wordBreak: "break-word" }}>{user?.phone || "Not specified"}</p>
               </div>
             </div>
 
-            <div className="mb-4 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)" }}>
+            <div className="mb-3 d-flex align-items-center p-3 rounded-3" style={{ background: "var(--panel-item-bg)", border: "1px solid var(--panel-item-border)", overflow: "hidden" }}>
               <div style={{
-                width: "48px",
-                height: "48px",
+                width: "44px",
+                height: "44px",
+                minWidth: "44px",
                 borderRadius: "14px",
                 background: "rgba(245, 158, 11, 0.1)",
                 border: "1px solid rgba(245, 158, 11, 0.2)",
@@ -154,14 +158,14 @@ function Settings() {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#F59E0B",
-                fontSize: "20px",
-                marginRight: "16px"
+                fontSize: "18px",
+                marginRight: "14px"
               }}>
                 <FaKey />
               </div>
-              <div>
+              <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", margin: 0 }}>Role & Permissions</p>
-                <p style={{ color: "var(--text-primary)", fontSize: "1.15rem", fontWeight: "600", margin: 0, textTransform: "capitalize" }}>
+                <p style={{ color: "var(--text-primary)", fontSize: "clamp(0.95rem, 3.8vw, 1.15rem)", fontWeight: "600", margin: 0, textTransform: "capitalize" }}>
                   <span className="badge px-3 py-1 rounded-pill" style={{ background: "var(--gradient-neon)", color: "white" }}>
                     {user?.role || "Administrator"}
                   </span>
