@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
@@ -79,12 +79,17 @@ function DriverRegister() {
     }
     setLoading(true);
     try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/send-phone-otp`, { phone: formData.phone });
-        toast.success("SMS OTP sent to your mobile number!");
-        setStep(2);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/driver-auth/register`, formData);
+      localStorage.setItem('token', res.data.token);
+      toast.success("Driver profile approved! Entering portal...");
+      setTimeout(() => {
+        window.location.href = '/driver/dashboard';
+      }, 1000);
     } catch (err) {
-        console.error("OTP Send Error:", err);
-        toast.error(err.response?.data?.message || "Failed to send OTP.");
+      console.error("Registration Error:", err);
+      const errorMsg = err.response?.data?.error || err.response?.data?.message || 'Registration failed. Please check your inputs.';
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
     setLoading(false);
   };
@@ -260,12 +265,8 @@ function DriverRegister() {
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    className="arcadia-btn mt-3"
-                    disabled={loading}
-                  >
-                    {loading ? "Sending SMS OTP..." : "Continue to Verification"}
+                  <button type="submit" className="arcadia-btn mt-3 w-100" disabled={loading}>
+                    {loading ? "Creating Profile..." : "Create Driver Profile"}
                   </button>
                 </form>
               </>

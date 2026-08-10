@@ -99,12 +99,23 @@ function Register() {
 
         setLoading(true);
         try {
-            await api.post("/auth/send-email-otp", { email: form.email });
-            toast.success("Verification code sent to your Gmail!");
-            setStep(2);
+            await api.post("/auth/register", {
+                ...form,
+                phone: submitPhone
+            });
+            
+            toast.success("Registration Successful! Redirecting to login...");
+            
+            setTimeout(() => {
+                navigate("/login");
+            }, 1200);
         } catch (error) {
-            console.error("OTP Send Error:", error);
-            toast.error(error.response?.data?.message || "Failed to send OTP. Please try again.");
+            console.error("Registration Error:", error);
+            if (error.response?.data?.message === "Email already exists.") {
+                toast.error("This email is already registered.");
+            } else {
+                toast.error(error.response?.data?.message || "Failed to register. Please try again.");
+            }
         }
         setLoading(false);
     };
@@ -320,12 +331,8 @@ function Register() {
                                     </div>
 
                                     {/* Submit Button */}
-                                    <button
-                                        type="submit"
-                                        className="arcadia-btn mt-3"
-                                        disabled={loading}
-                                    >
-                                        {loading ? "Sending Verification..." : "Continue to Verification"}
+                                    <button type="submit" className="arcadia-btn-primary mt-3" disabled={loading}>
+                                        {loading ? "Creating Account..." : "Create Account"}
                                     </button>
                                 </form>
                             </>
