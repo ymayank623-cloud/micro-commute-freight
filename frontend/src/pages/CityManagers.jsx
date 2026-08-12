@@ -289,9 +289,9 @@ function CityManagers() {
                             <div className="city-manager-card h-100">
                                 
                                 {/* TOP CITY & EMPLOYEE BADGE */}
-                                <div className="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <div className="d-flex align-items-center gap-2 mb-1">
+                                <div className="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                                    <div style={{ flex: 1, minWidth: '140px' }}>
+                                        <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
                                             <h4 className="city-card-title mb-0">
                                                 {manager.city}
                                             </h4>
@@ -304,8 +304,8 @@ function CityManagers() {
                                         </span>
                                     </div>
                                     
-                                    <div className="d-flex align-items-center gap-1">
-                                        <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-2 py-1 rounded-pill fw-bold" style={{ fontSize: '11px' }}>
+                                    <div className="d-flex align-items-center gap-1 ms-auto">
+                                        <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-2 py-1 rounded-pill fw-bold" style={{ fontSize: '11px', whiteSpace: 'nowrap' }}>
                                             ● {manager.status || 'Operational'}
                                         </span>
                                         <button 
