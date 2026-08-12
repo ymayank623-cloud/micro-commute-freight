@@ -5,21 +5,18 @@ import AdminDashboard from "./AdminDashboard";
 import UserDashboard from "./UserDashboard";
 
 function Dashboard() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
 
-    if (!user) {
-        return null;
-    }
-
-    if (user.role === "admin") {
-        return <AdminDashboard />;
-    }
-
-    if (user.role === "driver") {
+    if (user?.role === "driver") {
         return <Navigate to="/driver/dashboard" />;
     }
 
-    return <UserDashboard />;
+    if (user?.role === "user") {
+        return <UserDashboard />;
+    }
+
+    // Default to AdminDashboard (handles both admin role and initial token fallback)
+    return <AdminDashboard />;
 }
 
 export default Dashboard;
