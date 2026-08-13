@@ -1,0 +1,296 @@
+/* ==========================================================================
+   MOBILE PERFORMANCE OVERRIDES
+   Disables expensive GPU effects on mobile to prevent scroll jank & lag.
+   
+   Key culprits disabled:
+   1. backdrop-filter: blur() — very expensive compositing on mobile GPUs
+   2. background-attachment: fixed — triggers full repaint on every scroll
+   3. Complex multi-layer box-shadows — causes paint thrashing
+   4. transform animations on scroll — reduces composite layers
+   ========================================================================== */
+
+/* =========================================
+   MOBILE: Disable backdrop-filter globally
+   (screens <= 1024px, i.e. tablets + phones)
+========================================= */
+@media (max-width: 1024px) {
+
+  /* Kill backdrop-filter on ALL elements for mobile */
+  *,
+  *::before,
+  *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Replace fixed backgrounds with scroll — 
+     fixed bg on mobile = repaint every frame */
+  html, body, #root,
+  .app-layout, .main-area,
+  .content, .page-content {
+    background-attachment: scroll !important;
+  }
+
+  /* Reduce complex box-shadows on cards to simple ones */
+  .dashboard-card,
+  .glass-panel,
+  .city-manager-card,
+  .quote-card,
+  .driver-card,
+  .parcel-card,
+  .auth-card,
+  .settings-card,
+  .table-card,
+  .stat-card,
+  .summary-card,
+  .tracking-history-panel,
+  .fleet-radar-card,
+  .bot-panel,
+  .chat-card,
+  .card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Simplify welcome banner pseudo-elements (blur + radial) */
+  .welcome-banner::before,
+  .welcome-banner::after {
+    display: none !important;
+  }
+
+  /* Disable hover transforms on mobile (no hover on touch) */
+  .dashboard-card:hover,
+  .glass-panel:hover,
+  .city-manager-card:hover,
+  .driver-card:hover,
+  .quote-card:hover,
+  .sidebar-link:hover,
+  .quick-action-btn:hover,
+  .quick-action-card:hover,
+  .action-btn-card:hover {
+    transform: none !important;
+  }
+
+  /* Reduce transition durations for snappier feel */
+  .sidebar,
+  .main-area,
+  .dashboard-card,
+  .glass-panel,
+  .sidebar-link,
+  .page-content,
+  .welcome-banner,
+  .network-status,
+  .banner-date {
+    transition-duration: 0.15s !important;
+  }
+
+  /* Simplify sidebar shadow */
+  .sidebar {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Simplify topbar shadow */
+  .top-navbar,
+  .topbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  /* Disable pulse animation on status dot (runs infinitely) */
+  .status-dot {
+    animation: none !important;
+    box-shadow: 0 0 6px var(--accent-cyan) !important;
+  }
+
+  /* Disable text-shadow glow effects */
+  .welcome-overline {
+    text-shadow: none !important;
+  }
+
+  /* Simplify search bar shadows */
+  .global-search {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .global-search:hover,
+  .global-search:focus-within {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* Simplify search filter button */
+  .search-filter-btn {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3) !important;
+  }
+
+  /* Use will-change for scroll performance on main area */
+  .main-area {
+    will-change: scroll-position;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Disable filter: drop-shadow on icons */
+  .dashboard-empty svg,
+  .banner-date > svg {
+    filter: none !important;
+  }
+
+  /* Reduce icon button shadows */
+  .dashboard-icon {
+    box-shadow: none !important;
+  }
+
+  /* Simplify notification button */
+  .notification-dot {
+    box-shadow: none !important;
+  }
+
+  /* Optimize logout button */
+  .logout-btn:hover {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}
+
+/* =========================================
+   PHONE-SPECIFIC: Extra aggressive (<=600px)
+========================================= */
+@media (max-width: 600px) {
+
+  /* Kill ALL CSS animations on phones for max perf */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.1s !important;
+  }
+
+  /* Exception: allow spinner animations when explicitly shown */
+  .refresh-spin,
+  .dashboard-loading-spinner svg,
+  .loading-spinner {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
+
+  /* Remove all gradient backgrounds on body to reduce GPU paint */
+  html, body, #root,
+  .app-layout, .main-area,
+  .content, .page-content {
+    background-image: none !important;
+    background-color: var(--bg-primary) !important;
+  }
+
+  /* Remove neon gradient from active sidebar link (use solid color) */
+  .sidebar-link.active-link {
+    background: var(--accent-blue) !important;
+    box-shadow: none !important;
+  }
+
+  /* Simplify all card borders and shadows */
+  .dashboard-card,
+  .glass-panel,
+  .welcome-banner,
+  .card {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid var(--glass-border) !important;
+  }
+
+  /* Remove radial gradient overlays from main-area */
+  .main-area {
+    background-image: none !important;
+    background-color: var(--bg-primary) !important;
+  }
+}
+
+/* =========================================
+   LIGHT THEME MOBILE: Simplify clay shadows
+========================================= */
+@media (max-width: 1024px) {
+  [data-theme="light"] .card,
+  [data-theme="light"] .glass-panel,
+  [data-theme="light"] .dashboard-card,
+  [data-theme="light"] .city-manager-card,
+  [data-theme="light"] .quote-card,
+  [data-theme="light"] .driver-card,
+  [data-theme="light"] .parcel-card,
+  [data-theme="light"] .auth-card,
+  [data-theme="light"] .settings-card,
+  [data-theme="light"] .tracking-history-panel,
+  [data-theme="light"] .fleet-radar-card {
+    box-shadow: 0 2px 8px rgba(166, 180, 200, 0.3) !important;
+  }
+
+  [data-theme="light"] .card:hover,
+  [data-theme="light"] .glass-panel:hover,
+  [data-theme="light"] .dashboard-card:hover,
+  [data-theme="light"] .city-manager-card:hover,
+  [data-theme="light"] .driver-card:hover,
+  [data-theme="light"] .quote-card:hover {
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(166, 180, 200, 0.3) !important;
+  }
+
+  [data-theme="light"] .sidebar {
+    box-shadow: 0 4px 12px rgba(166, 180, 200, 0.3) !important;
+  }
+
+  [data-theme="light"] .top-navbar,
+  [data-theme="light"] .topbar {
+    box-shadow: 0 2px 6px rgba(166, 180, 200, 0.2) !important;
+  }
+
+  [data-theme="light"] .btn-primary,
+  [data-theme="light"] button.btn-primary,
+  [data-theme="light"] .btn-clay-primary {
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25) !important;
+  }
+
+  [data-theme="light"] .btn-primary:hover,
+  [data-theme="light"] .btn-clay-primary:hover {
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3) !important;
+  }
+
+  [data-theme="light"] .form-control,
+  [data-theme="light"] .form-select,
+  [data-theme="light"] select,
+  [data-theme="light"] input,
+  [data-theme="light"] textarea {
+    box-shadow: inset 1px 1px 3px rgba(166, 180, 200, 0.2) !important;
+  }
+
+  [data-theme="light"] .badge,
+  [data-theme="light"] .badge-pill {
+    box-shadow: 0 1px 3px rgba(166, 180, 200, 0.2) !important;
+  }
+
+  [data-theme="light"] .city-modal-container,
+  [data-theme="light"] .modal-content,
+  [data-theme="light"] .uber-modal-container,
+  [data-theme="light"] .dispatch-policy-modal-card {
+    box-shadow: 0 4px 20px rgba(166, 180, 200, 0.35) !important;
+  }
+
+  /* Remove fixed background for light theme too */
+  [data-theme="light"] html,
+  [data-theme="light"] body,
+  [data-theme="light"] #root,
+  [data-theme="light"] .app-layout,
+  [data-theme="light"] .main-area,
+  [data-theme="light"] .content,
+  [data-theme="light"] .page-content {
+    background-attachment: scroll !important;
+  }
+}
+
+@media (max-width: 600px) {
+  [data-theme="light"] html,
+  [data-theme="light"] body,
+  [data-theme="light"] #root,
+  [data-theme="light"] .app-layout,
+  [data-theme="light"] .main-area,
+  [data-theme="light"] .content,
+  [data-theme="light"] .page-content {
+    background-image: none !important;
+    background-color: var(--bg-primary) !important;
+  }
+}
