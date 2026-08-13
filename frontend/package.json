@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroui/react": "^3.2.4",
+    "@heroui/styles": "^3.2.4",
     "@react-oauth/google": "^0.13.5",
+    "@tailwindcss/vite": "^4.3.3",
     "axios": "^1.19.0",
-    "bootstrap": "^5.3.8",
     "chart.js": "^4.5.1",
     "firebase": "^12.17.1",
     "framer-motion": "^13.0.0",
@@ -24,7 +26,8 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.18.2",
     "react-toastify": "^11.1.0",
-    "recharts": "^3.10.1"
+    "recharts": "^3.10.1",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

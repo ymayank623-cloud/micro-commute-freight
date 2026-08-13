@@ -151,16 +151,18 @@ function TopNavbar({ onMenuClick }) {
         {/* Filter Quick-Filter Popup */}
         {searchFilterOpen && (
           <div 
-            className="position-absolute glass-panel p-2 shadow-lg d-flex gap-2"
-            style={{ top: "100%", right: 0, marginTop: "8px", zIndex: 1060, borderRadius: "14px", minWidth: "220px" }}
+            className="absolute top-full right-0 mt-2 glass-panel p-2 shadow-lg flex gap-2 z-[1060] rounded-[14px] min-w-[220px]"
             onClick={(e) => e.stopPropagation()}
           >
             {["all", "parcels", "drivers"].map(cat => (
               <button
                 key={cat}
                 type="button"
-                className={`btn btn-sm px-3 py-1 rounded-pill text-capitalize fw-bold ${filterCategory === cat ? 'btn-primary' : 'btn-outline-secondary'}`}
-                style={{ fontSize: "11px", transition: "all 0.2s" }}
+              className={`text-xs font-bold px-3 py-1 rounded-full capitalize transition-all duration-200 cursor-pointer border ${
+                filterCategory === cat 
+                  ? 'bg-cyan-500 text-white border-cyan-500' 
+                  : 'bg-transparent text-gray-400 border-gray-600'
+              }`}
                 onClick={() => {
                   setFilterCategory(cat);
                   setSearchFilterOpen(false);
@@ -175,28 +177,25 @@ function TopNavbar({ onMenuClick }) {
         {/* Search Results Dropdown */}
         {searchDropdownOpen && searchQuery.trim() !== "" && (
           <div 
-            className="position-absolute glass-panel shadow-lg w-100 overflow-hidden" 
-            style={{ top: "100%", left: 0, marginTop: "10px", zIndex: 1050, maxHeight: "400px", overflowY: "auto" }}
+            className="absolute top-full left-0 mt-2 glass-panel shadow-lg w-full overflow-hidden z-[1050] max-h-[400px] overflow-y-auto"
           >
             {isSearching ? (
-              <div className="p-3 text-center text-muted small fw-bold">Searching...</div>
+              <div className="p-3 text-center text-sm font-bold" style={{ color: 'var(--text-secondary)' }}>Searching...</div>
             ) : (searchResults.parcels.length === 0 && searchResults.drivers.length === 0) ? (
-              <div className="p-3 text-center text-muted small fw-bold">No results found</div>
+              <div className="p-3 text-center text-sm font-bold" style={{ color: 'var(--text-secondary)' }}>No results found</div>
             ) : (
-              <div className="d-flex flex-column">
+              <div className="flex flex-col">
                 
                 {searchResults.parcels.length > 0 && (
-                  <div className="px-3 py-2 border-bottom text-muted small fw-bold text-uppercase" style={{ fontSize: "0.75rem", backgroundColor: "rgba(255,255,255,0.02)" }}>
+                  <div className="px-3 py-2 border-b text-xs font-bold uppercase" style={{ color: 'var(--text-secondary)', backgroundColor: 'rgba(255,255,255,0.02)', borderColor: 'var(--glass-border)' }}>
                     Parcels
                   </div>
                 )}
                 {searchResults.parcels.map(parcel => (
                   <div 
                     key={`parcel-${parcel.id}`} 
-                    className="p-3 border-bottom d-flex align-items-center justify-content-between"
-                    style={{ cursor: "pointer", transition: "background-color 0.2s" }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)"}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                    className="p-3 border-b flex items-center justify-between cursor-pointer transition-colors hover:bg-white/5"
+                    style={{ borderColor: 'var(--table-border)' }}
                     onClick={() => {
                       setSearchDropdownOpen(false);
                       setSearchQuery("");
@@ -204,25 +203,23 @@ function TopNavbar({ onMenuClick }) {
                     }}
                   >
                     <div>
-                      <div className="fw-bold" style={{ color: "var(--accent-cyan)" }}>Parcel #{parcel.id}</div>
-                      <div className="small text-muted text-truncate" style={{ maxWidth: "250px" }}>{parcel.pickup_address} → {parcel.drop_address}</div>
+                      <div className="font-bold" style={{ color: "var(--accent-cyan)" }}>Parcel #{parcel.id}</div>
+                      <div className="text-xs truncate max-w-[250px]" style={{ color: 'var(--text-secondary)' }}>{parcel.pickup_address} → {parcel.drop_address}</div>
                     </div>
-                    <span className="badge rounded-pill" style={{ fontSize: "0.7rem", backgroundColor: "rgba(255,255,255,0.1)" }}>{parcel.status}</span>
+                    <span className="badge" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'var(--text-secondary)' }}>{parcel.status}</span>
                   </div>
                 ))}
 
                 {searchResults.drivers.length > 0 && (
-                  <div className="px-3 py-2 border-bottom text-muted small fw-bold text-uppercase" style={{ fontSize: "0.75rem", backgroundColor: "rgba(255,255,255,0.02)" }}>
+                  <div className="px-3 py-2 border-b text-xs font-bold uppercase" style={{ color: 'var(--text-secondary)', backgroundColor: 'rgba(255,255,255,0.02)', borderColor: 'var(--glass-border)' }}>
                     Drivers
                   </div>
                 )}
                 {searchResults.drivers.map(driver => (
                   <div 
                     key={`driver-${driver.id}`} 
-                    className="p-3 border-bottom d-flex align-items-center justify-content-between"
-                    style={{ cursor: "pointer", transition: "background-color 0.2s" }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)"}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                    className="p-3 border-b flex items-center justify-between cursor-pointer transition-colors hover:bg-white/5"
+                    style={{ borderColor: 'var(--table-border)' }}
                     onClick={() => {
                       setSearchDropdownOpen(false);
                       setSearchQuery("");
@@ -230,10 +227,10 @@ function TopNavbar({ onMenuClick }) {
                     }}
                   >
                     <div>
-                      <div className="fw-bold" style={{ color: "var(--text-primary)" }}>{driver.full_name}</div>
-                      <div className="small text-muted">{driver.vehicle_number}</div>
+                      <div className="font-bold" style={{ color: 'var(--text-primary)' }}>{driver.full_name}</div>
+                      <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{driver.vehicle_number}</div>
                     </div>
-                    <span className={`badge rounded-pill`} style={{ fontSize: "0.7rem", backgroundColor: driver.status === 'Available' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(245, 158, 11, 0.2)', color: driver.status === 'Available' ? '#10B981' : '#F59E0B' }}>{driver.status}</span>
+                    <span className="badge" style={{ backgroundColor: driver.status === 'Available' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)', color: driver.status === 'Available' ? '#10B981' : '#F59E0B' }}>{driver.status}</span>
                   </div>
                 ))}
 
@@ -246,11 +243,11 @@ function TopNavbar({ onMenuClick }) {
 
       {/* Right side */}
 
-      <div className="navbar-right d-flex align-items-center gap-2">
+      <div className="navbar-right flex items-center gap-2">
 
         {/* Light / Dark Mode Toggle */}
         <button
-          className="btn-theme-toggle rounded-pill px-3 py-1 d-flex align-items-center gap-2 fw-bold"
+          className="btn-theme-toggle rounded-full px-3 py-1 flex items-center gap-2 font-bold"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
           title={`Switch to ${theme === "light" ? "Dark Mode" : "Light Mode"}`}
           style={{
@@ -263,32 +260,25 @@ function TopNavbar({ onMenuClick }) {
           }}
         >
           {theme === "light" ? (
-            <>
-              <FaSun style={{ color: "#FDE047" }} /> <span>Light Mode</span>
-            </>
+            <><FaSun style={{ color: "#FDE047" }} /> <span>Light Mode</span></>
           ) : (
-            <>
-              <FaMoon style={{ color: "#00F0FF" }} /> <span>Dark Mode</span>
-            </>
+            <><FaMoon style={{ color: "#00F0FF" }} /> <span>Dark Mode</span></>
           )}
         </button>
 
         <button 
-          className="notification-btn position-relative"
+          className="notification-btn relative"
           onClick={() => navigate('/notifications')}
         >
-
           <FaBell />
-
           {unreadNotifications > 0 && (
             <span 
-              className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              style={{ fontSize: "0.6rem" }}
+              className="absolute -top-1 -right-1 badge"
+              style={{ backgroundColor: '#ef4444', color: '#fff', fontSize: "0.6rem" }}
             >
               {unreadNotifications}
             </span>
           )}
-
         </button>
 
         <div className="navbar-divider" />
@@ -299,39 +289,31 @@ function TopNavbar({ onMenuClick }) {
           onClick={() => setDropdownOpen(!dropdownOpen)} 
           style={{ cursor: "pointer", position: "relative" }}
         >
-
           <div className="profile-avatar">
             {user ? user.full_name.charAt(0).toUpperCase() : "A"}
           </div>
-
           <div className="profile-info">
-            <strong>
-              {user ? user.full_name.split(' ')[0] : "Admin"}
-            </strong>
-            <span className="text-capitalize">
-              {user ? user.role : "Administrator"}
-            </span>
+            <strong>{user ? user.full_name.split(' ')[0] : "Admin"}</strong>
+            <span className="capitalize">{user ? user.role : "Administrator"}</span>
           </div>
-
           <FaChevronDown className="profile-arrow" />
 
           {dropdownOpen && (
             <div 
-              className="position-absolute glass-panel shadow py-2" 
-              style={{ top: "100%", right: 0, marginTop: "10px", width: "160px", zIndex: 1050 }}
+              className="absolute top-full right-0 mt-2 glass-panel shadow py-2 z-[1050]" 
+              style={{ width: "160px" }}
             >
               <button 
-                className="btn btn-link text-danger text-decoration-none d-flex align-items-center gap-2 w-100 px-3 text-start hover-bg-light"
+                className="flex items-center gap-2 w-full px-3 py-2 text-start font-bold transition-colors hover:bg-white/5"
+                style={{ color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}
                 onClick={handleLogout}
               >
                 <FaSignOutAlt />
-                <span className="fw-bold">Logout</span>
+                <span>Logout</span>
               </button>
             </div>
           )}
-
         </div>
-
       </div>
 
     </header>

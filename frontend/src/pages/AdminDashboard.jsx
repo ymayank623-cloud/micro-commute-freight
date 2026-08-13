@@ -541,113 +541,43 @@ function Dashboard() {
           KPI CARDS
       ================================================= */}
 
-      <div className="row g-4 dashboard-kpi-row">
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 dashboard-kpi-row">
 
         {/* TOTAL PARCELS */}
-
-        <div className="col-xl-3 col-lg-6 col-md-6">
-
-          <DashboardCard
-
-            title="Total Parcels"
-
-            value={
-              parcelStats.total
-            }
-
-            subtitle={
-              `${parcelStats.pending} Pending Parcels`
-            }
-
-            icon={
-              <FaBoxOpen />
-            }
-
-            color="#2563eb"
-
-          />
-
-        </div>
-
+        <DashboardCard
+          title="Total Parcels"
+          value={parcelStats.total}
+          subtitle={`${parcelStats.pending} Pending Parcels`}
+          icon={<FaBoxOpen />}
+          color="#2563eb"
+        />
 
         {/* DRIVERS */}
-
-        <div className="col-xl-3 col-lg-6 col-md-6">
-
-          <DashboardCard
-
-            title="Drivers"
-
-            value={
-              driverStats.total
-            }
-
-            subtitle={
-              `${driverStats.available} Available`
-            }
-
-            icon={
-              <FaTruck />
-            }
-
-            color="#16a34a"
-
-          />
-
-        </div>
-
+        <DashboardCard
+          title="Drivers"
+          value={driverStats.total}
+          subtitle={`${driverStats.available} Available`}
+          icon={<FaTruck />}
+          color="#16a34a"
+        />
 
         {/* ASSIGNMENTS */}
-
-        <div className="col-xl-3 col-lg-6 col-md-6">
-
-          <DashboardCard
-
-            title="Assignments"
-
-            value={
-              assignmentStats.total
-            }
-
-            subtitle={
-              `${assignmentStats.active} Active`
-            }
-
-            icon={
-              <FaTasks />
-            }
-
-            color="#f59e0b"
-
-          />
-
-        </div>
-
+        <DashboardCard
+          title="Assignments"
+          value={assignmentStats.total}
+          subtitle={`${assignmentStats.active} Active`}
+          icon={<FaTasks />}
+          color="#f59e0b"
+        />
 
         {/* DELIVERED */}
-
-        <div className="col-xl-3 col-lg-6 col-md-6">
-
-          <DashboardCard
-
-            title="Delivered"
-
-            value={
-              parcelStats.delivered
-            }
-
-            subtitle="Completed Orders"
-
-            icon={
-              <FaCheckCircle />
-            }
-
-            color="#10b981"
-
-          />
-
-        </div>
+        <DashboardCard
+          title="Delivered"
+          value={parcelStats.delivered}
+          subtitle="Completed Orders"
+          icon={<FaCheckCircle />}
+          color="#10b981"
+        />
 
       </div>
 
@@ -656,21 +586,13 @@ function Dashboard() {
           PARCEL STATUS + DRIVER STATUS
       ================================================= */}
 
-      <div className="row g-4 dashboard-section">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 dashboard-section">
 
         {/* PARCEL STATUS */}
-        <div className="col-xl-6 col-lg-6">
-          <ParcelStatusChart
-            parcels={parcels}
-          />
-        </div>
+        <ParcelStatusChart parcels={parcels} />
 
         {/* DRIVER STATUS */}
-        <div className="col-xl-6 col-lg-6">
-          <DriverStatus
-            drivers={drivers}
-          />
-        </div>
+        <DriverStatus drivers={drivers} />
 
       </div>
 
@@ -678,17 +600,15 @@ function Dashboard() {
           WEEKLY DELIVERIES + QUICK ACTIONS
       ================================================= */}
 
-      <div className="row g-4 dashboard-section">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 dashboard-section">
 
         {/* WEEKLY DELIVERIES */}
-        <div className="col-xl-7 col-lg-7">
-          <WeeklyDeliveryChart
-            parcels={parcels}
-          />
+        <div className="lg:col-span-7">
+          <WeeklyDeliveryChart parcels={parcels} />
         </div>
 
         {/* QUICK ACTIONS */}
-        <div className="col-xl-5 col-lg-5">
+        <div className="lg:col-span-5">
           <QuickActions />
         </div>
 
@@ -699,10 +619,10 @@ function Dashboard() {
           OPERATIONS HUB + ACTIVITY
       ================================================= */}
 
-      <div className="row g-4 dashboard-section">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 dashboard-section">
 
         {/* OPERATIONS HUB */}
-        <div className="col-xl-8 col-lg-7">
+        <div className="lg:col-span-8">
           <OperationsHub
             parcels={parcels}
             assignments={assignments}
@@ -711,7 +631,7 @@ function Dashboard() {
         </div>
 
         {/* ACTIVITY */}
-        <div className="col-xl-4 col-lg-5">
+        <div className="lg:col-span-4">
           <ActivityTimeline
             parcels={parcels}
             drivers={drivers}
@@ -725,14 +645,12 @@ function Dashboard() {
           LIVE INTRACITY FLEET MAP RADAR
       ================================================= */}
 
-      <div className="row g-4 dashboard-section">
-        <div className="col-12">
-          <FleetMapRadar
-            drivers={drivers}
-            parcels={parcels}
-            assignments={assignments}
-          />
-        </div>
+      <div className="dashboard-section">
+        <FleetMapRadar
+          drivers={drivers}
+          parcels={parcels}
+          assignments={assignments}
+        />
       </div>
 
 
