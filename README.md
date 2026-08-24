@@ -187,56 +187,7 @@ MicroCommuteFreightNetwork/
 
 ---
 
-## 🚀 Local Setup
 
-### Prerequisites
-- Node.js v18+
-- PostgreSQL (local or cloud like Neon/Supabase)
-- A `.env` file with the required environment variables
-
-### 1. Clone the repo
-```bash
-git clone https://github.com/ymayank623-cloud/micro-commute-freight.git
-cd micro-commute-freight
-```
-
-### 2. Backend Setup
-```bash
-cd backend
-npm install
-cp .env.example .env
-# Fill in your values in .env
-npm run dev
-```
-
-### 3. Frontend Setup
-```bash
-cd frontend
-npm install
-# Create frontend/.env
-echo "VITE_API_URL=http://localhost:5000" > .env
-npm run dev
-```
-
-### 4. Environment Variables
-
-**Backend `.env`:**
-```env
-DATABASE_URL=postgresql://user:password@host:5432/dbname
-JWT_SECRET=your_jwt_secret
-GOOGLE_CLIENT_ID=your_google_client_id
-GEMINI_API_KEY=your_gemini_api_key
-RESEND_API_KEY=your_resend_api_key
-FRONTEND_URL=http://localhost:5174
-PORT=5000
-```
-
-**Frontend `.env`:**
-```env
-VITE_API_URL=http://localhost:5000
-```
-
----
 
 ## 🔐 Default Roles
 
