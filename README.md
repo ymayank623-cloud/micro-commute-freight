@@ -1,18 +1,21 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/FlowLink-Logistics%20Platform-00F0FF?style=for-the-badge&logo=truck&logoColor=white" alt="FlowLink" />
+<img src="https://img.shields.io/badge/FlowLink-Logistics%20Platform-00F0FF?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMCA4aC0zVjRINmMtMS4xIDAtMiAuOS0yIDJ2MTFIM2MtLjU1IDAtMSAuNDUtMSAxczEuNDUgMSAyIDFoMWMwIDEuNjYgMS4zNCAzIDMgM3MzLTEuMzQgMy0zaDB2LTFoNXYxYzAgMS42NiAxLjM0IDMgMyAzczMtMS4zNCAzLTNoMWMuNTUgMCAxLS40NSAxLTFWMTJsLTMtNHoiLz48L3N2Zz4=&logoColor=white" alt="FlowLink Badge" />
 
 # 🚚 FlowLink — Intelligent Freight & Commuter Network
 
 **A next-generation, full-stack logistics management platform for real-time freight dispatch, driver coordination, and parcel tracking across India.**
 
-[![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-flowlinkfleet.vercel.app-00F0FF?style=for-the-badge)](https://flowlinkfleet.vercel.app)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs)](https://nodejs.org)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql)](https://postgresql.org)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?style=flat-square&logo=vercel)](https://vercel.com)
+[![🌐 Live Website](https://img.shields.io/badge/🌐%20Live%20Website-flowlinkfleet.vercel.app-00F0FF?style=for-the-badge&labelColor=0A0F1C)](https://flowlinkfleet.vercel.app)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://postgresql.org)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://flowlinkfleet.vercel.app)
+
+🔗 **[https://flowlinkfleet.vercel.app](https://flowlinkfleet.vercel.app)**
 
 </div>
+
 
 ---
 
@@ -293,6 +296,9 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 **Built with ❤️ for the future of Indian logistics**
 
+🌐 Live at: **[flowlinkfleet.vercel.app](https://flowlinkfleet.vercel.app)**
+
 ⭐ Star this repo if you found it useful!
 
 </div>
+
