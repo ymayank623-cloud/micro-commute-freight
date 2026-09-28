@@ -197,7 +197,7 @@ MicroCommuteFreightNetwork/
 | `user` | Customer dashboard, book & track own parcels |
 | `driver` | Driver hub — accept jobs, broadcast GPS location |
 
-> Admin access is auto-granted to the email `ymayank623@gmail.com`.
+> Admin access: `mayank@1122.flowlink` (password: `mayank@8492`).
 
 ---
 

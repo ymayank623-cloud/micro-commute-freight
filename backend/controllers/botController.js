@@ -42,7 +42,7 @@ USER ROLES:
 3. Administrator: Full system oversight, real-time fleet radar, smart dispatch matcher, user/driver management, analytics.
 
 AUTHENTICATION & SECURITY:
-- Users register with Gmail (@gmail.com) and verify with a 6-digit Email OTP.
+- Users register with email and verify with a 6-digit Email OTP.
 - Drivers register with mobile number and verify with SMS OTP.
 - Google One-Tap / OAuth integration available for fast onboarding.
 - Tracking: Anyone can track shipments publicly at /tracking using Parcel ID or Tracking Code.

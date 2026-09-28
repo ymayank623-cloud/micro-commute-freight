@@ -10,7 +10,7 @@ const pool = new Pool({
 
 async function updateAdmin() {
     try {
-        const res = await pool.query("UPDATE users SET role = 'admin' WHERE email = 'ymayank623@gmail.com' RETURNING *;");
+        const res = await pool.query("UPDATE users SET role = 'admin' WHERE email = 'mayank@1122.flowlink' RETURNING *;");
         console.log("Update successful. Affected rows:", res.rowCount);
         if (res.rowCount > 0) {
             console.log("Updated user:", res.rows[0]);

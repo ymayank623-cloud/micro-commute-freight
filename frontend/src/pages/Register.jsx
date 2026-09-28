@@ -59,11 +59,6 @@ function Register() {
             
             const decoded = JSON.parse(jsonPayload);
             
-            if (!decoded.email.toLowerCase().endsWith("@gmail.com")) {
-                toast.error("Please use a @gmail.com account.");
-                setLoading(false);
-                return;
-            }
 
             setForm({
                 ...form,
@@ -81,8 +76,9 @@ function Register() {
     const handleSendOtp = async (e) => {
         e.preventDefault();
         
-        if (!form.email.toLowerCase().endsWith("@gmail.com")) {
-            toast.error("Registration is strictly limited to @gmail.com addresses.");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(form.email.toLowerCase())) {
+            toast.error("Please enter a valid email address.");
             return;
         }
 
@@ -225,7 +221,7 @@ function Register() {
                         <div className="arcadia-header">
                             <h1 className="arcadia-title">FlowLink</h1>
                             <p className="arcadia-subtitle">
-                                {step === 1 ? "Create your digital freight account" : "Verify Gmail Address"}
+                                {step === 1 ? "Create your digital freight account" : "Verify Email Address"}
                             </p>
                             <p className="arcadia-caption">
                                 {step === 1 ? "Press Enter to begin your journey" : "Enter the 6-digit OTP sent to ${form.email}"}
@@ -283,7 +279,7 @@ function Register() {
                                             name="email"
                                             value={form.email}
                                             onChange={handleChange}
-                                            placeholder="Gmail address (@gmail.com)"
+                                            placeholder="Enter your email address"
                                             required
                                             autoComplete="email"
                                         />

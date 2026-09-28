@@ -2,8 +2,8 @@ const bcrypt = require('bcrypt');
 const pool = require('./config/db');
 
 async function resetPassword() {
-  const email = 'ymayank623@gmail.com';
-  const newPassword = 'Mayank@8492';
+  const email = 'mayank@1122.flowlink';
+  const newPassword = 'mayank@8492';
   
   const hash = await bcrypt.hash(newPassword, 10);
   const result = await pool.query(

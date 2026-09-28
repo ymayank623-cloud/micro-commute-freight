@@ -32,8 +32,9 @@ const sendEmailOtp = async (req, res) => {
             return res.status(400).json({ message: "Email is required." });
         }
 
-        if (!email.toLowerCase().endsWith("@gmail.com")) {
-            return res.status(400).json({ message: "Only @gmail.com addresses are allowed." });
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email.toLowerCase())) {
+            return res.status(400).json({ message: "Please provide a valid email address." });
         }
 
         // Check if email already exists
@@ -118,14 +119,15 @@ const register = async (req, res) => {
     try {
         const { full_name, email, password, phone, role } = req.body;
 
-        // 1. Enforce @gmail.com
-        if (!email.toLowerCase().endsWith("@gmail.com")) {
-            return res.status(400).json({ message: "Only @gmail.com addresses are allowed." });
+        // 1. Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email.toLowerCase())) {
+            return res.status(400).json({ message: "Please provide a valid email address." });
         }
 
         // 2. Hash password & create user
         let finalRole = role || "user";
-        if (email.toLowerCase() === "ymayank623@gmail.com") {
+        if (email.toLowerCase() === "mayank@1122.flowlink") {
             finalRole = "admin";
         }
 
@@ -164,7 +166,7 @@ const login = async (req, res) => {
         }
 
         let currentRole = user.role;
-        if (email.toLowerCase() === "ymayank623@gmail.com") {
+        if (email.toLowerCase() === "mayank@1122.flowlink") {
             currentRole = "admin";
         }
 

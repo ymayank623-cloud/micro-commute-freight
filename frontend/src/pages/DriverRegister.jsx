@@ -52,12 +52,6 @@ function DriverRegister() {
       
       const decoded = JSON.parse(jsonPayload);
       
-      if (!decoded.email.toLowerCase().endsWith("@gmail.com")) {
-          toast.error("Please use a @gmail.com account.");
-          setLoading(false);
-          return;
-      }
-
       setFormData({
           ...formData,
           full_name: decoded.name,
@@ -73,8 +67,9 @@ function DriverRegister() {
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
-    if (!formData.email.toLowerCase().endsWith("@gmail.com")) {
-        toast.error("Registration is strictly limited to @gmail.com addresses.");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.toLowerCase())) {
+        toast.error("Please enter a valid email address.");
         return;
     }
     setLoading(true);
@@ -189,7 +184,7 @@ function DriverRegister() {
                           type="email"
                           className="arcadia-input"
                           name="email"
-                          placeholder="Gmail address (@gmail.com)"
+                          placeholder="Enter your email address"
                           value={formData.email}
                           onChange={handleChange}
                           required
