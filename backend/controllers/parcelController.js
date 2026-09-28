@@ -187,12 +187,11 @@ const bookParcel = async (req, res) => {
         const quote = await calculateDualQuote(distKm, weight, sender_id);
         const chosenTier = delivery_tier === 'priority' ? 'priority' : 'saver';
         const tierDetails = quote[chosenTier];
-        const finalPrice = selected_price ? parseFloat(selected_price).toFixed(2) : tierDetails.price;
-        const estimatedTime = tierDetails.estimated_time;
-        const savingsAmount = chosenTier === 'saver' ? tierDetails.savingsAmount : 0.00;
-        const matchReason = chosenTier === 'saver' 
+        const estimatedTime = req.body.estimated_time || tierDetails.estimated_time;
+        const savingsAmount = req.body.savings_amount !== undefined ? parseFloat(req.body.savings_amount).toFixed(2) : (chosenTier === 'saver' ? tierDetails.savingsAmount : '0.00');
+        const matchReason = req.body.match_reason || (chosenTier === 'saver' 
             ? "Shared commuter corridor matched (Detour: ~2.1 km)" 
-            : "Priority direct point-to-point courier matched";
+            : "Priority direct point-to-point courier matched");
 
         const parcel = await createParcel(
             sender_id,

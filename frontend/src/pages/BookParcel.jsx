@@ -37,77 +37,136 @@ function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
     return Math.max(1.0, Math.min(80, R * c));
 }
 
-// Real-time live quote calculator based on weight, distance, package type & time (Affordable Local Rates)
-// Real-time live quote calculator: Minimum for shortest distance is ₹30 + weight of product
-function calculateLiveQuote(pLat, pLng, dLat, dLng, weightVal, type) {
-    const dist = calculateHaversineDistance(pLat, pLng, dLat, dLng);
+// Multi-Factor Dynamic Rate Engine (Uber/Logistics Supply & Demand Model)
+// Factors: Pickup/Drop route, Distance, Travel Time, Traffic, Demand Surge, Driver Availability, Ride Type, Tolls, Taxes, Route Winding
+function calculateMultiFactorQuote(pLat, pLng, dLat, dLng, weightVal, type) {
+    const straightDist = calculateHaversineDistance(pLat, pLng, dLat, dLng);
+    // 1. Route Characteristics: City road winding factor (~1.22x straight-line)
+    const routeDistanceKm = Math.max(1.0, straightDist * 1.22);
     const wt = Math.max(0.5, parseFloat(weightVal) || 1.0);
-    
-    // Type multiplier
-    let typeMultiplier = 1.0;
-    if (type === 'Fragile') typeMultiplier = 1.10;
-    else if (type === 'Electronics') typeMultiplier = 1.15;
-    else if (type === 'Heavy') typeMultiplier = 1.20;
-    else if (type === 'Documents') typeMultiplier = 0.95;
 
-    // 1. SAVER (Shared Commuter Corridor)
-    // Shortest distance base (0-2 km) is ₹30 + weight of product
-    const saverMinBase = 30.00; // ₹30 base for shortest distance
-    const saverWeightFee = wt * 2.00; // ₹2.00 / kg weight fee
-    const saverExtraDistKm = Math.max(0, dist - 2.0);
-    const saverDistFee = saverExtraDistKm * 4.00; // ₹4.00 / km for distance beyond 2 km
-    const saverMins = Math.max(15, Math.round(dist * 2.4) + 8);
-    const saverSubtotal = (saverMinBase + saverWeightFee + saverDistFee) * typeMultiplier;
-    const saverPrice = Math.round(saverSubtotal);
+    // 2. Package Type Handling Surcharge
+    let packageMultiplier = 1.0;
+    if (type === 'Fragile') packageMultiplier = 1.10;
+    else if (type === 'Electronics') packageMultiplier = 1.15;
+    else if (type === 'Heavy') packageMultiplier = 1.20;
+    else if (type === 'Documents') packageMultiplier = 0.95;
 
-    // 2. PRIORITY DIRECT (Dedicated Direct Courier)
-    const priorityMinBase = 45.00; // ₹45 direct shortest distance base
-    const priorityWeightFee = wt * 3.50; // ₹3.50 / kg
-    const priorityExtraDistKm = Math.max(0, dist - 2.0);
-    const priorityDistFee = priorityExtraDistKm * 7.00; // ₹7.00 / km beyond 2 km
-    const priorityMins = Math.max(10, Math.round(dist * 1.6));
-    const prioritySubtotal = (priorityMinBase + priorityWeightFee + priorityDistFee) * typeMultiplier;
-    const priorityPrice = Math.round(prioritySubtotal);
+    // 3. Traffic Multiplier & Expected Travel Time (based on current time of day)
+    const currentHour = new Date().getHours();
+    let trafficMultiplier = 1.06;
+    let trafficStatus = 'Moderate';
+    if ((currentHour >= 8 && currentHour <= 11) || (currentHour >= 17 && currentHour <= 20)) {
+        trafficMultiplier = 1.22;
+        trafficStatus = 'Peak Rush';
+    } else if (currentHour >= 22 || currentHour <= 6) {
+        trafficMultiplier = 0.95;
+        trafficStatus = 'Light Flow';
+    }
 
-    const savings = Math.max(15, priorityPrice - saverPrice);
+    // 4. Demand & Driver Availability (Dynamic network surge: 1.08x)
+    const demandMultiplier = 1.08;
+
+    // 5. Tolls Estimation (included upfront for trips > 18 km)
+    const hasTolls = routeDistanceKm > 18.0;
+
+    // 6. Taxes/fees/surcharges: 5% GST + platform safety fee included
+    const taxRate = 1.05;
+
+    // 7. Ride & Transport Types Configuration
+    const transportConfigs = [
+        {
+            id: 'moto',
+            name: 'Moto Courier',
+            icon: '🛵',
+            tagline: 'Swift through traffic',
+            capacity: 'Up to 5 kg',
+            maxWeight: 5,
+            baseFare: 25.00,
+            perKmRate: 4.80,
+            weightRate: 1.50,
+            avgSpeedKmH: 32,
+            tollAmount: 0 // Two-wheelers exempt
+        },
+        {
+            id: 'auto',
+            name: 'Auto Freight',
+            icon: '🛺',
+            tagline: 'Economical city cargo',
+            capacity: 'Up to 20 kg',
+            maxWeight: 20,
+            baseFare: 38.00,
+            perKmRate: 6.20,
+            weightRate: 2.20,
+            avgSpeedKmH: 26,
+            tollAmount: hasTolls ? 25.00 : 0
+        },
+        {
+            id: 'car',
+            name: 'Uber Go / Car',
+            icon: '🚗',
+            tagline: 'Enclosed & weather-safe',
+            capacity: 'Up to 35 kg',
+            maxWeight: 35,
+            baseFare: 55.00,
+            perKmRate: 8.80,
+            weightRate: 3.00,
+            avgSpeedKmH: 28,
+            tollAmount: hasTolls ? 45.00 : 0
+        },
+        {
+            id: 'truck',
+            name: 'Mini-Truck / Tempo',
+            icon: '🚚',
+            tagline: 'High volume heavy freight',
+            capacity: 'Up to 80 kg',
+            maxWeight: 80,
+            baseFare: 95.00,
+            perKmRate: 12.50,
+            weightRate: 4.00,
+            avgSpeedKmH: 22,
+            tollAmount: hasTolls ? 70.00 : 0
+        }
+    ];
+
+    const transports = transportConfigs.map(cfg => {
+        // Base calculation incorporating distance, weight, package type, traffic & demand
+        const distCost = routeDistanceKm * cfg.perKmRate;
+        const weightCost = wt * cfg.weightRate;
+        const rawSubtotal = (cfg.baseFare + distCost + weightCost) * packageMultiplier * trafficMultiplier * demandMultiplier + cfg.tollAmount;
+
+        // Priority Direct (Direct dedicated courier, no intermediate stops)
+        const priorityPrice = Math.max(35, Math.round(rawSubtotal * taxRate));
+
+        // Shared Route (Saver) - Commuter corridor discount (~38% off)
+        const saverPrice = Math.max(25, Math.round(priorityPrice * 0.62));
+        const savings = priorityPrice - saverPrice;
+
+        // Expected travel duration
+        const travelMinutes = Math.round((routeDistanceKm / cfg.avgSpeedKmH) * 60 * trafficMultiplier);
+        const priorityEta = `${Math.max(10, travelMinutes - 4)}–${travelMinutes + 5} min`;
+        const saverEta = `${Math.max(15, travelMinutes + 8)}–${travelMinutes + 18} min`;
+
+        const isWeightExceeded = wt > cfg.maxWeight;
+
+        return {
+            ...cfg,
+            priorityPrice,
+            saverPrice,
+            savings,
+            priorityEta,
+            saverEta,
+            isWeightExceeded
+        };
+    });
 
     return {
-        distanceKm: dist.toFixed(1),
+        distanceKm: routeDistanceKm.toFixed(1),
+        straightKm: straightDist.toFixed(1),
         weightKg: wt.toFixed(1),
-        saver: {
-            tier: 'saver',
-            title: 'Shared Route',
-            badge: 'Best Value',
-            badgeClass: 'saver',
-            price: saverPrice.toFixed(2),
-            originalPrice: (saverPrice + savings).toFixed(2),
-            savingsAmount: savings.toFixed(2),
-            savingsTag: `SAVE ₹${savings}`,
-            estimated_time: `${Math.max(12, saverMins - 6)}–${saverMins + 6} min`,
-            pickupTimeline: 'Delivered after driver completes current drop-off',
-            explanation: `Save ₹${savings} because your ${wt} kg parcel shares an active commuter corridor (${dist.toFixed(1)} km).`
-        },
-        priority: {
-            tier: 'priority',
-            title: 'Priority Direct',
-            badge: 'Fastest',
-            badgeClass: 'priority',
-            price: priorityPrice.toFixed(2),
-            savingsAmount: '0.00',
-            savingsTag: 'FASTEST',
-            estimated_time: `${Math.max(8, priorityMins - 4)}–${priorityMins + 4} min`,
-            pickupTimeline: 'Driver comes directly to you immediately',
-            explanation: `Pay ₹${savings} more for direct express pickup and delivery with zero intermediate stops.`
-        },
-        breakdown: {
-            distKm: dist.toFixed(1),
-            saverBaseFee: saverMinBase.toFixed(0),
-            priorityBaseFee: priorityMinBase.toFixed(0),
-            saverDistFee: saverDistFee.toFixed(0),
-            saverWeightFee: saverWeightFee.toFixed(0),
-            priorityDistFee: priorityDistFee.toFixed(0),
-            priorityWeightFee: priorityWeightFee.toFixed(0)
-        }
+        trafficStatus,
+        hasTolls,
+        transports
     };
 }
 
@@ -132,13 +191,26 @@ function BookParcel() {
     });
 
     const [selectedTier, setSelectedTier] = useState('saver'); // 'saver' or 'priority'
-    const [quoteData, setQuoteData] = useState(() => calculateLiveQuote(28.6139, 77.2090, 28.5355, 77.3910, '2', 'Standard'));
+    const [selectedVehicle, setSelectedVehicle] = useState('moto'); // 'moto', 'auto', 'car', 'truck'
+    const [quoteData, setQuoteData] = useState(() => calculateMultiFactorQuote(28.6139, 77.2090, 28.5355, 77.3910, '2', 'Standard'));
     const [bookedParcel, setBookedParcel] = useState(null);
     const [showFindingModal, setShowFindingModal] = useState(false);
 
+    // Auto adjust vehicle if weight exceeds current vehicle max
+    useEffect(() => {
+        const wt = parseFloat(form.weight) || 1;
+        if (wt > 35 && selectedVehicle !== 'truck') {
+            setSelectedVehicle('truck');
+        } else if (wt > 20 && (selectedVehicle === 'moto' || selectedVehicle === 'auto')) {
+            setSelectedVehicle('car');
+        } else if (wt > 5 && selectedVehicle === 'moto') {
+            setSelectedVehicle('auto');
+        }
+    }, [form.weight]);
+
     // Recalculate quote live on ANY input change (weight, parcel type, pickup/drop coordinates)
     useEffect(() => {
-        const live = calculateLiveQuote(
+        const live = calculateMultiFactorQuote(
             form.pickup_lat,
             form.pickup_lng,
             form.drop_lat,
@@ -173,22 +245,27 @@ function BookParcel() {
 
         try {
             const token = localStorage.getItem('token');
-            const chosenDetails = selectedTier === 'saver' ? quoteData.saver : quoteData.priority;
+            const chosenTransport = quoteData.transports.find(t => t.id === selectedVehicle) || quoteData.transports[0];
+            const chosenPrice = selectedTier === 'saver' ? chosenTransport.saverPrice : chosenTransport.priorityPrice;
+            const chosenEta = selectedTier === 'saver' ? chosenTransport.saverEta : chosenTransport.priorityEta;
+            const chosenSavings = (chosenTransport.priorityPrice - chosenTransport.saverPrice).toFixed(2);
 
             const payload = {
                 ...form,
                 sender_id: user.id,
                 delivery_tier: selectedTier,
-                selected_price: chosenDetails.price,
-                savings_amount: chosenDetails.savingsAmount,
-                estimated_time: chosenDetails.estimated_time
+                vehicle_type: chosenTransport.name,
+                selected_price: chosenPrice,
+                savings_amount: chosenSavings,
+                estimated_time: chosenEta,
+                match_reason: `${chosenTransport.name} (${selectedTier === 'saver' ? 'Shared Commuter' : 'Priority Direct'})`
             };
 
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/parcels`, payload, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            toast.success(`🎉 ${selectedTier === 'saver' ? 'Saver Route' : 'Priority Direct'} parcel confirmed!`);
+            toast.success(`🎉 ${chosenTransport.name} (${selectedTier === 'saver' ? 'Shared Route' : 'Priority Direct'}) confirmed!`);
             
             // Set booked parcel data and trigger Uber-style driver finding radar map
             setBookedParcel(res.data.parcel);
@@ -201,6 +278,17 @@ function BookParcel() {
             setLoading(false);
         }
     };
+
+    const chosenTransport = quoteData?.transports?.find(t => t.id === selectedVehicle) || quoteData?.transports?.[0] || {
+        id: 'moto',
+        name: 'Moto Courier',
+        icon: '🛵',
+        saverPrice: 35,
+        priorityPrice: 55,
+        saverEta: '20 min',
+        priorityEta: '12 min'
+    };
+    const chosenPrice = selectedTier === 'saver' ? chosenTransport.saverPrice : chosenTransport.priorityPrice;
 
     return (
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -411,7 +499,7 @@ function BookParcel() {
                                         </span>
                                     ) : (
                                         <>
-                                            <FaCheck className="text-base" /> Confirm & Book ({selectedTier === 'saver' ? 'Saver ₹' + quoteData.saver.price : 'Priority ₹' + quoteData.priority.price})
+                                            <FaCheck className="text-base" /> Confirm & Book: {chosenTransport.icon} {chosenTransport.name} ({selectedTier === 'saver' ? 'Shared' : 'Priority'}) • ₹{chosenPrice}
                                         </>
                                     )}
                                 </button>
@@ -420,143 +508,157 @@ function BookParcel() {
                     </div>
                 </div>
 
-                {/* RIGHT COLUMN: Smart Dual Pricing Options */}
-                <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-6 space-y-6">
-                    <div className="bg-[#050D07]/90 border border-emerald-500/20 rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_20px_rgba(0,255,102,0.05)] backdrop-blur-xl space-y-5">
-                        <div>
-                            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                {/* RIGHT COLUMN: Available Transports & Both Prices */}
+                <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-6 space-y-4">
+                    <div className="bg-[#050D07]/90 border border-emerald-500/20 rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_20px_rgba(0,255,102,0.05)] backdrop-blur-xl space-y-4">
+                        
+                        {/* Header */}
+                        <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                            <div>
                                 <h3 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
-                                    <span className="text-amber-400 text-lg">⚡</span> Real-Time Dual Quote
+                                    <span className="text-emerald-400 text-lg">⚡</span> Available Transports
                                 </h3>
-                                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(0,255,102,0.15)]">
-                                    {quoteData.distanceKm} km • {quoteData.weightKg} kg
-                                </span>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Select vehicle & preferred pricing mode
+                                </p>
                             </div>
-                            <p className="text-xs text-slate-400 leading-relaxed mt-2.5 mb-4">
-                                Rates dynamically calculate based on distance, weight, and commuter route overlap:
-                            </p>
+                            <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(0,255,102,0.15)]">
+                                {quoteData.distanceKm} km • {quoteData.weightKg} kg
+                            </span>
+                        </div>
 
-                            {/* OPTION A: SHARED ROUTE / SAVER DELIVERY */}
-                            <div 
-                                onClick={() => setSelectedTier('saver')}
-                                className={`p-4 rounded-xl cursor-pointer transition-all duration-200 relative mb-4 ${
-                                    selectedTier === 'saver'
-                                        ? 'bg-emerald-500/10 border-2 border-emerald-400 shadow-[0_0_25px_rgba(0,255,102,0.25)] ring-1 ring-emerald-400/50'
-                                        : 'bg-black/30 border border-white/10 hover:border-emerald-500/30 hover:bg-black/50'
-                                }`}
-                            >
-                                <div className="flex items-start justify-between gap-3 mb-2.5">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className={`p-2 rounded-lg ${selectedTier === 'saver' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/5 text-slate-400'}`}>
-                                            <FaLeaf className="text-base" />
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-white text-sm flex items-center gap-2">
-                                                Shared Route
-                                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                                                    {quoteData.saver.badge}
+                        {/* Real-Time Live Factor Indicators */}
+                        <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                                🚦 Traffic: <strong className={quoteData.trafficStatus === 'Peak Rush' ? 'text-amber-400' : 'text-emerald-400'}>{quoteData.trafficStatus}</strong>
+                            </span>
+                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                                👥 Demand: <strong className="text-emerald-400">Normal</strong>
+                            </span>
+                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                                🛣️ {quoteData.hasTolls ? 'Tolls & Taxes Incl.' : 'Taxes Included'}
+                            </span>
+                        </div>
+
+                        {/* Transports List */}
+                        <div className="space-y-3">
+                            {quoteData.transports.map((transport) => {
+                                const isSelectedVehicle = selectedVehicle === transport.id;
+
+                                return (
+                                    <div 
+                                        key={transport.id}
+                                        className={`p-3.5 sm:p-4 rounded-xl transition-all duration-200 border ${
+                                            isSelectedVehicle 
+                                                ? 'bg-emerald-500/10 border-emerald-400/80 shadow-[0_0_20px_rgba(0,255,102,0.15)] ring-1 ring-emerald-400/40' 
+                                                : 'bg-black/30 border-white/10 hover:border-emerald-500/30 hover:bg-black/50'
+                                        } ${transport.isWeightExceeded ? 'opacity-40 pointer-events-none' : ''}`}
+                                    >
+                                        {/* Transport Header Info */}
+                                        <div className="flex items-center justify-between gap-3 mb-2.5">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-2xl p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                                                    {transport.icon}
                                                 </span>
+                                                <div>
+                                                    <div className="font-bold text-white text-sm flex items-center gap-2">
+                                                        {transport.name}
+                                                        {isSelectedVehicle && (
+                                                            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#00FF66]"></span>
+                                                        )}
+                                                    </div>
+                                                    <div className="text-xs text-slate-400">
+                                                        {transport.tagline} • <span className="text-slate-300 font-medium">{transport.capacity}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-slate-400 mt-0.5">Commuter Corridor</div>
+                                            {transport.isWeightExceeded && (
+                                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                                                    Max {transport.maxWeight} kg
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        {/* Both Prices for this Transport (Shared Route vs Priority Direct) */}
+                                        <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-white/5">
+                                            {/* Option 1: Shared Route (Saver) */}
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedVehicle(transport.id);
+                                                    setSelectedTier('saver');
+                                                }}
+                                                className={`p-2.5 rounded-lg text-left transition-all border cursor-pointer ${
+                                                    isSelectedVehicle && selectedTier === 'saver'
+                                                        ? 'bg-emerald-500/25 border-emerald-400 text-white shadow-[0_0_15px_rgba(0,255,102,0.3)] ring-1 ring-emerald-400/50'
+                                                        : 'bg-black/40 border-white/10 hover:border-emerald-500/40 text-slate-300'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between text-[11px] font-semibold text-emerald-400 mb-0.5">
+                                                    <span className="flex items-center gap-1">🌿 Shared</span>
+                                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">
+                                                        Save ₹{transport.savings}
+                                                    </span>
+                                                </div>
+                                                <div className="text-lg font-black text-emerald-400 leading-tight">
+                                                    ₹{transport.saverPrice}
+                                                </div>
+                                                <div className="text-[10px] text-slate-400 mt-0.5 font-medium">
+                                                    ⏱️ {transport.saverEta}
+                                                </div>
+                                            </button>
+
+                                            {/* Option 2: Priority Direct (Express) */}
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedVehicle(transport.id);
+                                                    setSelectedTier('priority');
+                                                }}
+                                                className={`p-2.5 rounded-lg text-left transition-all border cursor-pointer ${
+                                                    isSelectedVehicle && selectedTier === 'priority'
+                                                        ? 'bg-blue-500/25 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.3)] ring-1 ring-blue-400/50'
+                                                        : 'bg-black/40 border-white/10 hover:border-blue-500/40 text-slate-300'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between text-[11px] font-semibold text-blue-400 mb-0.5">
+                                                    <span className="flex items-center gap-1">⚡ Priority</span>
+                                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300">
+                                                        Fastest
+                                                    </span>
+                                                </div>
+                                                <div className="text-lg font-black text-white leading-tight">
+                                                    ₹{transport.priorityPrice}
+                                                </div>
+                                                <div className="text-[10px] text-slate-400 mt-0.5 font-medium">
+                                                    ⏱️ {transport.priorityEta}
+                                                </div>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <span className="inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500 text-black mb-1 shadow-sm">
-                                            {quoteData.saver.savingsTag}
-                                        </span>
-                                        <div className="text-2xl font-black text-emerald-400 leading-tight">₹{quoteData.saver.price}</div>
-                                        <div className="text-[11px] line-through text-slate-500 font-medium">₹{quoteData.saver.originalPrice}</div>
-                                    </div>
-                                </div>
+                                );
+                            })}
+                        </div>
 
-                                <div className="text-xs text-slate-300 space-y-1 pt-2 border-t border-white/5">
-                                    <div className="flex items-center gap-1.5 text-emerald-300 font-semibold">
-                                        <span>⏱️ Est. Delivery:</span> {quoteData.saver.estimated_time}
+                        {/* Active Selection Summary Bar */}
+                        <div className="p-3.5 rounded-xl bg-black/50 border border-emerald-500/25 flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-2">
+                                <span className="text-base">{chosenTransport.icon}</span>
+                                <div>
+                                    <span className="text-slate-400 text-[11px]">Selected:</span>
+                                    <div className="text-white font-bold">
+                                        {chosenTransport.name} • <span className={selectedTier === 'saver' ? 'text-emerald-400' : 'text-blue-400'}>{selectedTier === 'saver' ? 'Shared Route (Saver)' : 'Priority Direct'}</span>
                                     </div>
-                                    <div className="text-slate-400">• Driver already traveling on this corridor ({quoteData.distanceKm} km)</div>
-                                    <div className="text-slate-400">• Weight fee: ₹{quoteData.breakdown.saverWeightFee} ({quoteData.weightKg} kg)</div>
-                                </div>
-
-                                <div className="mt-3 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 leading-snug">
-                                    💡 <strong>Saver Benefit:</strong> {quoteData.saver.explanation}
                                 </div>
                             </div>
-
-                            {/* OPTION B: PRIORITY DIRECT DELIVERY */}
-                            <div 
-                                onClick={() => setSelectedTier('priority')}
-                                className={`p-4 rounded-xl cursor-pointer transition-all duration-200 relative mb-4 ${
-                                    selectedTier === 'priority'
-                                        ? 'bg-blue-500/10 border-2 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.25)] ring-1 ring-blue-400/50'
-                                        : 'bg-black/30 border border-white/10 hover:border-blue-500/30 hover:bg-black/50'
-                                }`}
-                            >
-                                <div className="flex items-start justify-between gap-3 mb-2.5">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className={`p-2 rounded-lg ${selectedTier === 'priority' ? 'bg-blue-500/20 text-blue-300' : 'bg-white/5 text-slate-400'}`}>
-                                            <FaBolt className="text-base" />
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-white text-sm flex items-center gap-2">
-                                                Priority Direct
-                                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                                                    {quoteData.priority.badge}
-                                                </span>
-                                            </div>
-                                            <div className="text-xs text-slate-400 mt-0.5">Dedicated Instant Courier</div>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-500 text-white mb-1 shadow-sm">
-                                            {quoteData.priority.savingsTag}
-                                        </span>
-                                        <div className="text-2xl font-black text-white leading-tight">₹{quoteData.priority.price}</div>
-                                    </div>
-                                </div>
-
-                                <div className="text-xs text-slate-300 space-y-1 pt-2 border-t border-white/5">
-                                    <div className="flex items-center gap-1.5 text-blue-300 font-semibold">
-                                        <span>⚡ Est. Delivery:</span> {quoteData.priority.estimated_time}
-                                    </div>
-                                    <div className="text-slate-400">• Dedicated courier dispatched directly to your location</div>
-                                    <div className="text-slate-400">• Weight fee: ₹{quoteData.breakdown.priorityWeightFee} ({quoteData.weightKg} kg)</div>
-                                </div>
-
-                                <div className="mt-3 p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[11px] text-blue-300 leading-snug">
-                                    🚀 <strong>Priority Benefit:</strong> {quoteData.priority.explanation}
+                            <div className="text-right">
+                                <span className="text-slate-400 text-[10px]">Total Upfront:</span>
+                                <div className="text-emerald-400 font-black text-base">
+                                    ₹{chosenPrice}
                                 </div>
                             </div>
                         </div>
 
-                        {/* LIVE DYNAMIC BREAKDOWN BAR */}
-                        <div className="p-4 rounded-xl bg-black/40 border border-emerald-500/20 space-y-2.5">
-                            <div className="flex items-center justify-between text-xs font-bold text-white">
-                                <span className="flex items-center gap-1.5 text-emerald-400">
-                                    <FaSlidersH /> Live Cost Breakdown
-                                </span>
-                                <span className="text-slate-400 font-mono text-[11px]">
-                                    Distance: {quoteData.distanceKm} km | Wt: {quoteData.weightKg} kg
-                                </span>
-                            </div>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-white/5 text-xs text-slate-400">
-                                <div>
-                                    <div className="text-[10px] text-slate-500 uppercase">Distance</div>
-                                    <div className="text-white font-bold">₹{selectedTier === 'saver' ? quoteData.breakdown.saverDistFee : quoteData.breakdown.priorityDistFee}</div>
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-slate-500 uppercase">Weight</div>
-                                    <div className="text-white font-bold">₹{selectedTier === 'saver' ? quoteData.breakdown.saverWeightFee : quoteData.breakdown.priorityWeightFee}</div>
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-slate-500 uppercase">Base Fare</div>
-                                    <div className="text-white font-bold">₹{selectedTier === 'saver' ? '30' : '45'}</div>
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-slate-500 uppercase">Total</div>
-                                    <div className="text-emerald-400 font-extrabold text-sm">₹{selectedTier === 'saver' ? quoteData.saver.price : quoteData.priority.price}</div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
