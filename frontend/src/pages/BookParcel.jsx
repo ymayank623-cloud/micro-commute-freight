@@ -89,16 +89,17 @@ function calculateMultiFactorQuote(pLat, pLng, dLat, dLng, weightVal, type, live
             maxWeight: 30,
             baseFare: 28.00,
             perKmRate: 4.80,
-            weightRate: 1.60,
+            perHalfKgRate: 6.00, // ₹6 per 0.5 kg
             avgSpeedKmH: 32,
             tollAmount: 0 // Two-wheelers exempt
         }
     ];
 
     const transports = transportConfigs.map(cfg => {
-        // Base calculation incorporating distance, weight, package type, traffic & demand
+        // Base calculation incorporating distance, weight (₹6 per 0.5 kg), traffic & demand
         const distCost = routeDistanceKm * cfg.perKmRate;
-        const weightCost = wt * cfg.weightRate;
+        const weightSlabs = Math.max(1, Math.ceil(wt / 0.5));
+        const weightCost = weightSlabs * cfg.perHalfKgRate;
         const rawSubtotal = (cfg.baseFare + distCost + weightCost) * packageMultiplier * trafficMultiplier * demandMultiplier + cfg.tollAmount;
 
         // Priority Direct (Direct dedicated courier, no intermediate stops)

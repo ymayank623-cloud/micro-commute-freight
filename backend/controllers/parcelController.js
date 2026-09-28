@@ -30,22 +30,24 @@ function getDistance(lat1, lon1, lat2, lon2) {
 async function calculateDualQuote(distKm, weight, senderId) {
     const wt = Math.max(0.5, parseFloat(weight || 1));
 
+    // Weight fee: ₹6 per every 0.5 kg slab
+    const weightSlabs = Math.max(1, Math.ceil(wt / 0.5));
+    const weightFee = weightSlabs * 6.00;
+
     // 1. Calculate Saver / Shared Route Pricing:
-    // Minimum for shortest distance (up to 2 km) is ₹30 + weight of product
-    const saverMinBase = 30.00; // Minimum shortest distance base fare (₹30.00)
-    const saverWeightFee = wt * 2.00; // Weight rate: ₹2.00 / kg
+    const saverMinBase = 28.00;
+    const saverWeightFee = weightFee;
     const saverExtraDistKm = Math.max(0, distKm - 2.0);
-    const saverDistanceFee = saverExtraDistKm * 4.00; // ₹4.00/km beyond 2km
-    const saverEstimatedMins = Math.max(15, Math.round((distKm / 28) * 60) + 8);
+    const saverDistanceFee = saverExtraDistKm * 4.00;
+    const saverEstimatedMins = Math.max(10, Math.round((distKm / 28) * 60) + 6);
     const saverSubtotal = saverMinBase + saverWeightFee + saverDistanceFee;
 
     // 2. Calculate Priority Direct Pricing:
-    // Priority direct shortest distance base is ₹45 + weight of product
-    const priorityMinBase = 45.00; // Priority shortest distance base fare (₹45.00)
-    const priorityWeightFee = wt * 3.50; // Weight rate: ₹3.50 / kg
+    const priorityMinBase = 38.00;
+    const priorityWeightFee = weightFee;
     const priorityExtraDistKm = Math.max(0, distKm - 2.0);
-    const priorityDistanceFee = priorityExtraDistKm * 7.00; // ₹7.00/km beyond 2km
-    const priorityEstimatedMins = Math.max(10, Math.round((distKm / 35) * 60));
+    const priorityDistanceFee = priorityExtraDistKm * 6.00;
+    const priorityEstimatedMins = Math.max(6, Math.round((distKm / 35) * 60));
     const prioritySubtotal = priorityMinBase + priorityWeightFee + priorityDistanceFee;
 
     // 3. Surge multiplier check
