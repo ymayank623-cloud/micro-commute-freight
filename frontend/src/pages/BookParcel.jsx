@@ -381,8 +381,8 @@ function BookParcel() {
                                 </div>
                             </div>
 
-                            {/* Row 2: Weight, Package Type, Pickup Date */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                            {/* Row 2: Weight, Pickup Date */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 {/* WEIGHT FIELD WITH LIVE UPDATE */}
                                 <div className="space-y-1.5">
                                     <div className="flex items-center justify-between">
@@ -404,25 +404,6 @@ function BookParcel() {
                                         onChange={handleChange} 
                                         required 
                                     />
-                                </div>
-
-                                {/* PACKAGE TYPE */}
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                                        <FaBox className="text-emerald-400" /> Package Type
-                                    </label>
-                                    <select 
-                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white text-sm transition-all outline-none cursor-pointer" 
-                                        name="parcel_type" 
-                                        value={form.parcel_type} 
-                                        onChange={handleChange}
-                                    >
-                                        <option value="Standard" className="bg-[#050D07] text-white">Standard Box</option>
-                                        <option value="Fragile" className="bg-[#050D07] text-white">Fragile (+10%)</option>
-                                        <option value="Electronics" className="bg-[#050D07] text-white">Electronics (+15%)</option>
-                                        <option value="Documents" className="bg-[#050D07] text-white">Documents (-5%)</option>
-                                        <option value="Heavy" className="bg-[#050D07] text-white">Heavy Goods (+20%)</option>
-                                    </select>
                                 </div>
 
                                 {/* PICKUP DATE */}
@@ -549,21 +530,7 @@ function BookParcel() {
                             </span>
                         </div>
 
-                        {/* Real-Time Live Factor Indicators */}
-                        <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
-                                🚦 Traffic: <strong className={quoteData.trafficStatus === 'Peak Rush' ? 'text-amber-400' : 'text-emerald-400'}>{quoteData.trafficStatus}</strong>
-                            </span>
-                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
-                                👥 Demand: <strong className="text-emerald-400">Normal</strong>
-                            </span>
-                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
-                                🛣️ Tolls: <strong className="text-emerald-400">Exempt (Bike)</strong>
-                            </span>
-                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
-                                🧾 Taxes: <strong className="text-slate-300">5% GST Incl.</strong>
-                            </span>
-                        </div>
+
 
                         {/* Transports List */}
                         <div className="space-y-3">
