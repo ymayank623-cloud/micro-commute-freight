@@ -22,6 +22,7 @@ import {
 } from 'react-icons/fa';
 import AddressAutocomplete from '../components/AddressAutocomplete';
 import UberFindingDriverModal from '../components/UberFindingDriverModal';
+import DriverRouteMatcher from '../components/DriverRouteMatcher';
 import './dashboardPage.css';
 
 // Haversine distance calculator in KM
@@ -653,6 +654,21 @@ function BookParcel() {
                     </div>
                 </div>
             </div>
+
+            {/* DRIVER ROUTE MATCHING FEATURE (PostGIS Spatial Detour Engine) */}
+            <DriverRouteMatcher 
+                pickupLat={form.pickup_lat}
+                pickupLng={form.pickup_lng}
+                dropLat={form.drop_lat}
+                dropLng={form.drop_lng}
+                pickupAddress={form.pickup_address}
+                dropAddress={form.drop_address}
+                weight={form.weight}
+                seats={1}
+                onSelectDriverTrip={(driverTrip) => {
+                    setSelectedTier('saver');
+                }}
+            />
 
             {/* UBER-STYLE FINDING DRIVER LIVE RADAR MODAL */}
             <UberFindingDriverModal 

@@ -48,6 +48,7 @@ const driverPortalRoutes = require("./routes/driverPortalRoutes");
 const placeRoutes = require("./routes/placeRoutes");
 const cityManagerRoutes = require("./routes/cityManagerRoutes");
 const dispatchPolicyRoutes = require("./routes/dispatchPolicyRoutes");
+const tripRoutes = require("./routes/tripRoutes");
 
 // =========================
 // Home Route
@@ -87,6 +88,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/bot", botRoutes);
 
 app.use("/api/places", placeRoutes);
+app.use("/api/trips", tripRoutes);
 
 // =========================
 // Database Connection Test

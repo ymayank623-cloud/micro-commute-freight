@@ -1,0 +1,117 @@
+/* ==========================================================================
+   DRIVER ROUTE MATCHER STYLES
+   Toxic Cyber Dark & PostGIS Corridor Matching Theme
+   ========================================================================== */
+
+.route-matcher-card {
+    background: #050D07;
+    border: 1px solid rgba(0, 255, 102, 0.25);
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 255, 102, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.route-matcher-header {
+    background: linear-gradient(180deg, rgba(0, 255, 102, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+    border-bottom: 1px solid rgba(0, 255, 102, 0.15);
+}
+
+.match-item-card {
+    background: rgba(10, 20, 14, 0.7);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.match-item-card:hover {
+    border-color: rgba(0, 255, 102, 0.4);
+    background: rgba(0, 255, 102, 0.05);
+    transform: translateY(-2px);
+}
+
+.match-item-card.active-match {
+    border-color: #00FF66;
+    background: rgba(0, 255, 102, 0.12);
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.25), inset 0 0 15px rgba(0, 255, 102, 0.05);
+}
+
+/* Compatibility Score Ring / Badge */
+.match-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.025em;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1.5px solid currentColor;
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+}
+
+/* Detour Pill */
+.detour-metric-pill {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Interactive Match Leaflet Map */
+.match-map-container {
+    height: 380px;
+    width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 102, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    z-index: 10;
+}
+
+/* Marker Pins */
+.custom-commuter-pin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pin-bubble {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.6);
+    border: 2px solid #FFFFFF;
+}
+
+.pin-passenger-p {
+    background: #00FF66;
+    color: #000;
+}
+
+.pin-passenger-d {
+    background: #EF4444;
+    color: #FFF;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+}
+
+.pin-driver-start {
+    background: #3B82F6;
+    color: #FFF;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+}
+
+.pin-driver-end {
+    background: #8B5CF6;
+    color: #FFF;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+}
