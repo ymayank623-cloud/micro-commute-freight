@@ -249,7 +249,7 @@ function TopNavbar({ onMenuClick }) {
         <button
           className="btn-theme-toggle rounded-full px-3 py-1 flex items-center gap-2 font-bold transition-all"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          title={`Switch to ${theme === "light" ? "Doomsday Neon" : "Light Mode"}`}
+          title={`Switch to ${theme === "light" ? "Dark Mode" : "Light Mode"}`}
           style={{
             background: theme === "light" ? "linear-gradient(135deg, #38BDF8, #0284C7)" : "rgba(0, 255, 102, 0.12)",
             color: theme === "light" ? "#FFFFFF" : "#00FF66",
@@ -262,7 +262,7 @@ function TopNavbar({ onMenuClick }) {
           {theme === "light" ? (
             <><FaSun style={{ color: "#FDE047" }} /> <span>Light Mode</span></>
           ) : (
-            <><FaMoon style={{ color: "#00FF66" }} /> <span>Doomsday Neon</span></>
+            <><FaMoon style={{ color: "#00FF66" }} /> <span>Dark</span></>
           )}
         </button>
 
