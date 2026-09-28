@@ -193,11 +193,11 @@ const AddressAutocomplete = ({ value, onChange, name, placeholder, required, cla
     };
 
     return (
-        <div className="address-autocomplete-wrapper">
-            <div className="input-group">
+        <div className="address-autocomplete-wrapper relative w-full">
+            <div className="flex items-stretch w-full">
                 <input
                     type="text"
-                    className={`form-control ${className}`}
+                    className="w-full flex-1 px-4 py-2.5 rounded-l-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white placeholder-slate-500 text-sm font-medium transition-all outline-none"
                     name={name}
                     value={query}
                     onChange={handleInputChange}
@@ -210,11 +210,11 @@ const AddressAutocomplete = ({ value, onChange, name, placeholder, required, cla
                 />
                 <button 
                     type="button" 
-                    className="btn btn-outline-secondary d-flex align-items-center"
+                    className="px-3.5 py-2.5 rounded-r-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-l-0 border-emerald-500/30 text-emerald-400 hover:text-emerald-300 flex items-center justify-center transition-all cursor-pointer shadow-[0_0_10px_rgba(0,255,102,0.1)] flex-shrink-0"
                     onClick={() => setIsMapOpen(true)}
                     title="Pick location on map"
                 >
-                    <FaMapMarkedAlt />
+                    <FaMapMarkedAlt className="text-base" />
                 </button>
             </div>
             

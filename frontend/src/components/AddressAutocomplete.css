@@ -13,15 +13,15 @@
 
 .address-autocomplete-dropdown {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 6px);
     left: 0;
     width: 100%;
     max-height: 280px;
     overflow-y: auto;
-    background: #0B1120 !important;
-    border: 2px solid #00F0FF !important;
+    background: #050D07 !important;
+    border: 1.5px solid #00FF66 !important;
     border-radius: 14px !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 240, 255, 0.35) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 255, 102, 0.25) !important;
     z-index: 99999;
     list-style: none;
     padding: 8px;
@@ -29,8 +29,8 @@
 }
 
 .glass-dropdown {
-    background: #0B1120 !important;
-    border: 2px solid #00F0FF !important;
+    background: #050D07 !important;
+    border: 1.5px solid #00FF66 !important;
 }
 
 .suggestion-item {
@@ -48,8 +48,8 @@
 
 .suggestion-item:hover,
 .suggestion-item.active-suggestion {
-    background: rgba(0, 240, 255, 0.22) !important;
-    border-left: 3px solid #00F0FF !important;
+    background: rgba(0, 255, 102, 0.18) !important;
+    border-left: 3px solid #00FF66 !important;
     transform: translateX(3px);
 }
 
@@ -74,43 +74,44 @@
     width: 6px;
 }
 .address-autocomplete-dropdown::-webkit-scrollbar-track {
-    background: #050914;
+    background: #020503;
     border-radius: 8px;
 }
 .address-autocomplete-dropdown::-webkit-scrollbar-thumb {
-    background: #00F0FF;
+    background: #00FF66;
     border-radius: 8px;
 }
 
 .address-autocomplete-wrapper .form-control {
-    background: rgba(15, 23, 42, 0.9) !important;
+    background: rgba(5, 13, 7, 0.9) !important;
     color: #FFFFFF !important;
-    border: 1.5px solid rgba(0, 240, 255, 0.35) !important;
+    border: 1.5px solid rgba(0, 255, 102, 0.35) !important;
     font-weight: 500 !important;
     border-top-left-radius: 12px !important;
     border-bottom-left-radius: 12px !important;
+    width: 100% !important;
 }
 
 .address-autocomplete-wrapper .form-control:focus {
-    border-color: #00F0FF !important;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4) !important;
+    border-color: #00FF66 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.4) !important;
     color: #FFFFFF !important;
 }
 
 .address-autocomplete-wrapper .btn-outline-secondary {
-    background: rgba(0, 240, 255, 0.15) !important;
-    border: 1.5px solid rgba(0, 240, 255, 0.35) !important;
+    background: rgba(0, 255, 102, 0.15) !important;
+    border: 1.5px solid rgba(0, 255, 102, 0.35) !important;
     border-left: none !important;
-    color: #00F0FF !important;
+    color: #00FF66 !important;
     border-top-right-radius: 12px !important;
     border-bottom-right-radius: 12px !important;
     transition: all 0.2s ease;
 }
 
 .address-autocomplete-wrapper .btn-outline-secondary:hover {
-    background: #00F0FF !important;
-    color: #050914 !important;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    background: #00FF66 !important;
+    color: #050D07 !important;
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.6);
 }
 
 /* ==========================================================================

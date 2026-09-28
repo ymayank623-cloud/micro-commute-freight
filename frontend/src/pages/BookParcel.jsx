@@ -203,187 +203,215 @@ function BookParcel() {
     };
 
     return (
-        <div className="dashboard-page px-3 px-md-4 py-3">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
             <ToastContainer />
             
-            <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            {/* Page Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-emerald-500/10">
                 <div>
-                    <h2 className="fw-bold mb-1" style={{ color: "var(--text-primary)" }}>Smart Parcel Booking</h2>
-                    <p className="text-secondary small mb-0">Dynamic pricing that scales accurately with weight, route distance, and delivery tier</p>
+                    <div className="flex items-center gap-3">
+                        <span className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(0,255,102,0.2)]">
+                            <FaBox className="text-xl" />
+                        </span>
+                        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                            Smart Parcel Booking
+                        </h1>
+                    </div>
+                    <p className="text-slate-400 text-sm mt-1">
+                        Dynamic rate engine scales transparently with weight, route distance, and delivery tier
+                    </p>
                 </div>
-                <span className="badge px-3 py-2 rounded-pill" style={{ background: "rgba(0, 240, 255, 0.1)", color: "var(--accent-cyan)", border: "1px solid rgba(0, 240, 255, 0.3)" }}>
-                    <FaRoute className="me-1" /> Dynamic Rate Engine Active
-                </span>
+                <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_15px_rgba(0,255,102,0.15)]">
+                        <FaRoute className="text-emerald-400" /> Dynamic Rate Engine Active
+                    </span>
+                </div>
             </div>
 
-            <div className="row g-4">
+            {/* Main Content Grid: Form (7 cols) + Dual Quote (5 cols) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 {/* LEFT COLUMN: Booking Form */}
-                <div className="col-lg-7">
-                    <div className="card shadow-lg p-4" style={{ 
-                        background: "var(--glass-bg, rgba(15, 23, 42, 0.75))", 
-                        backdropFilter: "blur(20px)", 
-                        border: "1px solid var(--glass-border, rgba(255,255,255,0.1))",
-                        borderRadius: "24px"
-                    }}>
-                        <h5 className="fw-bold mb-3 d-flex align-items-center gap-2" style={{ color: "var(--text-primary)" }}>
-                            <FaBox style={{ color: "var(--accent-cyan)" }} /> 1. Shipment Details & Weight
-                        </h5>
-
-                        <form onSubmit={handleSubmit} className="row g-3">
-                            <div className="col-md-6">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaMapMarkerAlt style={{ color: "#10B981" }} /> Pickup Location
-                                </label>
-                                <AddressAutocomplete 
-                                    name="pickup_address" 
-                                    value={form.pickup_address} 
-                                    onChange={(e) => handleChange(e, e.lat, e.lng)} 
-                                    placeholder="Enter pickup address"
-                                    className="bg-transparent text-white border-secondary"
-                                    required 
-                                />
-                            </div>
-                            
-                            <div className="col-md-6">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaMapMarkerAlt style={{ color: "#EF4444" }} /> Drop-off Destination
-                                </label>
-                                <AddressAutocomplete 
-                                    name="drop_address" 
-                                    value={form.drop_address} 
-                                    onChange={(e) => handleChange(e, e.lat, e.lng)} 
-                                    placeholder="Enter destination address"
-                                    className="bg-transparent text-white border-secondary"
-                                    required 
-                                />
+                <div className="lg:col-span-7 xl:col-span-7">
+                    <div className="bg-[#050D07]/90 border border-emerald-500/20 rounded-2xl p-5 sm:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_20px_rgba(0,255,102,0.05)] backdrop-blur-xl">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Section 1: Shipment Details & Dimensions */}
+                            <div className="flex items-center gap-2.5 pb-3 border-b border-white/5">
+                                <span className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-bold">1</span>
+                                <h3 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
+                                    <FaBox className="text-emerald-400" /> Shipment Details & Locations
+                                </h3>
                             </div>
 
-                            {/* WEIGHT FIELD WITH LIVE UPDATE */}
-                            <div className="col-md-4">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-1 mb-1">
-                                        <FaWeightHanging style={{ color: "#F59E0B" }} /> Weight (kg)
+                            {/* Row 1: Pickup & Dropoff Addresses */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaMapMarkerAlt className="text-emerald-400" /> Pickup Location <span className="text-emerald-400">*</span>
                                     </label>
-                                    <span className="badge bg-warning bg-opacity-25 text-warning rounded-pill" style={{ fontSize: '10px' }}>
-                                        Scales Fare Live
-                                    </span>
+                                    <AddressAutocomplete 
+                                        name="pickup_address" 
+                                        value={form.pickup_address} 
+                                        onChange={(e) => handleChange(e, e.lat, e.lng)} 
+                                        placeholder="Enter pickup address"
+                                        required 
+                                    />
                                 </div>
-                                <input 
-                                    type="number" 
-                                    step="0.5"
-                                    min="0.5"
-                                    max="80"
-                                    className="form-control bg-transparent text-white border-warning border-opacity-50 fw-bold" 
-                                    name="weight" 
-                                    value={form.weight} 
-                                    onChange={handleChange} 
-                                    required 
-                                />
+                                
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaMapMarkerAlt className="text-rose-400" /> Drop-off Destination <span className="text-emerald-400">*</span>
+                                    </label>
+                                    <AddressAutocomplete 
+                                        name="drop_address" 
+                                        value={form.drop_address} 
+                                        onChange={(e) => handleChange(e, e.lat, e.lng)} 
+                                        placeholder="Enter destination address"
+                                        required 
+                                    />
+                                </div>
                             </div>
 
-                            <div className="col-md-4">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaBox /> Package Type
-                                </label>
-                                <select 
-                                    className="form-select bg-dark text-white border-secondary" 
-                                    name="parcel_type" 
-                                    value={form.parcel_type} 
-                                    onChange={handleChange}
-                                >
-                                    <option value="Standard">Standard Box</option>
-                                    <option value="Fragile">Fragile (+15%)</option>
-                                    <option value="Electronics">Electronics (+20%)</option>
-                                    <option value="Documents">Documents (-5%)</option>
-                                    <option value="Heavy">Heavy Goods (+30%)</option>
-                                </select>
+                            {/* Row 2: Weight, Package Type, Pickup Date */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                {/* WEIGHT FIELD WITH LIVE UPDATE */}
+                                <div className="space-y-1.5">
+                                    <div className="flex items-center justify-between">
+                                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                            <FaWeightHanging className="text-amber-400" /> Weight (kg) <span className="text-emerald-400">*</span>
+                                        </label>
+                                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                                            Live Fare
+                                        </span>
+                                    </div>
+                                    <input 
+                                        type="number" 
+                                        step="0.5"
+                                        min="0.5"
+                                        max="80"
+                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white font-bold text-sm transition-all outline-none" 
+                                        name="weight" 
+                                        value={form.weight} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                </div>
+
+                                {/* PACKAGE TYPE */}
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaBox className="text-emerald-400" /> Package Type
+                                    </label>
+                                    <select 
+                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white text-sm transition-all outline-none cursor-pointer" 
+                                        name="parcel_type" 
+                                        value={form.parcel_type} 
+                                        onChange={handleChange}
+                                    >
+                                        <option value="Standard" className="bg-[#050D07] text-white">Standard Box</option>
+                                        <option value="Fragile" className="bg-[#050D07] text-white">Fragile (+10%)</option>
+                                        <option value="Electronics" className="bg-[#050D07] text-white">Electronics (+15%)</option>
+                                        <option value="Documents" className="bg-[#050D07] text-white">Documents (-5%)</option>
+                                        <option value="Heavy" className="bg-[#050D07] text-white">Heavy Goods (+20%)</option>
+                                    </select>
+                                </div>
+
+                                {/* PICKUP DATE */}
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaCalendarAlt className="text-emerald-400" /> Pickup Date <span className="text-emerald-400">*</span>
+                                    </label>
+                                    <input 
+                                        type="date" 
+                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white text-sm transition-all outline-none" 
+                                        name="pickup_date" 
+                                        value={form.pickup_date} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                </div>
                             </div>
 
-                            <div className="col-md-4">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaCalendarAlt /> Pickup Date
-                                </label>
-                                <input 
-                                    type="date" 
-                                    className="form-control bg-transparent text-white border-secondary" 
-                                    name="pickup_date" 
-                                    value={form.pickup_date} 
-                                    onChange={handleChange} 
-                                    required 
-                                />
+                            {/* Section 2: Recipient & Preferred Slot */}
+                            <div className="flex items-center gap-2.5 pb-3 border-b border-white/5 pt-2">
+                                <span className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-bold">2</span>
+                                <h3 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
+                                    <FaUser className="text-emerald-400" /> Recipient & Schedule
+                                </h3>
                             </div>
 
-                            <hr className="my-3 border-secondary border-opacity-25" />
+                            {/* Row 3: Recipient Information */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaUser className="text-emerald-400" /> Recipient Name <span className="text-emerald-400">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white placeholder-slate-500 text-sm transition-all outline-none" 
+                                        name="contact_name" 
+                                        placeholder="e.g. Rahul Sharma"
+                                        value={form.contact_name} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                </div>
 
-                            <h5 className="fw-bold mb-2 d-flex align-items-center gap-2" style={{ color: "var(--text-primary)" }}>
-                                <FaUser style={{ color: "#8A2BE2" }} /> 2. Recipient & Preferred Slot
-                            </h5>
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaPhone className="text-emerald-400" /> Recipient Phone <span className="text-emerald-400">*</span>
+                                    </label>
+                                    <input 
+                                        type="tel" 
+                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white placeholder-slate-500 text-sm transition-all outline-none" 
+                                        name="contact_phone" 
+                                        placeholder="+91 9876543210"
+                                        value={form.contact_phone} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                </div>
 
-                            <div className="col-md-4">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaUser /> Recipient Name
-                                </label>
-                                <input 
-                                    type="text" 
-                                    className="form-control bg-transparent text-white border-secondary" 
-                                    name="contact_name" 
-                                    placeholder="e.g. Rahul Sharma"
-                                    value={form.contact_name} 
-                                    onChange={handleChange} 
-                                    required 
-                                />
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                        <FaClock className="text-emerald-400" /> Preferred Slot
+                                    </label>
+                                    <select 
+                                        className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white text-sm transition-all outline-none cursor-pointer" 
+                                        name="preferred_pickup_time" 
+                                        value={form.preferred_pickup_time} 
+                                        onChange={handleChange}
+                                    >
+                                        <option value="Instant / ASAP" className="bg-[#050D07] text-white">⚡ Instant / ASAP</option>
+                                        <option value="Within 1 Hour" className="bg-[#050D07] text-white">⏱️ Within 1 Hour</option>
+                                        <option value="Morning (9 AM - 12 PM)" className="bg-[#050D07] text-white">🌅 Morning Slot (9 AM - 12 PM)</option>
+                                        <option value="Afternoon (12 PM - 4 PM)" className="bg-[#050D07] text-white">☀️ Afternoon Slot (12 PM - 4 PM)</option>
+                                        <option value="Evening (5 PM - 9 PM)" className="bg-[#050D07] text-white">🌆 Evening Commute Slot (5 PM - 9 PM)</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div className="col-md-4">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaPhone /> Recipient Phone
-                                </label>
-                                <input 
-                                    type="tel" 
-                                    className="form-control bg-transparent text-white border-secondary" 
-                                    name="contact_phone" 
-                                    placeholder="+91 9876543210"
-                                    value={form.contact_phone} 
-                                    onChange={handleChange} 
-                                    required 
-                                />
-                            </div>
-
-                            <div className="col-md-4">
-                                <label className="form-label text-secondary small fw-bold text-uppercase d-flex align-items-center gap-2">
-                                    <FaClock /> Preferred Slot
-                                </label>
-                                <select 
-                                    className="form-select bg-dark text-white border-secondary" 
-                                    name="preferred_pickup_time" 
-                                    value={form.preferred_pickup_time} 
-                                    onChange={handleChange}
-                                >
-                                    <option value="Instant / ASAP">⚡ Instant / ASAP</option>
-                                    <option value="Within 1 Hour">⏱️ Within 1 Hour</option>
-                                    <option value="Morning (9 AM - 12 PM)">🌅 Morning Slot</option>
-                                    <option value="Afternoon (12 PM - 4 PM)">☀️ Afternoon Slot</option>
-                                    <option value="Evening (5 PM - 9 PM)">🌆 Evening Commute Slot</option>
-                                </select>
-                            </div>
-
-                            <div className="col-12 mt-4 d-flex justify-content-between align-items-center pt-2">
+                            {/* Action Buttons */}
+                            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 pt-5 border-t border-white/10">
                                 <button 
                                     type="button" 
-                                    className="btn btn-outline-secondary px-4 rounded-pill"
+                                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-white/15 hover:border-white/30 text-slate-300 hover:text-white hover:bg-white/5 font-semibold text-sm transition-all cursor-pointer text-center"
                                     onClick={() => navigate('/dashboard')}
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     type="submit" 
-                                    className="btn btn-primary px-5 py-3 rounded-pill fw-bold d-inline-flex align-items-center gap-2 shadow"
+                                    className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 active:scale-[0.98] text-black font-extrabold text-sm shadow-[0_0_25px_rgba(0,255,102,0.4)] hover:shadow-[0_0_35px_rgba(0,255,102,0.6)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                                     disabled={loading}
-                                    style={{ background: selectedTier === 'saver' ? 'linear-gradient(135deg, #10B981, #059669)' : 'linear-gradient(135deg, #3B82F6, #6366F1)' }}
                                 >
-                                    {loading ? 'Dispatching...' : (
+                                    {loading ? (
+                                        <span className="flex items-center gap-2">
+                                            <svg className="animate-spin h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                                            Dispatching Courier...
+                                        </span>
+                                    ) : (
                                         <>
-                                            <FaCheck /> Confirm & Book ({selectedTier === 'saver' ? 'Saver ₹' + quoteData.saver.price : 'Priority ₹' + quoteData.priority.price})
+                                            <FaCheck className="text-base" /> Confirm & Book ({selectedTier === 'saver' ? 'Saver ₹' + quoteData.saver.price : 'Priority ₹' + quoteData.priority.price})
                                         </>
                                     )}
                                 </button>
@@ -393,65 +421,63 @@ function BookParcel() {
                 </div>
 
                 {/* RIGHT COLUMN: Smart Dual Pricing Options */}
-                <div className="col-lg-5">
-                    <div className="card shadow-lg p-4 h-100 d-flex flex-column justify-content-between" style={{ 
-                        background: "var(--glass-bg, rgba(15, 23, 42, 0.75))", 
-                        backdropFilter: "blur(20px)", 
-                        border: "1px solid var(--glass-border, rgba(255,255,255,0.1))",
-                        borderRadius: "24px"
-                    }}>
+                <div className="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-6 space-y-6">
+                    <div className="bg-[#050D07]/90 border border-emerald-500/20 rounded-2xl p-5 sm:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_20px_rgba(0,255,102,0.05)] backdrop-blur-xl space-y-5">
                         <div>
-                            <div className="d-flex justify-content-between align-items-center mb-2">
-                                <h5 className="fw-bold mb-0 text-white d-flex align-items-center gap-2">
-                                    ⚡ Real-Time Dual Quote
-                                </h5>
-                                <span className="badge px-3 py-1 rounded-pill bg-info bg-opacity-25 text-info fw-bold" style={{ fontSize: '11px' }}>
+                            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                                <h3 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
+                                    <span className="text-amber-400 text-lg">⚡</span> Real-Time Dual Quote
+                                </h3>
+                                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(0,255,102,0.15)]">
                                     {quoteData.distanceKm} km • {quoteData.weightKg} kg
                                 </span>
                             </div>
-                            <p className="text-secondary small mb-3">
+                            <p className="text-xs text-slate-400 leading-relaxed mt-2.5 mb-4">
                                 Rates dynamically calculate based on distance, weight, and commuter route overlap:
                             </p>
 
                             {/* OPTION A: SHARED ROUTE / SAVER DELIVERY */}
                             <div 
                                 onClick={() => setSelectedTier('saver')}
-                                className={`p-3 rounded-4 mb-3 position-relative cursor-pointer transition-all ${selectedTier === 'saver' ? 'border-success' : 'border-secondary border-opacity-25'}`}
-                                style={{ 
-                                    background: selectedTier === 'saver' ? 'rgba(16, 185, 129, 0.14)' : 'rgba(255, 255, 255, 0.03)',
-                                    border: selectedTier === 'saver' ? '2px solid #10B981' : '1px solid rgba(255, 255, 255, 0.08)',
-                                    cursor: 'pointer',
-                                    boxShadow: selectedTier === 'saver' ? '0 10px 30px rgba(16, 185, 129, 0.25)' : 'none'
-                                }}
+                                className={`p-4 rounded-xl cursor-pointer transition-all duration-200 relative mb-4 ${
+                                    selectedTier === 'saver'
+                                        ? 'bg-emerald-500/10 border-2 border-emerald-400 shadow-[0_0_25px_rgba(0,255,102,0.25)] ring-1 ring-emerald-400/50'
+                                        : 'bg-black/30 border border-white/10 hover:border-emerald-500/30 hover:bg-black/50'
+                                }`}
                             >
-                                <div className="d-flex justify-content-between align-items-start mb-2">
-                                    <div className="d-flex align-items-center gap-2">
-                                        <div className="p-2 rounded-circle" style={{ background: 'rgba(16, 185, 129, 0.2)', color: '#10B981' }}>
-                                            <FaLeaf />
+                                <div className="flex items-start justify-between gap-3 mb-2.5">
+                                    <div className="flex items-center gap-2.5">
+                                        <div className={`p-2 rounded-lg ${selectedTier === 'saver' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/5 text-slate-400'}`}>
+                                            <FaLeaf className="text-base" />
                                         </div>
                                         <div>
-                                            <div className="fw-bold text-white fs-6">Shared Route</div>
-                                            <span className="badge bg-success bg-opacity-25 text-success rounded-pill px-2 py-1" style={{ fontSize: '10px' }}>
-                                                {quoteData.saver.badge}
-                                            </span>
+                                            <div className="font-bold text-white text-sm flex items-center gap-2">
+                                                Shared Route
+                                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                                    {quoteData.saver.badge}
+                                                </span>
+                                            </div>
+                                            <div className="text-xs text-slate-400 mt-0.5">Commuter Corridor</div>
                                         </div>
                                     </div>
-                                    <div className="text-end">
-                                        <span className="badge bg-success text-white px-2 py-1 rounded-pill mb-1 fw-bold" style={{ fontSize: '11px' }}>
+                                    <div className="text-right">
+                                        <span className="inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500 text-black mb-1 shadow-sm">
                                             {quoteData.saver.savingsTag}
                                         </span>
-                                        <div className="fw-bold text-success fs-4">₹{quoteData.saver.price}</div>
-                                        <div className="text-decoration-line-through text-secondary" style={{ fontSize: '11px' }}>₹{quoteData.saver.originalPrice}</div>
+                                        <div className="text-2xl font-black text-emerald-400 leading-tight">₹{quoteData.saver.price}</div>
+                                        <div className="text-[11px] line-through text-slate-500 font-medium">₹{quoteData.saver.originalPrice}</div>
                                     </div>
                                 </div>
 
-                                <div className="small text-secondary mb-2" style={{ lineHeight: '1.4' }}>
-                                    <div className="text-light fw-medium mb-1">⏱️ Est. Delivery: {quoteData.saver.estimated_time}</div>
-                                    <div>• Driver is already traveling along this corridor ({quoteData.distanceKm} km)</div>
-                                    <div>• Weight cost: ₹{quoteData.breakdown.saverWeightFee} ({quoteData.weightKg} kg @ ₹4.5/kg)</div>
+                                <div className="text-xs text-slate-300 space-y-1 pt-2 border-t border-white/5">
+                                    <div className="flex items-center gap-1.5 text-emerald-300 font-semibold">
+                                        <span>⏱️ Est. Delivery:</span> {quoteData.saver.estimated_time}
+                                    </div>
+                                    <div className="text-slate-400">• Driver already traveling on this corridor ({quoteData.distanceKm} km)</div>
+                                    <div className="text-slate-400">• Weight fee: ₹{quoteData.breakdown.saverWeightFee} ({quoteData.weightKg} kg)</div>
                                 </div>
 
-                                <div className="p-2 rounded-3 mt-2" style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px dashed rgba(16, 185, 129, 0.3)', fontSize: '11px', color: '#6EE7B7' }}>
+                                <div className="mt-3 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 leading-snug">
                                     💡 <strong>Saver Benefit:</strong> {quoteData.saver.explanation}
                                 </div>
                             </div>
@@ -459,57 +485,76 @@ function BookParcel() {
                             {/* OPTION B: PRIORITY DIRECT DELIVERY */}
                             <div 
                                 onClick={() => setSelectedTier('priority')}
-                                className={`p-3 rounded-4 mb-3 position-relative cursor-pointer transition-all ${selectedTier === 'priority' ? 'border-primary' : 'border-secondary border-opacity-25'}`}
-                                style={{ 
-                                    background: selectedTier === 'priority' ? 'rgba(59, 130, 246, 0.14)' : 'rgba(255, 255, 255, 0.03)',
-                                    border: selectedTier === 'priority' ? '2px solid #3B82F6' : '1px solid rgba(255, 255, 255, 0.08)',
-                                    cursor: 'pointer',
-                                    boxShadow: selectedTier === 'priority' ? '0 10px 30px rgba(59, 130, 246, 0.25)' : 'none'
-                                }}
+                                className={`p-4 rounded-xl cursor-pointer transition-all duration-200 relative mb-4 ${
+                                    selectedTier === 'priority'
+                                        ? 'bg-blue-500/10 border-2 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.25)] ring-1 ring-blue-400/50'
+                                        : 'bg-black/30 border border-white/10 hover:border-blue-500/30 hover:bg-black/50'
+                                }`}
                             >
-                                <div className="d-flex justify-content-between align-items-start mb-2">
-                                    <div className="d-flex align-items-center gap-2">
-                                        <div className="p-2 rounded-circle" style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#3B82F6' }}>
-                                            <FaBolt />
+                                <div className="flex items-start justify-between gap-3 mb-2.5">
+                                    <div className="flex items-center gap-2.5">
+                                        <div className={`p-2 rounded-lg ${selectedTier === 'priority' ? 'bg-blue-500/20 text-blue-300' : 'bg-white/5 text-slate-400'}`}>
+                                            <FaBolt className="text-base" />
                                         </div>
                                         <div>
-                                            <div className="fw-bold text-white fs-6">Priority Direct</div>
-                                            <span className="badge bg-primary bg-opacity-25 text-info rounded-pill px-2 py-1" style={{ fontSize: '10px' }}>
-                                                {quoteData.priority.badge}
-                                            </span>
+                                            <div className="font-bold text-white text-sm flex items-center gap-2">
+                                                Priority Direct
+                                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                                    {quoteData.priority.badge}
+                                                </span>
+                                            </div>
+                                            <div className="text-xs text-slate-400 mt-0.5">Dedicated Instant Courier</div>
                                         </div>
                                     </div>
-                                    <div className="text-end">
-                                        <span className="badge bg-primary text-white px-2 py-1 rounded-pill mb-1 fw-bold" style={{ fontSize: '11px' }}>
+                                    <div className="text-right">
+                                        <span className="inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-500 text-white mb-1 shadow-sm">
                                             {quoteData.priority.savingsTag}
                                         </span>
-                                        <div className="fw-bold text-white fs-4">₹{quoteData.priority.price}</div>
+                                        <div className="text-2xl font-black text-white leading-tight">₹{quoteData.priority.price}</div>
                                     </div>
                                 </div>
 
-                                <div className="small text-secondary mb-2" style={{ lineHeight: '1.4' }}>
-                                    <div className="text-light fw-medium mb-1">⚡ Est. Delivery: {quoteData.priority.estimated_time}</div>
-                                    <div>• Driver comes directly to you for immediate pickup</div>
-                                    <div>• Weight cost: ₹{quoteData.breakdown.priorityWeightFee} ({quoteData.weightKg} kg @ ₹6.5/kg)</div>
+                                <div className="text-xs text-slate-300 space-y-1 pt-2 border-t border-white/5">
+                                    <div className="flex items-center gap-1.5 text-blue-300 font-semibold">
+                                        <span>⚡ Est. Delivery:</span> {quoteData.priority.estimated_time}
+                                    </div>
+                                    <div className="text-slate-400">• Dedicated courier dispatched directly to your location</div>
+                                    <div className="text-slate-400">• Weight fee: ₹{quoteData.breakdown.priorityWeightFee} ({quoteData.weightKg} kg)</div>
                                 </div>
 
-                                <div className="p-2 rounded-3 mt-2" style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px dashed rgba(59, 130, 246, 0.3)', fontSize: '11px', color: '#93C5FD' }}>
+                                <div className="mt-3 p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[11px] text-blue-300 leading-snug">
                                     🚀 <strong>Priority Benefit:</strong> {quoteData.priority.explanation}
                                 </div>
                             </div>
                         </div>
 
                         {/* LIVE DYNAMIC BREAKDOWN BAR */}
-                        <div className="p-3 rounded-3 mt-2" style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                            <div className="d-flex align-items-center justify-content-between text-white small fw-bold mb-2">
-                                <span className="d-flex align-items-center gap-1"><FaSlidersH style={{ color: 'var(--accent-cyan)' }} /> Live Cost Breakdown</span>
-                                <span className="text-secondary font-monospace">Distance: {quoteData.distanceKm} km | Wt: {quoteData.weightKg} kg</span>
+                        <div className="p-4 rounded-xl bg-black/40 border border-emerald-500/20 space-y-2.5">
+                            <div className="flex items-center justify-between text-xs font-bold text-white">
+                                <span className="flex items-center gap-1.5 text-emerald-400">
+                                    <FaSlidersH /> Live Cost Breakdown
+                                </span>
+                                <span className="text-slate-400 font-mono text-[11px]">
+                                    Distance: {quoteData.distanceKm} km | Wt: {quoteData.weightKg} kg
+                                </span>
                             </div>
-                            <div className="d-flex justify-content-between text-secondary" style={{ fontSize: '11px' }}>
-                                <span>Distance: <strong>₹{selectedTier === 'saver' ? quoteData.breakdown.saverDistFee : quoteData.breakdown.priorityDistFee}</strong></span>
-                                <span>Weight: <strong>₹{selectedTier === 'saver' ? quoteData.breakdown.saverWeightFee : quoteData.breakdown.priorityWeightFee}</strong></span>
-                                <span>Base (Shortest): <strong>₹{selectedTier === 'saver' ? '30' : '45'}</strong></span>
-                                <span className="text-success fw-bold">Total: ₹{selectedTier === 'saver' ? quoteData.saver.price : quoteData.priority.price}</span>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-white/5 text-xs text-slate-400">
+                                <div>
+                                    <div className="text-[10px] text-slate-500 uppercase">Distance</div>
+                                    <div className="text-white font-bold">₹{selectedTier === 'saver' ? quoteData.breakdown.saverDistFee : quoteData.breakdown.priorityDistFee}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[10px] text-slate-500 uppercase">Weight</div>
+                                    <div className="text-white font-bold">₹{selectedTier === 'saver' ? quoteData.breakdown.saverWeightFee : quoteData.breakdown.priorityWeightFee}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[10px] text-slate-500 uppercase">Base Fare</div>
+                                    <div className="text-white font-bold">₹{selectedTier === 'saver' ? '30' : '45'}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[10px] text-slate-500 uppercase">Total</div>
+                                    <div className="text-emerald-400 font-extrabold text-sm">₹{selectedTier === 'saver' ? quoteData.saver.price : quoteData.priority.price}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
