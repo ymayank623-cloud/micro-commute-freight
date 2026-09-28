@@ -440,7 +440,6 @@ function BookParcel() {
                                         type="text" 
                                         className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white placeholder-slate-500 text-sm transition-all outline-none" 
                                         name="contact_name" 
-                                        placeholder="e.g. Rahul Sharma"
                                         value={form.contact_name} 
                                         onChange={handleChange} 
                                         required 
@@ -455,7 +454,6 @@ function BookParcel() {
                                         type="tel" 
                                         className="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-emerald-500/30 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 text-white placeholder-slate-500 text-sm transition-all outline-none" 
                                         name="contact_phone" 
-                                        placeholder="+91 9876543210"
                                         value={form.contact_phone} 
                                         onChange={handleChange} 
                                         required 
