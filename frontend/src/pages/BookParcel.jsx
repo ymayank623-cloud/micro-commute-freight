@@ -73,59 +73,20 @@ function calculateMultiFactorQuote(pLat, pLng, dLat, dLng, weightVal, type) {
     // 6. Taxes/fees/surcharges: 5% GST + platform safety fee included
     const taxRate = 1.05;
 
-    // 7. Ride & Transport Types Configuration
+    // 7. Ride & Transport Types Configuration (Bike Only)
     const transportConfigs = [
         {
-            id: 'moto',
-            name: 'Moto Courier',
-            icon: '🛵',
-            tagline: 'Swift through traffic',
-            capacity: 'Up to 5 kg',
-            maxWeight: 5,
-            baseFare: 25.00,
+            id: 'bike',
+            name: 'Bike Courier',
+            icon: '🏍️',
+            tagline: 'Swift two-wheeler commuter delivery',
+            capacity: 'Up to 30 kg',
+            maxWeight: 30,
+            baseFare: 28.00,
             perKmRate: 4.80,
-            weightRate: 1.50,
+            weightRate: 1.60,
             avgSpeedKmH: 32,
             tollAmount: 0 // Two-wheelers exempt
-        },
-        {
-            id: 'auto',
-            name: 'Auto Freight',
-            icon: '🛺',
-            tagline: 'Economical city cargo',
-            capacity: 'Up to 20 kg',
-            maxWeight: 20,
-            baseFare: 38.00,
-            perKmRate: 6.20,
-            weightRate: 2.20,
-            avgSpeedKmH: 26,
-            tollAmount: hasTolls ? 25.00 : 0
-        },
-        {
-            id: 'car',
-            name: 'Uber Go / Car',
-            icon: '🚗',
-            tagline: 'Enclosed & weather-safe',
-            capacity: 'Up to 35 kg',
-            maxWeight: 35,
-            baseFare: 55.00,
-            perKmRate: 8.80,
-            weightRate: 3.00,
-            avgSpeedKmH: 28,
-            tollAmount: hasTolls ? 45.00 : 0
-        },
-        {
-            id: 'truck',
-            name: 'Mini-Truck / Tempo',
-            icon: '🚚',
-            tagline: 'High volume heavy freight',
-            capacity: 'Up to 80 kg',
-            maxWeight: 80,
-            baseFare: 95.00,
-            perKmRate: 12.50,
-            weightRate: 4.00,
-            avgSpeedKmH: 22,
-            tollAmount: hasTolls ? 70.00 : 0
         }
     ];
 
@@ -191,22 +152,10 @@ function BookParcel() {
     });
 
     const [selectedTier, setSelectedTier] = useState('saver'); // 'saver' or 'priority'
-    const [selectedVehicle, setSelectedVehicle] = useState('moto'); // 'moto', 'auto', 'car', 'truck'
+    const [selectedVehicle, setSelectedVehicle] = useState('bike');
     const [quoteData, setQuoteData] = useState(() => calculateMultiFactorQuote(28.6139, 77.2090, 28.5355, 77.3910, '2', 'Standard'));
     const [bookedParcel, setBookedParcel] = useState(null);
     const [showFindingModal, setShowFindingModal] = useState(false);
-
-    // Auto adjust vehicle if weight exceeds current vehicle max
-    useEffect(() => {
-        const wt = parseFloat(form.weight) || 1;
-        if (wt > 35 && selectedVehicle !== 'truck') {
-            setSelectedVehicle('truck');
-        } else if (wt > 20 && (selectedVehicle === 'moto' || selectedVehicle === 'auto')) {
-            setSelectedVehicle('car');
-        } else if (wt > 5 && selectedVehicle === 'moto') {
-            setSelectedVehicle('auto');
-        }
-    }, [form.weight]);
 
     // Recalculate quote live on ANY input change (weight, parcel type, pickup/drop coordinates)
     useEffect(() => {
@@ -280,9 +229,9 @@ function BookParcel() {
     };
 
     const chosenTransport = quoteData?.transports?.find(t => t.id === selectedVehicle) || quoteData?.transports?.[0] || {
-        id: 'moto',
-        name: 'Moto Courier',
-        icon: '🛵',
+        id: 'bike',
+        name: 'Bike Courier',
+        icon: '🏍️',
         saverPrice: 35,
         priorityPrice: 55,
         saverEta: '20 min',
@@ -516,10 +465,10 @@ function BookParcel() {
                         <div className="flex items-center justify-between pb-3 border-b border-white/5">
                             <div>
                                 <h3 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
-                                    <span className="text-emerald-400 text-lg">⚡</span> Available Transports
+                                    <span className="text-emerald-400 text-lg">🏍️</span> Bike Courier Delivery
                                 </h3>
                                 <p className="text-xs text-slate-400 mt-0.5">
-                                    Select vehicle & preferred pricing mode
+                                    Two-wheeler delivery • Select pricing tier
                                 </p>
                             </div>
                             <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(0,255,102,0.15)]">
@@ -536,7 +485,10 @@ function BookParcel() {
                                 👥 Demand: <strong className="text-emerald-400">Normal</strong>
                             </span>
                             <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
-                                🛣️ {quoteData.hasTolls ? 'Tolls & Taxes Incl.' : 'Taxes Included'}
+                                🛣️ Tolls: <strong className="text-emerald-400">Exempt (Bike)</strong>
+                            </span>
+                            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                                🧾 Taxes: <strong className="text-slate-300">5% GST Incl.</strong>
                             </span>
                         </div>
 
@@ -580,7 +532,7 @@ function BookParcel() {
                                         </div>
 
                                         {/* Both Prices for this Transport (Shared Route vs Priority Direct) */}
-                                        <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-white/5">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-white/5">
                                             {/* Option 1: Shared Route (Saver) */}
                                             <button
                                                 type="button"
@@ -588,22 +540,22 @@ function BookParcel() {
                                                     setSelectedVehicle(transport.id);
                                                     setSelectedTier('saver');
                                                 }}
-                                                className={`p-2.5 rounded-lg text-left transition-all border cursor-pointer ${
-                                                    isSelectedVehicle && selectedTier === 'saver'
-                                                        ? 'bg-emerald-500/25 border-emerald-400 text-white shadow-[0_0_15px_rgba(0,255,102,0.3)] ring-1 ring-emerald-400/50'
-                                                        : 'bg-black/40 border-white/10 hover:border-emerald-500/40 text-slate-300'
+                                                className={`p-3.5 rounded-xl text-left transition-all border cursor-pointer ${
+                                                    selectedTier === 'saver'
+                                                        ? 'bg-emerald-500/25 border-emerald-400 text-white shadow-[0_0_20px_rgba(0,255,102,0.35)] ring-1 ring-emerald-400/50'
+                                                        : 'bg-black/50 border-white/10 hover:border-emerald-500/40 text-slate-300'
                                                 }`}
                                             >
-                                                <div className="flex items-center justify-between text-[11px] font-semibold text-emerald-400 mb-0.5">
-                                                    <span className="flex items-center gap-1">🌿 Shared</span>
-                                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">
+                                                <div className="flex items-center justify-between text-xs font-semibold text-emerald-400 mb-1">
+                                                    <span className="flex items-center gap-1.5 font-bold">🌿 Shared Route</span>
+                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
                                                         Save ₹{transport.savings}
                                                     </span>
                                                 </div>
-                                                <div className="text-lg font-black text-emerald-400 leading-tight">
+                                                <div className="text-2xl font-black text-emerald-400 leading-tight">
                                                     ₹{transport.saverPrice}
                                                 </div>
-                                                <div className="text-[10px] text-slate-400 mt-0.5 font-medium">
+                                                <div className="text-[11px] text-slate-400 mt-1 font-medium flex items-center gap-1">
                                                     ⏱️ {transport.saverEta}
                                                 </div>
                                             </button>
@@ -615,22 +567,22 @@ function BookParcel() {
                                                     setSelectedVehicle(transport.id);
                                                     setSelectedTier('priority');
                                                 }}
-                                                className={`p-2.5 rounded-lg text-left transition-all border cursor-pointer ${
-                                                    isSelectedVehicle && selectedTier === 'priority'
-                                                        ? 'bg-blue-500/25 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.3)] ring-1 ring-blue-400/50'
-                                                        : 'bg-black/40 border-white/10 hover:border-blue-500/40 text-slate-300'
+                                                className={`p-3.5 rounded-xl text-left transition-all border cursor-pointer ${
+                                                    selectedTier === 'priority'
+                                                        ? 'bg-blue-500/25 border-blue-400 text-white shadow-[0_0_20px_rgba(59,130,246,0.35)] ring-1 ring-blue-400/50'
+                                                        : 'bg-black/50 border-white/10 hover:border-blue-500/40 text-slate-300'
                                                 }`}
                                             >
-                                                <div className="flex items-center justify-between text-[11px] font-semibold text-blue-400 mb-0.5">
-                                                    <span className="flex items-center gap-1">⚡ Priority</span>
-                                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300">
+                                                <div className="flex items-center justify-between text-xs font-semibold text-blue-400 mb-1">
+                                                    <span className="flex items-center gap-1.5 font-bold">⚡ Priority Direct</span>
+                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">
                                                         Fastest
                                                     </span>
                                                 </div>
-                                                <div className="text-lg font-black text-white leading-tight">
+                                                <div className="text-2xl font-black text-white leading-tight">
                                                     ₹{transport.priorityPrice}
                                                 </div>
-                                                <div className="text-[10px] text-slate-400 mt-0.5 font-medium">
+                                                <div className="text-[11px] text-slate-400 mt-1 font-medium flex items-center gap-1">
                                                     ⏱️ {transport.priorityEta}
                                                 </div>
                                             </button>
