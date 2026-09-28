@@ -1,8 +1,5 @@
 const bcrypt = require('bcrypt');
-const { Pool } = require('pg');
-require('dotenv').config();
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = require('./config/db');
 
 async function resetPassword() {
   const email = 'ymayank623@gmail.com';
