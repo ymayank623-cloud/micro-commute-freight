@@ -126,15 +126,17 @@ const AddressAutocomplete = ({ value, onChange, name, placeholder, required, cla
         let lng = item.lng;
         const selectedAddress = item.fullAddress || item.subtitle || item.title;
 
-        // If from google search prediction and needs geocoding resolution
+        // If from google search prediction or missing coordinates
         if (item.source === `google` || !lat || !lng) {
             try {
-                const geoRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/places/geocode?q=${encodeURIComponent(item.title)}`);
-                if (geoRes.data) {
+                const geoRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/places/geocode?q=${encodeURIComponent(item.title || selectedAddress)}`);
+                if (geoRes.data && geoRes.data.lat && geoRes.data.lng) {
                     lat = geoRes.data.lat;
                     lng = geoRes.data.lng;
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.error("Geocoding failed for item", e);
+            }
         }
 
         setQuery(selectedAddress);
@@ -142,8 +144,8 @@ const AddressAutocomplete = ({ value, onChange, name, placeholder, required, cla
         if (onChange) {
             onChange({ 
                 target: { name, value: selectedAddress }, 
-                lat: lat || 28.6139, 
-                lng: lng || 77.2090 
+                lat: lat, 
+                lng: lng 
             });
         }
     };
@@ -163,7 +165,24 @@ const AddressAutocomplete = ({ value, onChange, name, placeholder, required, cla
     };
 
     const handleBlur = () => {
-        setTimeout(() => setShowDropdown(false), 250);
+        setTimeout(async () => {
+            setShowDropdown(false);
+            // If user typed/pasted an address manually, auto-geocode on leaving the field
+            if (query && query.trim().length >= 3) {
+                try {
+                    const geoRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/places/geocode?q=${encodeURIComponent(query.trim())}`);
+                    if (geoRes.data?.lat && geoRes.data?.lng) {
+                        if (onChange) {
+                            onChange({ 
+                                target: { name, value: query }, 
+                                lat: geoRes.data.lat, 
+                                lng: geoRes.data.lng 
+                            });
+                        }
+                    }
+                } catch (e) {}
+            }
+        }, 200);
     };
 
     const handleMapConfirm = (address, position) => {
@@ -248,6 +267,10 @@ const AddressAutocomplete = ({ value, onChange, name, placeholder, required, cla
                         <li 
                             key={index} 
                             className={`dropdown-item suggestion-item ${index === activeIndex ? 'active-suggestion' : ''}`}
+                            onMouseDown={(e) => {
+                                e.preventDefault();
+                                handleSelect(item);
+                            }}
                             onClick={() => handleSelect(item)}
                         >
                             <div className="d-flex align-items-start gap-2">

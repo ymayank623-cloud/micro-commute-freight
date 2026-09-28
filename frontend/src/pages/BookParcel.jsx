@@ -39,10 +39,15 @@ function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
 
 // Multi-Factor Dynamic Rate Engine (Uber/Logistics Supply & Demand Model)
 // Factors: Pickup/Drop route, Distance, Travel Time, Traffic, Demand Surge, Driver Availability, Ride Type, Tolls, Taxes, Route Winding
-function calculateMultiFactorQuote(pLat, pLng, dLat, dLng, weightVal, type) {
+function calculateMultiFactorQuote(pLat, pLng, dLat, dLng, weightVal, type, liveRoadDistKm, liveRoadDurationMins) {
     const straightDist = calculateHaversineDistance(pLat, pLng, dLat, dLng);
-    // 1. Route Characteristics: City road winding factor (~1.22x straight-line)
-    const routeDistanceKm = Math.max(1.0, straightDist * 1.22);
+    // 1. Route Characteristics: Use actual road routing if available, else tortuosity 1.22x
+    let routeDistanceKm;
+    if (liveRoadDistKm && parseFloat(liveRoadDistKm) > 0) {
+        routeDistanceKm = Math.max(0.5, parseFloat(liveRoadDistKm));
+    } else {
+        routeDistanceKm = Math.max(1.0, straightDist * 1.22);
+    }
     const wt = Math.max(0.5, parseFloat(weightVal) || 1.0);
 
     // 2. Package Type Handling Surcharge
@@ -104,9 +109,14 @@ function calculateMultiFactorQuote(pLat, pLng, dLat, dLng, weightVal, type) {
         const savings = priorityPrice - saverPrice;
 
         // Expected travel duration
-        const travelMinutes = Math.round((routeDistanceKm / cfg.avgSpeedKmH) * 60 * trafficMultiplier);
-        const priorityEta = `${Math.max(10, travelMinutes - 4)}–${travelMinutes + 5} min`;
-        const saverEta = `${Math.max(15, travelMinutes + 8)}–${travelMinutes + 18} min`;
+        let travelMinutes;
+        if (liveRoadDurationMins && parseInt(liveRoadDurationMins) > 0) {
+            travelMinutes = Math.round(parseInt(liveRoadDurationMins) * trafficMultiplier);
+        } else {
+            travelMinutes = Math.round((routeDistanceKm / cfg.avgSpeedKmH) * 60 * trafficMultiplier);
+        }
+        const priorityEta = `${Math.max(4, travelMinutes - 2)}–${travelMinutes + 4} min`;
+        const saverEta = `${Math.max(8, travelMinutes + 4)}–${travelMinutes + 12} min`;
 
         const isWeightExceeded = wt > cfg.maxWeight;
 
@@ -139,13 +149,13 @@ function BookParcel() {
     const [form, setForm] = useState({
         pickup_address: '',
         drop_address: '',
-        weight: '2',
+        weight: '0.5',
         parcel_type: 'Standard',
         pickup_date: new Date().toISOString().split('T')[0],
-        pickup_lat: 28.6139, // Default Delhi-NCR
-        pickup_lng: 77.2090,
-        drop_lat: 28.5355,
-        drop_lng: 77.3910,
+        pickup_lat: 28.4723, // Default Greater Noida (Knowledge Park)
+        pickup_lng: 77.4893,
+        drop_lat: 28.4609,
+        drop_lng: 77.4930,
         contact_name: '',
         contact_phone: '',
         preferred_pickup_time: 'Instant / ASAP'
@@ -153,11 +163,72 @@ function BookParcel() {
 
     const [selectedTier, setSelectedTier] = useState('saver'); // 'saver' or 'priority'
     const [selectedVehicle, setSelectedVehicle] = useState('bike');
-    const [quoteData, setQuoteData] = useState(() => calculateMultiFactorQuote(28.6139, 77.2090, 28.5355, 77.3910, '2', 'Standard'));
+    const [roadDistanceKm, setRoadDistanceKm] = useState(null);
+    const [roadDurationMins, setRoadDurationMins] = useState(null);
+    const [quoteData, setQuoteData] = useState(() => calculateMultiFactorQuote(28.4723, 77.4893, 28.4609, 77.4930, '0.5', 'Standard'));
     const [bookedParcel, setBookedParcel] = useState(null);
     const [showFindingModal, setShowFindingModal] = useState(false);
 
-    // Recalculate quote live on ANY input change (weight, parcel type, pickup/drop coordinates)
+    // Fetch real driving road route whenever coordinates change
+    useEffect(() => {
+        if (!form.pickup_lat || !form.pickup_lng || !form.drop_lat || !form.drop_lng) return;
+        let isCancelled = false;
+
+        const fetchRoute = async () => {
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/places/route?pLat=${form.pickup_lat}&pLng=${form.pickup_lng}&dLat=${form.drop_lat}&dLng=${form.drop_lng}`);
+                if (!isCancelled && res.data?.distanceKm) {
+                    setRoadDistanceKm(res.data.distanceKm);
+                    setRoadDurationMins(res.data.durationMins);
+                }
+            } catch (e) {
+                console.error("Live road routing error:", e);
+            }
+        };
+
+        fetchRoute();
+        return () => { isCancelled = true; };
+    }, [form.pickup_lat, form.pickup_lng, form.drop_lat, form.drop_lng]);
+
+    // Auto-resolve pickup coordinates if text typed
+    useEffect(() => {
+        if (!form.pickup_address || form.pickup_address.trim().length < 3) return;
+        const timer = setTimeout(async () => {
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/places/geocode?q=${encodeURIComponent(form.pickup_address.trim())}`);
+                if (res.data?.lat && res.data?.lng) {
+                    setForm(prev => {
+                        if (Math.abs(prev.pickup_lat - res.data.lat) > 0.0001 || Math.abs(prev.pickup_lng - res.data.lng) > 0.0001) {
+                            return { ...prev, pickup_lat: res.data.lat, pickup_lng: res.data.lng };
+                        }
+                        return prev;
+                    });
+                }
+            } catch (e) {}
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [form.pickup_address]);
+
+    // Auto-resolve drop coordinates if text typed
+    useEffect(() => {
+        if (!form.drop_address || form.drop_address.trim().length < 3) return;
+        const timer = setTimeout(async () => {
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/places/geocode?q=${encodeURIComponent(form.drop_address.trim())}`);
+                if (res.data?.lat && res.data?.lng) {
+                    setForm(prev => {
+                        if (Math.abs(prev.drop_lat - res.data.lat) > 0.0001 || Math.abs(prev.drop_lng - res.data.lng) > 0.0001) {
+                            return { ...prev, drop_lat: res.data.lat, drop_lng: res.data.lng };
+                        }
+                        return prev;
+                    });
+                }
+            } catch (e) {}
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [form.drop_address]);
+
+    // Recalculate quote live on ANY input change (weight, parcel type, pickup/drop coordinates, live road route)
     useEffect(() => {
         const live = calculateMultiFactorQuote(
             form.pickup_lat,
@@ -165,22 +236,24 @@ function BookParcel() {
             form.drop_lat,
             form.drop_lng,
             form.weight,
-            form.parcel_type
+            form.parcel_type,
+            roadDistanceKm,
+            roadDurationMins
         );
         setQuoteData(live);
-    }, [form.pickup_lat, form.pickup_lng, form.drop_lat, form.drop_lng, form.weight, form.parcel_type]);
+    }, [form.pickup_lat, form.pickup_lng, form.drop_lat, form.drop_lng, form.weight, form.parcel_type, roadDistanceKm, roadDurationMins]);
 
     const handleChange = (e, lat, lng) => {
         setForm(prev => {
             const updates = { [e.target.name]: e.target.value };
 
-            if (lat !== undefined && lng !== undefined) {
+            if (lat !== undefined && lng !== undefined && lat !== null && lng !== null) {
                 if (e.target.name === 'pickup_address') {
-                    updates.pickup_lat = lat;
-                    updates.pickup_lng = lng;
+                    updates.pickup_lat = parseFloat(lat);
+                    updates.pickup_lng = parseFloat(lng);
                 } else if (e.target.name === 'drop_address') {
-                    updates.drop_lat = lat;
-                    updates.drop_lng = lng;
+                    updates.drop_lat = parseFloat(lat);
+                    updates.drop_lng = parseFloat(lng);
                 }
             }
 

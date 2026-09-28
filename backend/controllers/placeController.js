@@ -163,8 +163,8 @@ const suggestPlaces = async (req, res) => {
                         title: cleanGText,
                         subtitle: "Popular Landmark / Area in India",
                         fullAddress: cleanGText,
-                        lat: results.length > 0 ? results[0].lat : 28.6139,
-                        lng: results.length > 0 ? results[0].lng : 77.2090,
+                        lat: null,
+                        lng: null,
                         source: 'google'
                     });
                 }
@@ -187,35 +187,50 @@ const geocodePlace = async (req, res) => {
         }
 
         const { searchTarget } = normalizeQuery(query);
+        const simplified = searchTarget
+            .replace(/\b(institute\s+of\s+technology(\s+and\s+management)?|college\s+of\s+engineering|university|campus|and)\b/gi, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
 
-        // 1. Try Nominatim India
-        try {
-            const nomUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchTarget)}&countrycodes=in&limit=1`;
-            const nomRes = await fetch(nomUrl, { headers: { 'User-Agent': 'FlowLink-Logistics/1.0' } });
-            const nomData = await nomRes.json();
-            if (nomData && nomData.length > 0) {
-                return res.json({
-                    lat: parseFloat(nomData[0].lat),
-                    lng: parseFloat(nomData[0].lon),
-                    display_name: nomData[0].display_name
-                });
-            }
-        } catch (e) {}
+        const queriesToTry = [searchTarget];
+        if (simplified && simplified.length >= 3 && simplified !== searchTarget) {
+            queriesToTry.push(simplified);
+            queriesToTry.push(`${simplified} Greater Noida`);
+            queriesToTry.push(`${simplified} Delhi NCR`);
+        }
+
+        // 1. Try Nominatim India with prioritized queries
+        for (const q of queriesToTry) {
+            try {
+                const nomUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&countrycodes=in&limit=1`;
+                const nomRes = await fetch(nomUrl, { headers: { 'User-Agent': 'FlowLink-Logistics/1.0' } });
+                const nomData = await nomRes.json();
+                if (nomData && nomData.length > 0 && nomData[0].lat && nomData[0].lon) {
+                    return res.json({
+                        lat: parseFloat(nomData[0].lat),
+                        lng: parseFloat(nomData[0].lon),
+                        display_name: nomData[0].display_name
+                    });
+                }
+            } catch (e) {}
+        }
 
         // 2. Try Photon fallback
-        try {
-            const photonUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(searchTarget)}&limit=1`;
-            const pRes = await fetch(photonUrl);
-            const pData = await pRes.json();
-            if (pData && pData.features && pData.features.length > 0) {
-                const f = pData.features[0];
-                return res.json({
-                    lat: f.geometry.coordinates[1],
-                    lng: f.geometry.coordinates[0],
-                    display_name: [f.properties.name, f.properties.city, f.properties.state, f.properties.country].filter(Boolean).join(", ")
-                });
-            }
-        } catch (e) {}
+        for (const q of queriesToTry) {
+            try {
+                const photonUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&lat=28.47&lon=77.49&limit=1`;
+                const pRes = await fetch(photonUrl);
+                const pData = await pRes.json();
+                if (pData && pData.features && pData.features.length > 0) {
+                    const f = pData.features[0];
+                    return res.json({
+                        lat: f.geometry.coordinates[1],
+                        lng: f.geometry.coordinates[0],
+                        display_name: [f.properties.name, f.properties.city, f.properties.state, f.properties.country].filter(Boolean).join(", ")
+                    });
+                }
+            } catch (e) {}
+        }
 
         // Fallback default coordinates
         return res.json({
@@ -229,7 +244,64 @@ const geocodePlace = async (req, res) => {
     }
 };
 
+// GET /api/places/route?pLat=...&pLng=...&dLat=...&dLng=...
+const getDrivingRoute = async (req, res) => {
+    try {
+        const { pLat, pLng, dLat, dLng } = req.query;
+        const lat1 = parseFloat(pLat);
+        const lon1 = parseFloat(pLng);
+        const lat2 = parseFloat(dLat);
+        const lon2 = parseFloat(dLng);
+
+        if (!lat1 || !lon1 || !lat2 || !lon2) {
+            return res.status(400).json({ error: "Coordinates required" });
+        }
+
+        // 1. Try OSRM live routing engine
+        try {
+            const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=false`;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2500);
+            const response = await fetch(osrmUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            const data = await response.json();
+
+            if (data.routes && data.routes.length > 0) {
+                const route = data.routes[0];
+                const distanceKm = Math.max(0.5, route.distance / 1000);
+                const durationMins = Math.max(3, Math.round(route.duration / 60));
+                return res.json({
+                    distanceKm: parseFloat(distanceKm.toFixed(1)),
+                    durationMins,
+                    source: 'osrm'
+                });
+            }
+        } catch (e) {}
+
+        // 2. Haversine realistic fallback (with 1.22 urban road factor)
+        const R = 6371;
+        const dLatRad = (lat2 - lat1) * Math.PI / 180;
+        const dLonRad = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLatRad / 2) * Math.sin(dLatRad / 2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLonRad / 2) * Math.sin(dLonRad / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const roadDist = Math.max(1.0, R * c * 1.22);
+        const estMins = Math.max(4, Math.round((roadDist / 30) * 60));
+
+        return res.json({
+            distanceKm: parseFloat(roadDist.toFixed(1)),
+            durationMins: estMins,
+            source: 'haversine'
+        });
+    } catch (error) {
+        console.error("Driving route error:", error);
+        res.status(500).json({ error: "Route calculation failed" });
+    }
+};
+
 module.exports = {
     suggestPlaces,
-    geocodePlace
+    geocodePlace,
+    getDrivingRoute
 };
