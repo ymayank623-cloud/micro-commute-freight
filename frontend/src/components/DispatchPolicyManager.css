@@ -21,8 +21,10 @@
 .dispatch-policy-modal-card {
     width: 100%;
     max-width: 1080px;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     background: #0B1120;
     border: 1px solid rgba(0, 240, 255, 0.25);
     border-radius: 28px;

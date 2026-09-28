@@ -118,36 +118,38 @@ function DispatchPolicyManager({ onClose }) {
     };
 
     return (
-        <div className="dispatch-policy-modal-overlay" onClick={onClose}>
-            <div className="dispatch-policy-modal-card glass-panel" onClick={(e) => e.stopPropagation()}>
-                
-                {/* Modal Header */}
-                <div className="dispatch-modal-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-                    <div className="d-flex align-items-center gap-3">
+        <div className="dispatch-policy-modal-overlay fixed inset-0 bg-slate-950/85 backdrop-blur-md z-[99999] flex items-center justify-center p-4 md:p-6" onClick={onClose}>
+            <div 
+                className="dispatch-policy-modal-card w-full max-w-5xl max-h-[92vh] flex flex-col bg-[#0B1120] border border-cyan-500/30 rounded-3xl p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(0,240,255,0.15)] text-white overflow-hidden" 
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Modal Header (Fixed top) */}
+                <div className="dispatch-modal-header flex items-center justify-between flex-wrap gap-3 flex-shrink-0 pb-3 border-b border-white/10">
+                    <div className="flex items-center gap-3">
                         <div className="policy-badge-icon">
                             <FaSlidersH />
                         </div>
                         <div>
                             <span className="policy-overline">ENTERPRISE DISPATCH COMMAND</span>
-                            <h2 className="mb-0">Driver Matching & Platform Policy Engine</h2>
-                            <p className="mb-0 mt-1">Configure dual-driver matching, priority pricing, commissions & corridor constraints</p>
+                            <h2 className="text-xl md:text-2xl font-extrabold text-white">Driver Matching & Platform Policy Engine</h2>
+                            <p className="text-xs md:text-sm text-slate-400 mt-0.5">Configure dual-driver matching, priority pricing, commissions & corridor constraints</p>
                         </div>
                     </div>
 
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="flex items-center gap-2">
                         {onClose && (
-                            <button type="button" className="btn-close-policy" onClick={onClose}>
+                            <button type="button" className="btn-close-policy hover:text-red-400 transition-colors p-2 text-2xl" onClick={onClose}>
                                 <FaTimesCircle />
                             </button>
                         )}
                     </div>
                 </div>
 
-                {/* Tabs Navigation */}
-                <div className="policy-tabs-bar mt-3 d-flex gap-2">
+                {/* Tabs Navigation (Fixed top) */}
+                <div className="policy-tabs-bar mt-4 flex gap-2 flex-shrink-0 flex-wrap sm:flex-nowrap">
                     <button
                         type="button"
-                        className={`policy-tab-btn ${activeTab === 'matching_pricing' ? 'active' : ''}`}
+                        className={`policy-tab-btn flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all ${activeTab === 'matching_pricing' ? 'active' : ''}`}
                         onClick={() => setActiveTab('matching_pricing')}
                     >
                         <FaRoute />
@@ -155,7 +157,7 @@ function DispatchPolicyManager({ onClose }) {
                     </button>
                     <button
                         type="button"
-                        className={`policy-tab-btn ${activeTab === 'zones_constraints' ? 'active' : ''}`}
+                        className={`policy-tab-btn flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all ${activeTab === 'zones_constraints' ? 'active' : ''}`}
                         onClick={() => setActiveTab('zones_constraints')}
                     >
                         <FaShieldAlt />
@@ -163,7 +165,7 @@ function DispatchPolicyManager({ onClose }) {
                     </button>
                     <button
                         type="button"
-                        className={`policy-tab-btn ${activeTab === 'disputes' ? 'active' : ''}`}
+                        className={`policy-tab-btn flex-1 py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all ${activeTab === 'disputes' ? 'active' : ''}`}
                         onClick={() => setActiveTab('disputes')}
                     >
                         <FaGavel />
@@ -172,51 +174,51 @@ function DispatchPolicyManager({ onClose }) {
                 </div>
 
                 {saveSuccess && (
-                    <div className="alert alert-success d-flex align-items-center gap-2 mt-3 mb-0 rounded-4 py-2 px-3">
-                        <FaCheckCircle className="text-success" />
-                        <strong>Platform dispatch rules updated and applied live to all commuter matches!</strong>
+                    <div className="flex items-center gap-2 mt-3 py-2 px-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-sm font-semibold flex-shrink-0">
+                        <FaCheckCircle className="text-emerald-400" />
+                        <span>Platform dispatch rules updated and applied live to all commuter matches!</span>
                     </div>
                 )}
 
-                {/* Main Content Sections */}
-                <div className="policy-modal-body mt-3">
+                {/* Main Content Sections (Scrollable Body) */}
+                <div className="policy-modal-body flex-1 overflow-y-auto pr-2 my-4 space-y-6">
                     {loading ? (
-                        <div className="text-center py-5">
-                            <FaSyncAlt className="spinning text-info" style={{ fontSize: '32px' }} />
-                            <p className="text-secondary mt-2">Loading active dispatch rules...</p>
+                        <div className="text-center py-12">
+                            <FaSyncAlt className="animate-spin text-cyan-400 mx-auto" style={{ fontSize: '32px' }} />
+                            <p className="text-slate-400 mt-3 text-sm">Loading active dispatch rules...</p>
                         </div>
                     ) : (
                         <>
                             {/* TAB 1: DUAL DRIVER MATCHING & PRICING */}
                             {activeTab === 'matching_pricing' && (
-                                <div className="row g-4">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                     {/* 1. ROUTE-MATCHING COMMUTER DRIVERS */}
-                                    <div className="col-lg-6">
-                                        <div className="driver-type-panel commuter-card p-4 rounded-4 h-100">
-                                            <div className="d-flex align-items-center justify-content-between mb-3">
-                                                <div className="d-flex align-items-center gap-2">
+                                    <div className="driver-type-panel commuter-card p-5 rounded-2xl flex flex-col justify-between border border-emerald-500/30 bg-slate-900/60">
+                                        <div>
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-2.5">
                                                     <div className="type-icon-box eco">
                                                         <FaLeaf />
                                                     </div>
                                                     <div>
-                                                        <h4 className="mb-0 text-white">1. Route-Matching Commuter Driver</h4>
-                                                        <span className="text-success small fw-bold">Already commuting towards destination → Cheaper</span>
+                                                        <h4 className="text-base font-bold text-white mb-0.5">1. Route-Matching Commuter Driver</h4>
+                                                        <span className="text-emerald-400 text-xs font-semibold">Already commuting towards destination → Cheaper</span>
                                                     </div>
                                                 </div>
-                                                <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">
+                                                <span className="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-bold">
                                                     Eco Match
                                                 </span>
                                             </div>
 
                                             {/* Rule 1: Min Route Overlap Slider */}
                                             <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Destination / Route Matching Overlap</span>
-                                                    <strong className="rule-value text-info">{policies.route_match_min_overlap}%</strong>
+                                                    <strong className="rule-value text-cyan-400 font-bold">{policies.route_match_min_overlap}%</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 my-2"
                                                     min="40"
                                                     max="95"
                                                     step="5"
@@ -228,13 +230,13 @@ function DispatchPolicyManager({ onClose }) {
 
                                             {/* Rule 2: Max Commuter Detour Distance */}
                                             <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Max Permitted Commuter Detour</span>
-                                                    <strong className="rule-value text-warning">{policies.max_commuter_detour_km} km</strong>
+                                                    <strong className="rule-value text-amber-400 font-bold">{policies.max_commuter_detour_km} km</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400 my-2"
                                                     min="1.0"
                                                     max="10.0"
                                                     step="0.5"
@@ -246,13 +248,13 @@ function DispatchPolicyManager({ onClose }) {
 
                                             {/* Rule 3: Commuter Discount % */}
                                             <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Sender Micro-Commute Discount</span>
-                                                    <strong className="rule-value text-success">{policies.commuter_discount_percent}% OFF</strong>
+                                                    <strong className="rule-value text-emerald-400 font-bold">{policies.commuter_discount_percent}% OFF</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400 my-2"
                                                     min="10"
                                                     max="50"
                                                     step="5"
@@ -264,13 +266,13 @@ function DispatchPolicyManager({ onClose }) {
 
                                             {/* Rule 4: Commuter Driver Commission */}
                                             <div className="rule-slider-group">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Commuter Payout Share</span>
-                                                    <strong className="rule-value text-white">{policies.commuter_driver_commission}% Driver / {100 - policies.commuter_driver_commission}% FlowLink</strong>
+                                                    <strong className="rule-value text-white font-bold">{policies.commuter_driver_commission}% Driver / {100 - policies.commuter_driver_commission}% FlowLink</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 my-2"
                                                     min="70"
                                                     max="95"
                                                     step="1"
@@ -283,32 +285,32 @@ function DispatchPolicyManager({ onClose }) {
                                     </div>
 
                                     {/* 2. NEARBY / DIRECT PRIORITY DRIVERS */}
-                                    <div className="col-lg-6">
-                                        <div className="driver-type-panel direct-card p-4 rounded-4 h-100">
-                                            <div className="d-flex align-items-center justify-content-between mb-3">
-                                                <div className="d-flex align-items-center gap-2">
+                                    <div className="driver-type-panel direct-card p-5 rounded-2xl flex flex-col justify-between border border-amber-500/30 bg-slate-900/60">
+                                        <div>
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-2.5">
                                                     <div className="type-icon-box priority">
                                                         <FaBolt />
                                                     </div>
                                                     <div>
-                                                        <h4 className="mb-0 text-white">2. Nearby / Direct Driver</h4>
-                                                        <span className="text-warning small fw-bold">Comes specifically for this parcel → Higher Priority/Price</span>
+                                                        <h4 className="text-base font-bold text-white mb-0.5">2. Nearby / Direct Driver</h4>
+                                                        <span className="text-amber-400 text-xs font-semibold">Comes specifically for this parcel → Higher Priority/Price</span>
                                                     </div>
                                                 </div>
-                                                <span className="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50">
+                                                <span className="badge bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-full font-bold">
                                                     Direct Express
                                                 </span>
                                             </div>
 
                                             {/* Rule 1: Priority Surge Multiplier */}
                                             <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Priority Express Price Multiplier</span>
-                                                    <strong className="rule-value text-warning">{policies.direct_priority_surge}x Base</strong>
+                                                    <strong className="rule-value text-amber-400 font-bold">{policies.direct_priority_surge}x Base</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400 my-2"
                                                     min="1.1"
                                                     max="2.5"
                                                     step="0.1"
@@ -320,13 +322,13 @@ function DispatchPolicyManager({ onClose }) {
 
                                             {/* Rule 2: Direct Driver Commission */}
                                             <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Direct Courier Payout Share</span>
-                                                    <strong className="rule-value text-white">{policies.direct_driver_commission}% Driver / {100 - policies.direct_driver_commission}% Platform</strong>
+                                                    <strong className="rule-value text-white font-bold">{policies.direct_driver_commission}% Driver / {100 - policies.direct_driver_commission}% Platform</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 my-2"
                                                     min="60"
                                                     max="90"
                                                     step="1"
@@ -338,9 +340,9 @@ function DispatchPolicyManager({ onClose }) {
 
                                             {/* Rule 3: Assignment Rules */}
                                             <div className="mb-3">
-                                                <label className="rule-label d-block mb-1.5">Driver Assignment Rules</label>
+                                                <label className="rule-label block mb-1.5 font-bold text-xs text-slate-300">Driver Assignment Rules</label>
                                                 <select
-                                                    className="form-select custom-policy-select"
+                                                    className="w-full bg-slate-900 text-white border border-slate-700 rounded-xl text-xs py-2.5 px-3 outline-none focus:border-cyan-400 transition-colors"
                                                     value={policies.driver_assignment_mode}
                                                     onChange={(e) => setPolicies({ ...policies, driver_assignment_mode: e.target.value })}
                                                 >
@@ -348,18 +350,18 @@ function DispatchPolicyManager({ onClose }) {
                                                     <option value="commuter_only">Eco Commuter Only (Strict matching on active routes)</option>
                                                     <option value="direct_priority_only">Direct Priority Courier Broadcast (Instant dispatch)</option>
                                                 </select>
-                                                <span className="rule-hint d-block mt-1">Algorithm order for assigning incoming parcel bookings</span>
+                                                <span className="rule-hint block mt-1">Algorithm order for assigning incoming parcel bookings</span>
                                             </div>
 
                                             {/* Rule 4: Estimated Delivery Time Buffer */}
                                             <div className="rule-slider-group">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">ETA Traffic & Handover Buffer</span>
-                                                    <strong className="rule-value text-info">+{policies.estimated_delivery_buffer_mins} Mins</strong>
+                                                    <strong className="rule-value text-cyan-400 font-bold">+{policies.estimated_delivery_buffer_mins} Mins</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 my-2"
                                                     min="2"
                                                     max="20"
                                                     step="1"
@@ -375,23 +377,23 @@ function DispatchPolicyManager({ onClose }) {
 
                             {/* TAB 2: ZONES, CONSTRAINTS & COMMISSIONS */}
                             {activeTab === 'zones_constraints' && (
-                                <div className="row g-4">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                     {/* Platform Fees & Cancellations */}
-                                    <div className="col-lg-6">
-                                        <div className="driver-type-panel p-4 rounded-4 h-100">
-                                            <h4 className="mb-3 text-white d-flex align-items-center gap-2">
-                                                <FaMoneyBillWave className="text-info" />
+                                    <div className="driver-type-panel p-5 rounded-2xl flex flex-col justify-between border border-white/10 bg-slate-900/60">
+                                        <div>
+                                            <h4 className="mb-4 text-base font-bold text-white flex items-center gap-2">
+                                                <FaMoneyBillWave className="text-cyan-400" />
                                                 Commission & Cancellation Charges
                                             </h4>
 
-                                            <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                            <div className="rule-slider-group mb-4">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Platform Service Commission</span>
-                                                    <strong className="rule-value text-info">{policies.platform_commission}%</strong>
+                                                    <strong className="rule-value text-cyan-400 font-bold">{policies.platform_commission}%</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 my-2"
                                                     min="5"
                                                     max="30"
                                                     step="1"
@@ -400,70 +402,71 @@ function DispatchPolicyManager({ onClose }) {
                                                 />
                                             </div>
 
-                                            <div className="row g-3 mb-3">
-                                                <div className="col-6">
-                                                    <label className="rule-label">Cancellation Fee (₹)</label>
-                                                    <div className="input-group mt-1">
-                                                        <span className="input-group-text bg-dark text-muted border-secondary">₹</span>
+                                            <div className="grid grid-cols-2 gap-4 mb-4">
+                                                <div>
+                                                    <label className="rule-label block mb-1 text-xs font-bold text-slate-300">Cancellation Fee (₹)</label>
+                                                    <div className="flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden mt-1">
+                                                        <span className="px-3 text-slate-400 bg-slate-800 text-xs py-2 border-r border-slate-700">₹</span>
                                                         <input
                                                             type="number"
-                                                            className="form-control bg-dark text-white border-secondary"
+                                                            className="w-full bg-transparent text-white px-3 py-2 text-xs outline-none"
                                                             value={policies.cancellation_fee}
                                                             onChange={(e) => setPolicies({ ...policies, cancellation_fee: parseFloat(e.target.value) || 0 })}
                                                         />
                                                     </div>
                                                     <span className="rule-hint">Applied if cancelled after grace period</span>
                                                 </div>
-                                                <div className="col-6">
-                                                    <label className="rule-label">Cancellation Grace Window</label>
-                                                    <div className="input-group mt-1">
+                                                <div>
+                                                    <label className="rule-label block mb-1 text-xs font-bold text-slate-300">Grace Window</label>
+                                                    <div className="flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden mt-1">
                                                         <input
                                                             type="number"
-                                                            className="form-control bg-dark text-white border-secondary"
+                                                            className="w-full bg-transparent text-white px-3 py-2 text-xs outline-none"
                                                             value={policies.cancellation_grace_mins}
                                                             onChange={(e) => setPolicies({ ...policies, cancellation_grace_mins: parseInt(e.target.value, 10) || 0 })}
                                                         />
-                                                        <span className="input-group-text bg-dark text-muted border-secondary">Mins</span>
+                                                        <span className="px-3 text-slate-400 bg-slate-800 text-xs py-2 border-l border-slate-700">Mins</span>
                                                     </div>
                                                     <span className="rule-hint">Free cancellation window</span>
                                                 </div>
                                             </div>
 
-                                            <div className="form-check form-switch p-3 rounded-3 mt-4" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                                            <div className="flex items-start gap-3 p-4 rounded-xl mt-4 bg-white/[0.03] border border-white/5">
                                                 <input
-                                                    className="form-check-input ms-0 me-3"
                                                     type="checkbox"
                                                     id="otpCheck"
+                                                    className="w-5 h-5 rounded cursor-pointer accent-cyan-400 mt-0.5"
                                                     checked={policies.require_otp_verification}
                                                     onChange={(e) => setPolicies({ ...policies, require_otp_verification: e.target.checked })}
-                                                    style={{ transform: 'scale(1.3)' }}
                                                 />
-                                                <label className="form-check-label text-white fw-bold" htmlFor="otpCheck">
-                                                    Mandatory 4-Digit Pickup & Drop OTP Verification
-                                                </label>
-                                                <span className="d-block text-secondary small mt-1">
-                                                    Ensures couriers cannot complete trips without recipient confirmation.
-                                                </span>
+                                                <div>
+                                                    <label className="text-white font-bold text-sm cursor-pointer" htmlFor="otpCheck">
+                                                        Mandatory 4-Digit Pickup & Drop OTP Verification
+                                                    </label>
+                                                    <span className="block text-slate-400 text-xs mt-1">
+                                                        Ensures couriers cannot complete trips without recipient confirmation.
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Corridor Radius & Max Parcel Size */}
-                                    <div className="col-lg-6">
-                                        <div className="driver-type-panel p-4 rounded-4 h-100">
-                                            <h4 className="mb-3 text-white d-flex align-items-center gap-2">
-                                                <FaWeightHanging className="text-warning" />
+                                    <div className="driver-type-panel p-5 rounded-2xl flex flex-col justify-between border border-white/10 bg-slate-900/60">
+                                        <div>
+                                            <h4 className="mb-4 text-base font-bold text-white flex items-center gap-2">
+                                                <FaWeightHanging className="text-amber-400" />
                                                 Delivery Zones & Parcel Limits
                                             </h4>
 
-                                            <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                            <div className="rule-slider-group mb-4">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Max Micro-Commute Corridor Radius</span>
-                                                    <strong className="rule-value text-info">{policies.max_corridor_radius_km} km</strong>
+                                                    <strong className="rule-value text-cyan-400 font-bold">{policies.max_corridor_radius_km} km</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 my-2"
                                                     min="10"
                                                     max="80"
                                                     step="5"
@@ -473,14 +476,14 @@ function DispatchPolicyManager({ onClose }) {
                                                 <span className="rule-hint">Maximum allowable distance between pickup & drop within metro zones</span>
                                             </div>
 
-                                            <div className="rule-slider-group mb-3">
-                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                            <div className="rule-slider-group mb-4">
+                                                <div className="flex justify-between items-center mb-1">
                                                     <span className="rule-label">Maximum Parcel Weight Limit</span>
-                                                    <strong className="rule-value text-warning">{policies.max_parcel_weight_kg} kg</strong>
+                                                    <strong className="rule-value text-amber-400 font-bold">{policies.max_parcel_weight_kg} kg</strong>
                                                 </div>
                                                 <input
                                                     type="range"
-                                                    className="form-range custom-policy-range"
+                                                    className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400 my-2"
                                                     min="2.0"
                                                     max="35.0"
                                                     step="1.0"
@@ -490,9 +493,9 @@ function DispatchPolicyManager({ onClose }) {
                                                 <span className="rule-hint">Commuter transport safety limit for bikes, scooters, and cars</span>
                                             </div>
 
-                                            <div className="p-3 rounded-3 mt-4" style={{ background: 'rgba(2, 132, 199, 0.08)', border: '1px solid rgba(2, 132, 199, 0.2)' }}>
-                                                <strong className="text-info d-block mb-1">🏙️ Active Indian Metro Hubs:</strong>
-                                                <span className="text-secondary small">
+                                            <div className="p-4 rounded-xl mt-4 bg-cyan-950/20 border border-cyan-500/20">
+                                                <strong className="text-cyan-400 block mb-1 text-xs uppercase tracking-wider font-bold">🏙️ Active Indian Metro Hubs:</strong>
+                                                <span className="text-slate-300 text-xs">
                                                     Delhi NCR (80km) • Lucknow (80km) • Mumbai (80km) • Bengaluru (80km) • Hyderabad (80km) • Ahmedabad (80km)
                                                 </span>
                                             </div>
@@ -503,47 +506,47 @@ function DispatchPolicyManager({ onClose }) {
 
                             {/* TAB 3: DISPUTE RESOLUTION */}
                             {activeTab === 'disputes' && (
-                                <div className="disputes-container">
-                                    <div className="d-flex justify-content-between align-items-center mb-3">
-                                        <h4 className="mb-0 text-white">Active Driver & Customer Disputes</h4>
-                                        <span className="text-secondary small">Review claims, fee appeals & transit exceptions</span>
+                                <div className="disputes-container space-y-4">
+                                    <div className="flex justify-between items-center mb-3">
+                                        <h4 className="text-base font-bold text-white mb-0">Active Driver & Customer Disputes</h4>
+                                        <span className="text-slate-400 text-xs">Review claims, fee appeals & transit exceptions</span>
                                     </div>
 
                                     {disputes.length === 0 ? (
-                                        <div className="text-center py-4 text-muted">
-                                            <FaCheckCircle className="text-success mb-2" style={{ fontSize: '28px' }} />
-                                            <p className="mb-0">Zero outstanding disputes! All courier settlements are clear.</p>
+                                        <div className="text-center py-8 text-slate-400">
+                                            <FaCheckCircle className="text-emerald-400 mx-auto mb-2 text-3xl" />
+                                            <p className="text-sm">Zero outstanding disputes! All courier settlements are clear.</p>
                                         </div>
                                     ) : (
-                                        <div className="dispute-list d-flex flex-column gap-3">
+                                        <div className="dispute-list flex flex-col gap-3">
                                             {disputes.map(ticket => (
-                                                <div key={ticket.id} className="dispute-card p-3 rounded-4">
-                                                    <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+                                                <div key={ticket.id} className="dispute-card p-4 rounded-2xl border border-white/10 bg-slate-900/60">
+                                                    <div className="flex justify-between items-start flex-wrap gap-2 mb-2">
                                                         <div>
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                <strong className="text-white">{ticket.ticket_id}</strong>
-                                                                <span className={`badge ${ticket.status === 'Resolved' ? 'bg-success' : 'bg-danger'} bg-opacity-25 ${ticket.status === 'Resolved' ? 'text-success' : 'text-danger'} border`}>
+                                                            <div className="flex items-center gap-2">
+                                                                <strong className="text-white text-sm">{ticket.ticket_id}</strong>
+                                                                <span className={`badge ${ticket.status === 'Resolved' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30'} border text-[11px] px-2 py-0.5 rounded-full font-bold`}>
                                                                     {ticket.status}
                                                                 </span>
-                                                                <span className="text-info small fw-bold">#{ticket.parcel_id}</span>
+                                                                <span className="text-cyan-400 text-xs font-bold">#{ticket.parcel_id}</span>
                                                             </div>
-                                                            <span className="text-secondary small d-block mt-0.5">Claimant: {ticket.user_email} • Driver #{ticket.driver_id}</span>
+                                                            <span className="text-slate-400 text-xs block mt-1">Claimant: {ticket.user_email} • Driver #{ticket.driver_id}</span>
                                                         </div>
-                                                        <div className="text-end">
-                                                            <strong className="text-warning d-block">₹{ticket.amount}</strong>
-                                                            <span className="text-muted small">{ticket.dispute_type}</span>
+                                                        <div className="text-right">
+                                                            <strong className="text-amber-400 block text-sm">₹{ticket.amount}</strong>
+                                                            <span className="text-slate-400 text-xs">{ticket.dispute_type}</span>
                                                         </div>
                                                     </div>
 
-                                                    <p className="dispute-desc text-light mb-3 small p-2 rounded-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                                                    <p className="dispute-desc text-slate-200 text-xs p-3 rounded-xl my-3 bg-white/[0.03] border border-white/5">
                                                         {ticket.description}
                                                     </p>
 
                                                     {ticket.status !== 'Resolved' ? (
-                                                        <div className="d-flex gap-2 justify-content-end flex-wrap">
+                                                        <div className="flex gap-2 justify-end flex-wrap pt-2">
                                                             <button
                                                                 type="button"
-                                                                className="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                                className="px-3 py-1.5 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-xs font-bold transition-colors cursor-pointer"
                                                                 disabled={resolvingId === ticket.id}
                                                                 onClick={() => handleResolveDispute(ticket.id, 'refund')}
                                                             >
@@ -551,7 +554,7 @@ function DispatchPolicyManager({ onClose }) {
                                                             </button>
                                                             <button
                                                                 type="button"
-                                                                className="btn btn-sm btn-outline-info rounded-pill px-3"
+                                                                className="px-3 py-1.5 rounded-full border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 text-xs font-bold transition-colors cursor-pointer"
                                                                 disabled={resolvingId === ticket.id}
                                                                 onClick={() => handleResolveDispute(ticket.id, 'payout')}
                                                             >
@@ -559,7 +562,7 @@ function DispatchPolicyManager({ onClose }) {
                                                             </button>
                                                             <button
                                                                 type="button"
-                                                                className="btn btn-sm btn-outline-success rounded-pill px-3"
+                                                                className="px-3 py-1.5 rounded-full border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 text-xs font-bold transition-colors cursor-pointer"
                                                                 disabled={resolvingId === ticket.id}
                                                                 onClick={() => handleResolveDispute(ticket.id, 'dismiss')}
                                                             >
@@ -567,7 +570,7 @@ function DispatchPolicyManager({ onClose }) {
                                                             </button>
                                                         </div>
                                                     ) : (
-                                                        <div className="text-success small fw-bold mt-2">
+                                                        <div className="text-emerald-400 text-xs font-bold mt-2">
                                                             ✓ Resolution: {ticket.resolution_notes || 'Resolved by Admin'}
                                                         </div>
                                                     )}
@@ -581,21 +584,25 @@ function DispatchPolicyManager({ onClose }) {
                     )}
                 </div>
 
-                {/* Modal Footer */}
-                <div className="dispatch-modal-footer d-flex align-items-center justify-content-between mt-4 pt-3 border-top border-secondary border-opacity-25 flex-wrap gap-2">
-                    <span className="text-secondary small">
+                {/* Modal Footer (Fixed bottom) */}
+                <div className="dispatch-modal-footer flex items-center justify-between pt-4 mt-auto border-t border-white/10 flex-wrap gap-3 flex-shrink-0">
+                    <span className="text-slate-400 text-xs">
                         🛡️ Policies directly control real-time algorithm dispatch & pricing across Indian corridors.
                     </span>
 
-                    <div className="d-flex gap-2">
+                    <div className="flex items-center gap-3">
                         {onClose && (
-                            <button type="button" className="btn btn-outline-secondary rounded-pill px-4" onClick={onClose}>
+                            <button 
+                                type="button" 
+                                className="px-5 py-2 rounded-full border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors text-xs font-semibold cursor-pointer" 
+                                onClick={onClose}
+                            >
                                 Close
                             </button>
                         )}
                         <button
                             type="button"
-                            className="btn btn-save-policy d-flex align-items-center gap-2 rounded-pill px-4"
+                            className="btn-save-policy flex items-center gap-2 rounded-full px-5 py-2 cursor-pointer font-bold text-xs md:text-sm"
                             onClick={handleSavePolicies}
                             disabled={saving}
                         >
