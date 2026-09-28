@@ -99,8 +99,8 @@ USER'S MESSAGE / QUESTION:
 Provide a direct, helpful, and natural response in markdown:
 `;
 
-    // Try Google Gemini 2.0 Flash / 1.5 Flash endpoints
-    const models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
+    // Try active Gemini models
+    const models = ["gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash", "gemini-pro-latest"];
     
     for (const model of models) {
         try {
