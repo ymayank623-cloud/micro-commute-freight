@@ -143,16 +143,15 @@ function WeeklyDeliveryChart({
 
         <div>
           <select 
-            className="form-select bg-dark text-white border-secondary rounded-pill"
-            style={{ fontSize: "0.8rem", width: "auto", display: "inline-block", padding: "4px 12px" }}
+            className="bg-white/10 text-white border border-white/20 rounded-full px-3 py-1.5 text-xs outline-none cursor-pointer hover:border-cyan-400 transition-colors"
             value={timeframe}
             onChange={(e) => setTimeframe(e.target.value)}
           >
-            <option value="all_time">All Time</option>
-            <option value="today">Today</option>
-            <option value="this_week">This Week</option>
-            <option value="last_week">Last Week</option>
-            <option value="this_month">This Month</option>
+            <option value="all_time" className="bg-slate-900 text-white">All Time</option>
+            <option value="today" className="bg-slate-900 text-white">Today</option>
+            <option value="this_week" className="bg-slate-900 text-white">This Week</option>
+            <option value="last_week" className="bg-slate-900 text-white">Last Week</option>
+            <option value="this_month" className="bg-slate-900 text-white">This Month</option>
           </select>
         </div>
 

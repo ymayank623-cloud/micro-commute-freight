@@ -586,13 +586,17 @@ function Dashboard() {
           PARCEL STATUS + DRIVER STATUS
       ================================================= */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 dashboard-section">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6 items-stretch">
 
         {/* PARCEL STATUS */}
-        <ParcelStatusChart parcels={parcels} />
+        <div className="w-full">
+          <ParcelStatusChart parcels={parcels} />
+        </div>
 
         {/* DRIVER STATUS */}
-        <DriverStatus drivers={drivers} />
+        <div className="w-full">
+          <DriverStatus drivers={drivers} />
+        </div>
 
       </div>
 
@@ -600,15 +604,15 @@ function Dashboard() {
           WEEKLY DELIVERIES + QUICK ACTIONS
       ================================================= */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 dashboard-section">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 my-6 items-stretch">
 
         {/* WEEKLY DELIVERIES */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 w-full">
           <WeeklyDeliveryChart parcels={parcels} />
         </div>
 
         {/* QUICK ACTIONS */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 w-full">
           <QuickActions />
         </div>
 

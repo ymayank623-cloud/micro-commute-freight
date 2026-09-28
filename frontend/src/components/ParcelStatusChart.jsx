@@ -108,21 +108,21 @@ function ParcelStatusChart() {
     };
 
     return (
-        <div className="glass-panel h-100 d-flex flex-column p-4 rounded-4" style={{ border: "1px solid var(--glass-border)", minHeight: "380px" }}>
+        <div className="glass-panel flex flex-col justify-between p-6 rounded-2xl w-full h-full min-h-[460px]" style={{ border: "1px solid var(--glass-border)" }}>
             {/* Header */}
-            <div className="d-flex align-items-center justify-content-between mb-3">
+            <div className="flex items-center justify-between mb-2">
                 <div>
-                    <h3 className="mb-0 fw-bold" style={{ color: "var(--text-primary)", fontSize: "1.2rem" }}>
+                    <h3 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>
                         Parcel Status
                     </h3>
-                    <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                    <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
                         Real-time delivery progress distribution
                     </span>
                 </div>
                 <div style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "10px",
+                    width: "38px",
+                    height: "38px",
+                    borderRadius: "12px",
                     background: "rgba(0, 240, 255, 0.1)",
                     border: "1px solid rgba(0, 240, 255, 0.2)",
                     display: "flex",
@@ -136,49 +136,49 @@ function ParcelStatusChart() {
             </div>
 
             {/* Doughnut Chart with Accurate Center Percentage */}
-            <div className="position-relative d-flex align-items-center justify-content-center flex-grow-1" style={{ height: "200px", minHeight: "200px" }}>
+            <div className="relative w-full h-[190px] flex items-center justify-center my-3">
                 <Doughnut data={data} options={options} />
                 
-                {/* Center Percentage: Actual completed parcels over total */}
-                <div className="position-absolute d-flex flex-column align-items-center justify-content-center pointer-events-none" style={{ pointerEvents: "none" }}>
-                    <span style={{ fontSize: "1.8rem", fontWeight: "800", color: "#F8FAFC", lineHeight: "1" }}>
+                {/* Center Percentage: Inside hollow center of doughnut */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span className="text-2xl font-extrabold text-white leading-none">
                         {deliveredPct}%
                     </span>
-                    <span style={{ fontSize: "0.75rem", fontWeight: "600", color: "#10B981", textTransform: "uppercase", letterSpacing: "0.5px", marginTop: "4px" }}>
+                    <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider mt-1">
                         Delivered
                     </span>
                 </div>
             </div>
 
             {/* Accurate Breakdown Cards */}
-            <div className="d-flex flex-column gap-2 mt-3 pt-3 border-top" style={{ borderColor: "rgba(255, 255, 255, 0.06)" }}>
-                <div className="d-flex align-items-center justify-content-between p-2 rounded-3" style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.04)" }}>
-                    <div className="d-flex align-items-center gap-2">
-                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10B981", boxShadow: "0 0 8px #10B981" }} />
-                        <span style={{ fontSize: "0.85rem", color: "var(--text-primary)", fontWeight: "500" }}>Delivered</span>
+            <div className="flex flex-col gap-2.5 pt-4 mt-auto border-t" style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}>
+                <div className="flex items-center justify-between p-2.5 rounded-xl transition-colors hover:bg-white/[0.04]" style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                    <div className="flex items-center gap-2.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10B981]" />
+                        <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Delivered</span>
                     </div>
-                    <span style={{ fontSize: "0.85rem", fontWeight: "700", color: "#10B981" }}>
-                        {analytics.delivered} <small style={{ color: "var(--text-secondary)", fontWeight: "400" }}>({calculatedTotal > 0 ? Math.round((analytics.delivered / calculatedTotal) * 100) : 0}%)</small>
+                    <span className="text-sm font-bold text-emerald-400">
+                        {analytics.delivered} <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>({calculatedTotal > 0 ? Math.round((analytics.delivered / calculatedTotal) * 100) : 0}%)</span>
                     </span>
                 </div>
 
-                <div className="d-flex align-items-center justify-content-between p-2 rounded-3" style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.04)" }}>
-                    <div className="d-flex align-items-center gap-2">
-                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#00F0FF", boxShadow: "0 0 8px #00F0FF" }} />
-                        <span style={{ fontSize: "0.85rem", color: "var(--text-primary)", fontWeight: "500" }}>In Transit / Assigned</span>
+                <div className="flex items-center justify-between p-2.5 rounded-xl transition-colors hover:bg-white/[0.04]" style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                    <div className="flex items-center gap-2.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00F0FF]" />
+                        <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>In Transit / Assigned</span>
                     </div>
-                    <span style={{ fontSize: "0.85rem", fontWeight: "700", color: "#00F0FF" }}>
-                        {analytics.assigned} <small style={{ color: "var(--text-secondary)", fontWeight: "400" }}>({calculatedTotal > 0 ? Math.round((analytics.assigned / calculatedTotal) * 100) : 0}%)</small>
+                    <span className="text-sm font-bold" style={{ color: "var(--accent-cyan)" }}>
+                        {analytics.assigned} <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>({calculatedTotal > 0 ? Math.round((analytics.assigned / calculatedTotal) * 100) : 0}%)</span>
                     </span>
                 </div>
 
-                <div className="d-flex align-items-center justify-content-between p-2 rounded-3" style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.04)" }}>
-                    <div className="d-flex align-items-center gap-2">
-                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#F59E0B", boxShadow: "0 0 8px #F59E0B" }} />
-                        <span style={{ fontSize: "0.85rem", color: "var(--text-primary)", fontWeight: "500" }}>Pending</span>
+                <div className="flex items-center justify-between p-2.5 rounded-xl transition-colors hover:bg-white/[0.04]" style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                    <div className="flex items-center gap-2.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#F59E0B]" />
+                        <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Pending</span>
                     </div>
-                    <span style={{ fontSize: "0.85rem", fontWeight: "700", color: "#F59E0B" }}>
-                        {analytics.pending} <small style={{ color: "var(--text-secondary)", fontWeight: "400" }}>({calculatedTotal > 0 ? Math.round((analytics.pending / calculatedTotal) * 100) : 0}%)</small>
+                    <span className="text-sm font-bold text-amber-400">
+                        {analytics.pending} <span className="text-xs font-normal" style={{ color: "var(--text-secondary)" }}>({calculatedTotal > 0 ? Math.round((analytics.pending / calculatedTotal) * 100) : 0}%)</span>
                     </span>
                 </div>
             </div>
