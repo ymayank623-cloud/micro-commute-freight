@@ -181,13 +181,8 @@ const UberFindingDriverModal = ({ isOpen, parcel, onClose }) => {
                         style={{ height: "100%", width: "100%" }}
                     >
                         <TileLayer
-                            key={isLight ? "uber-modal-voyager" : "uber-modal-dark"}
-                            url={
-                                isLight
-                                    ? "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-                                    : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                            }
-                            attribution='&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
 
                         {/* Radar Scan Pulse Ring around Pickup */}

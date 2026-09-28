@@ -77,9 +77,52 @@ async function findMatchingTrips({
     // Stage 1: Try with default threshold
     let candidates = await candidateQuery(maxPickupDistanceMeters, maxDropDistanceMeters);
 
+    let isSuggestedCorridor = false;
     // If no candidate found, widen search corridor to 12km (wider metro/suburban coverage)
     if (candidates.length === 0) {
-        candidates = await candidateQuery(12000, 15000);
+        candidates = await candidateQuery(15000, 18000);
+    }
+
+    // If still no direct direction-matched candidate, retrieve closest active commuter corridors in network
+    if (candidates.length === 0) {
+        const fallbackSql = `
+            SELECT 
+                id,
+                driver_id,
+                driver_name,
+                driver_phone,
+                vehicle_type,
+                vehicle_number,
+                source_address,
+                source_lat,
+                source_lng,
+                destination_address,
+                destination_lat,
+                destination_lng,
+                departure_time,
+                departure_date,
+                available_seats,
+                cargo_capacity_kg,
+                distance_km,
+                duration_mins,
+                route_polyline,
+                route_geojson,
+                status,
+                ST_Distance(route_geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) AS pickup_dist_meters,
+                ST_Distance(route_geom, ST_SetSRID(ST_MakePoint($3, $4), 4326)::geography) AS drop_dist_meters,
+                ST_LineLocatePoint(route_geom::geometry, ST_SetSRID(ST_MakePoint($1, $2), 4326)) AS pickup_frac,
+                ST_LineLocatePoint(route_geom::geometry, ST_SetSRID(ST_MakePoint($3, $4), 4326)) AS drop_frac
+            FROM driver_trips
+            WHERE status IN ('Scheduled', 'Active')
+            ORDER BY (
+                ST_Distance(route_geom, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) +
+                ST_Distance(route_geom, ST_SetSRID(ST_MakePoint($3, $4), 4326)::geography)
+            ) ASC
+            LIMIT 4;
+        `;
+        const fallbackRes = await pool.query(fallbackSql, [pLng, pLat, dLng, dLat]);
+        candidates = fallbackRes.rows;
+        isSuggestedCorridor = true;
     }
 
     if (candidates.length === 0) {
@@ -145,7 +188,10 @@ async function findMatchingTrips({
 
             let matchTier = 'Good Match';
             let tierColor = '#00E5FF';
-            if (matchScore >= 88) {
+            if (isSuggestedCorridor) {
+                matchTier = 'Nearby NCR Corridor';
+                tierColor = '#38BDF8';
+            } else if (matchScore >= 88) {
                 matchTier = 'Optimal Corridor Match';
                 tierColor = '#00FF66';
             } else if (matchScore >= 75) {
@@ -180,6 +226,7 @@ async function findMatchingTrips({
                 matchScore,
                 matchTier,
                 tierColor,
+                isSuggestedCorridor,
                 routeGeometry: trip.route_geojson,
                 detourGeometry: detour.detourRoute ? detour.detourRoute.geojson : null
             };

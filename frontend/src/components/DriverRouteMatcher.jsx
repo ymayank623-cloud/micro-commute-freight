@@ -67,6 +67,69 @@ const driverEndIcon = L.divIcon({
     iconAnchor: [16, 16]
 });
 
+const POPULAR_CORRIDORS = [
+    {
+        name: 'Aman Verma',
+        corridor: 'Knowledge Park II ➔ Botanical Garden',
+        pickupAddress: 'Knowledge Park II, Greater Noida',
+        pickupLat: 28.4619,
+        pickupLng: 77.4988,
+        dropAddress: 'Botanical Garden Metro Station, Noida',
+        dropLat: 28.5645,
+        dropLng: 77.3344,
+        time: '08:30 AM',
+        vehicle: 'UP16 BX 4421 • Bike'
+    },
+    {
+        name: 'Rahul Sharma',
+        corridor: 'Pari Chowk ➔ Sector 62 IT Park',
+        pickupAddress: 'Pari Chowk, Greater Noida',
+        pickupLat: 28.4716,
+        pickupLng: 77.5093,
+        dropAddress: 'Sector 62 IT Park, Noida',
+        dropLat: 28.6258,
+        dropLng: 77.3648,
+        time: '09:00 AM',
+        vehicle: 'UP16 EF 8890 • Bike'
+    },
+    {
+        name: 'Pooja Malhotra',
+        corridor: 'Sector 18 Noida ➔ Connaught Place',
+        pickupAddress: 'Sector 18, Noida',
+        pickupLat: 28.5708,
+        pickupLng: 77.3260,
+        dropAddress: 'Connaught Place, New Delhi',
+        dropLat: 28.6315,
+        dropLng: 77.2167,
+        time: '09:15 AM',
+        vehicle: 'DL3S CP 5512 • Bike'
+    },
+    {
+        name: 'Kabir Mehta',
+        corridor: 'DLF Cyber City ➔ Saket Metro',
+        pickupAddress: 'DLF Cyber City, Gurugram',
+        pickupLat: 28.4986,
+        pickupLng: 77.0898,
+        dropAddress: 'Saket Metro Station, South Delhi',
+        dropLat: 28.5204,
+        dropLng: 77.2014,
+        time: '08:45 AM',
+        vehicle: 'HR26 DK 1109 • Bike'
+    },
+    {
+        name: 'Sandeep Kumar',
+        corridor: 'Indirapuram ➔ Anand Vihar Terminal',
+        pickupAddress: 'Indirapuram, Ghaziabad',
+        pickupLat: 28.6415,
+        pickupLng: 77.3712,
+        dropAddress: 'Anand Vihar Terminal, Delhi',
+        dropLat: 28.6502,
+        dropLng: 77.3153,
+        time: '08:15 AM',
+        vehicle: 'UP14 BL 3320 • Bike'
+    }
+];
+
 export default function DriverRouteMatcher({
     pickupLat,
     pickupLng,
@@ -76,7 +139,8 @@ export default function DriverRouteMatcher({
     dropAddress,
     weight = 1.0,
     seats = 1,
-    onSelectDriverTrip
+    onSelectDriverTrip,
+    onApplyCorridor
 }) {
     const [matches, setMatches] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -249,6 +313,38 @@ export default function DriverRouteMatcher({
                 </div>
             </div>
 
+            {/* Quick Corridor Selection Bar */}
+            <div className="mt-4 pt-3.5 border-t border-emerald-500/15">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="text-emerald-400">⚡</span> Active Verified Commuter Corridors:
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-semibold hidden sm:inline">
+                        Click to auto-fill & match on map
+                    </span>
+                </div>
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                    {POPULAR_CORRIDORS.map((c, idx) => (
+                        <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                                if (onApplyCorridor) {
+                                    onApplyCorridor(c);
+                                }
+                            }}
+                            className="flex-shrink-0 px-3 py-1.5 rounded-xl bg-black/60 hover:bg-emerald-500/20 border border-white/10 hover:border-emerald-400/80 text-slate-300 hover:text-white text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 shadow-sm"
+                        >
+                            <span className="text-emerald-400 text-sm">🏍️</span>
+                            <span>{c.corridor}</span>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-bold">
+                                {c.name.split(' ')[0]}
+                            </span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             {/* Content Grid: Match List (Left) + Interactive Map (Right) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6 items-start">
                 
@@ -409,8 +505,8 @@ export default function DriverRouteMatcher({
                                     style={{ height: '100%', width: '100%' }}
                                 >
                                     <TileLayer
-                                        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                                        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                     />
 
                                     {/* Auto-fitter */}

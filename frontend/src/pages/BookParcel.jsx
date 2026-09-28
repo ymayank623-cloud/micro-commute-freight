@@ -668,6 +668,19 @@ function BookParcel() {
                 onSelectDriverTrip={(driverTrip) => {
                     setSelectedTier('saver');
                 }}
+                onApplyCorridor={(corridor) => {
+                    setForm(prev => ({
+                        ...prev,
+                        pickup_address: corridor.pickupAddress,
+                        pickup_lat: corridor.pickupLat,
+                        pickup_lng: corridor.pickupLng,
+                        drop_address: corridor.dropAddress,
+                        drop_lat: corridor.dropLat,
+                        drop_lng: corridor.dropLng
+                    }));
+                    setSelectedTier('saver');
+                    toast.info(`📍 Commuter corridor selected: ${corridor.corridor}`);
+                }}
             />
 
             {/* UBER-STYLE FINDING DRIVER LIVE RADAR MODAL */}

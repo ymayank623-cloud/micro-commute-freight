@@ -72,6 +72,12 @@
     border: 1px solid rgba(0, 255, 102, 0.25);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     z-index: 10;
+    background: #0B1120;
+}
+
+/* Dark Midnight Obsidian Map Styling for OpenStreetMap (No Watermark!) */
+.match-map-container .leaflet-tile {
+    filter: brightness(0.65) invert(1) contrast(3.5) hue-rotate(200deg) saturate(0.35) brightness(0.75);
 }
 
 /* Marker Pins */
