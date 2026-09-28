@@ -66,11 +66,11 @@ function ParcelStatusChart() {
                     ? [analytics.delivered, analytics.assigned, analytics.pending] 
                     : [1, 0, 0],
                 backgroundColor: [
-                    "#10B981", // Emerald Green (Delivered)
-                    "#00F0FF", // Neon Cyan (In Transit / Assigned)
-                    "#F59E0B"  // Amber Orange (Pending)
+                    "#00FF66", // Toxic Neon Green (Delivered)
+                    "#10E54B", // Acid Lime Green (In Transit / Assigned)
+                    "#FFB800"  // Biohazard Amber (Pending)
                 ],
-                borderColor: "rgba(10, 15, 28, 0.9)",
+                borderColor: "rgba(3, 8, 4, 0.95)",
                 borderWidth: 3,
                 borderRadius: 8,
                 spacing: 4,
@@ -88,10 +88,10 @@ function ParcelStatusChart() {
                 display: false
             },
             tooltip: {
-                backgroundColor: "rgba(10, 15, 28, 0.95)",
-                titleColor: "#F8FAFC",
-                bodyColor: "#94A3B8",
-                borderColor: "rgba(0, 240, 255, 0.3)",
+                backgroundColor: "rgba(4, 12, 5, 0.96)",
+                titleColor: "#F0FFF4",
+                bodyColor: "#86A889",
+                borderColor: "rgba(0, 255, 102, 0.4)",
                 borderWidth: 1,
                 padding: 12,
                 boxPadding: 6,

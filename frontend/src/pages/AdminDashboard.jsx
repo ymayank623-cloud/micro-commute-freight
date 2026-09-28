@@ -549,7 +549,7 @@ function Dashboard() {
           value={parcelStats.total}
           subtitle={`${parcelStats.pending} Pending Parcels`}
           icon={<FaBoxOpen />}
-          color="#2563eb"
+          color="#00FF66"
         />
 
         {/* DRIVERS */}
@@ -558,7 +558,7 @@ function Dashboard() {
           value={driverStats.total}
           subtitle={`${driverStats.available} Available`}
           icon={<FaTruck />}
-          color="#16a34a"
+          color="#10E54B"
         />
 
         {/* ASSIGNMENTS */}
@@ -567,7 +567,7 @@ function Dashboard() {
           value={assignmentStats.total}
           subtitle={`${assignmentStats.active} Active`}
           icon={<FaTasks />}
-          color="#f59e0b"
+          color="#FFB800"
         />
 
         {/* DELIVERED */}
@@ -576,7 +576,7 @@ function Dashboard() {
           value={parcelStats.delivered}
           subtitle="Completed Orders"
           icon={<FaCheckCircle />}
-          color="#10b981"
+          color="#00FF41"
         />
 
       </div>

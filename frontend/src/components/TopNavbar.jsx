@@ -247,22 +247,22 @@ function TopNavbar({ onMenuClick }) {
 
         {/* Light / Dark Mode Toggle */}
         <button
-          className="btn-theme-toggle rounded-full px-3 py-1 flex items-center gap-2 font-bold"
+          className="btn-theme-toggle rounded-full px-3 py-1 flex items-center gap-2 font-bold transition-all"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          title={`Switch to ${theme === "light" ? "Dark Mode" : "Light Mode"}`}
+          title={`Switch to ${theme === "light" ? "Doomsday Neon" : "Light Mode"}`}
           style={{
-            background: theme === "light" ? "linear-gradient(135deg, #38BDF8, #0284C7)" : "rgba(255, 255, 255, 0.08)",
-            color: theme === "light" ? "#FFFFFF" : "#00F0FF",
-            border: theme === "light" ? "2px solid #FFFFFF" : "1px solid rgba(0, 240, 255, 0.3)",
+            background: theme === "light" ? "linear-gradient(135deg, #38BDF8, #0284C7)" : "rgba(0, 255, 102, 0.12)",
+            color: theme === "light" ? "#FFFFFF" : "#00FF66",
+            border: theme === "light" ? "2px solid #FFFFFF" : "1px solid rgba(0, 255, 102, 0.4)",
             fontSize: "12px",
-            boxShadow: theme === "light" ? "4px 4px 10px rgba(2, 132, 199, 0.3), inset 2px 2px 4px rgba(255,255,255,0.6)" : "none",
+            boxShadow: theme === "light" ? "4px 4px 10px rgba(2, 132, 199, 0.3), inset 2px 2px 4px rgba(255,255,255,0.6)" : "0 0 15px rgba(0, 255, 102, 0.25)",
             cursor: "pointer"
           }}
         >
           {theme === "light" ? (
             <><FaSun style={{ color: "#FDE047" }} /> <span>Light Mode</span></>
           ) : (
-            <><FaMoon style={{ color: "#00F0FF" }} /> <span>Dark Mode</span></>
+            <><FaMoon style={{ color: "#00FF66" }} /> <span>Doomsday Neon</span></>
           )}
         </button>
 
